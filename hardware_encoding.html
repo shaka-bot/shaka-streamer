@@ -1,0 +1,147 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hardware Encoding &#8212; Shaka Streamer 0.1.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Configuration Field Reference" href="configuration_fields.html" />
+    <link rel="prev" title="Installing Prerequisites" href="prerequisites.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="hardware-encoding">
+<h1>Hardware Encoding<a class="headerlink" href="#hardware-encoding" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="setup-on-linux">
+<h2>Setup on Linux<a class="headerlink" href="#setup-on-linux" title="Permalink to this headline">¶</a></h2>
+<p>Hardware encoding on Linux can be enabled through FFmpeg’s vaapi support.</p>
+<p>To get started, install the appropriate vaapi package for your device.  For
+example, for Intel’s Kaby Lake family of processors, which support hardware VP9
+encoding, you would install this on Ubuntu:</p>
+<div class="code sh highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">apt</span> <span class="n">install</span> <span class="n">i965</span><span class="o">-</span><span class="n">va</span><span class="o">-</span><span class="n">driver</span>
+</pre></div>
+</div>
+<p>Or build and install from source here:
+<a class="reference external" href="https://github.com/intel/intel-vaapi-driver">https://github.com/intel/intel-vaapi-driver</a></p>
+<p>You will need to install the correct vaapi drivers for your device.  These are
+only examples.</p>
+<p>If hardware encoding still does not work, you may need to recompile FFmpeg from
+source. See instructions in <a class="reference internal" href="prerequisites.html"><span class="doc">Installing Prerequisites</span></a> for details.</p>
+</div>
+<div class="section" id="setup-on-mac-and-windows">
+<h2>Setup on Mac and Windows<a class="headerlink" href="#setup-on-mac-and-windows" title="Permalink to this headline">¶</a></h2>
+<p>Hardware encoding for Mac and Windows is not yet supported, but we are
+accepting PRs if you’d like to contribute additional platform support.  This
+doc may be a useful reference for hardware-related options in FFmpeg:
+<a class="reference external" href="https://trac.ffmpeg.org/wiki/HWAccelIntro">https://trac.ffmpeg.org/wiki/HWAccelIntro</a></p>
+</div>
+<div class="section" id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h2>
+<p>To activate hardware encoding for any video codec, simply prefix the codec name
+with <code class="docutils literal notranslate"><span class="pre">hw:</span></code> in the pipeline config file.</p>
+<p>For example, see this snippet from
+<cite>config_files/pipeline_live_hardware_config.yaml</cite>:</p>
+<div class="code yaml highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">audio_codecs</span><span class="p">:</span>
+  <span class="o">-</span> <span class="n">aac</span>
+  <span class="o">-</span> <span class="n">opus</span>
+<span class="n">video_codecs</span><span class="p">:</span>
+  <span class="o">-</span> <span class="n">h264</span>
+  <span class="o">-</span> <span class="n">hw</span><span class="p">:</span><span class="n">vp9</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Shaka Streamer</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="prerequisites.html">Installing Prerequisites</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Hardware Encoding</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#setup-on-linux">Setup on Linux</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#setup-on-mac-and-windows">Setup on Mac and Windows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#configuration">Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="configuration_fields.html">Configuration Field Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="module_api.html">Module API</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="prerequisites.html" title="previous chapter">Installing Prerequisites</a></li>
+      <li>Next: <a href="configuration_fields.html" title="next chapter">Configuration Field Reference</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Google.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
+      
+      |
+      <a href="_sources/hardware_encoding.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
