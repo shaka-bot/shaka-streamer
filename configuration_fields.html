@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Configuration Field Reference &#8212; Shaka Streamer 0.1.0 documentation</title>
+    <title>Configuration Field Reference &#8212; Shaka Streamer 0.2.0 documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -66,7 +66,7 @@ files.</p>
 
 <dl class="class">
 <dt id="streamer.input_configuration.Input">
-<em class="property">class </em><code class="descclassname">streamer.input_configuration.</code><code class="descname">Input</code><span class="sig-paren">(</span><em>dictionary</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/streamer/input_configuration.html#Input"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#streamer.input_configuration.Input" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">streamer.input_configuration.</code><code class="descname">Input</code><span class="sig-paren">(</span><em>*args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/streamer/input_configuration.html#Input"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#streamer.input_configuration.Input" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">streamer.configuration.Base</span></code></p>
 <p>An object representing a single input stream to Shaka Streamer.</p>
 <dl class="attribute">
@@ -91,15 +91,6 @@ generates a stream of audio or video.  The command will be parsed using shell
 quoting rules.  The command should send its generated output to the path in
 the environment variable $SHAKA_STREAMER_EXTERNAL_COMMAND_OUTPUT, which Shaka
 Streamer set to the path to the output pipe.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="streamer.input_configuration.Input.extra_input_args">
-<code class="descname">extra_input_args</code><em class="property">: string</em><a class="headerlink" href="#streamer.input_configuration.Input.extra_input_args" title="Permalink to this definition">¶</a></dt>
-<dd><p>Extra input arguments needed by FFmpeg to understand the input.</p>
-<p>This allows you to take inputs that cannot be understand or detected
-automatically by FFmpeg.</p>
-<p>This string will be parsed using shell quoting rules.</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -166,6 +157,15 @@ Otherwise, it will default to ‘und’ (undetermined).</p>
 <p>Each filter is a single string.  For example, ‘pad=1280:720:20:20’.</p>
 </dd></dl>
 
+<dl class="attribute">
+<dt id="streamer.input_configuration.Input.extra_input_args">
+<code class="descname">extra_input_args</code><em class="property">: string</em><a class="headerlink" href="#streamer.input_configuration.Input.extra_input_args" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extra input arguments needed by FFmpeg to understand the input.</p>
+<p>This allows you to take inputs that cannot be understand or detected
+automatically by FFmpeg.</p>
+<p>This string will be parsed using shell quoting rules.</p>
+</dd></dl>
+
 </dd></dl>
 
 <span class="target" id="module-streamer.input_configuration"></span><dl class="class">
@@ -174,36 +174,36 @@ Otherwise, it will default to ‘und’ (undetermined).</p>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
 <p>An enumeration.</p>
 <dl class="attribute">
-<dt id="streamer.input_configuration.InputType.file">
-<code class="descname">file</code><em class="property"> = 'file'</em><a class="headerlink" href="#streamer.input_configuration.InputType.file" title="Permalink to this definition">¶</a></dt>
+<dt id="streamer.input_configuration.InputType.FILE">
+<code class="descname">FILE</code><em class="property"> = 'file'</em><a class="headerlink" href="#streamer.input_configuration.InputType.FILE" title="Permalink to this definition">¶</a></dt>
 <dd><p>A track from a file.  Usable only with VOD.</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="streamer.input_configuration.InputType.looped_file">
-<code class="descname">looped_file</code><em class="property"> = 'looped_file'</em><a class="headerlink" href="#streamer.input_configuration.InputType.looped_file" title="Permalink to this definition">¶</a></dt>
+<dt id="streamer.input_configuration.InputType.LOOPED_FILE">
+<code class="descname">LOOPED_FILE</code><em class="property"> = 'looped_file'</em><a class="headerlink" href="#streamer.input_configuration.InputType.LOOPED_FILE" title="Permalink to this definition">¶</a></dt>
 <dd><p>A track from a file, looped forever by FFmpeg.  Usable only with live.</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="streamer.input_configuration.InputType.webcam">
-<code class="descname">webcam</code><em class="property"> = 'webcam'</em><a class="headerlink" href="#streamer.input_configuration.InputType.webcam" title="Permalink to this definition">¶</a></dt>
+<dt id="streamer.input_configuration.InputType.WEBCAM">
+<code class="descname">WEBCAM</code><em class="property"> = 'webcam'</em><a class="headerlink" href="#streamer.input_configuration.InputType.WEBCAM" title="Permalink to this definition">¶</a></dt>
 <dd><p>A webcam device.  Usable only with live.</p>
 <p>The device path should be given in the name field.  For example, on Linux,
 this might be /dev/video0.</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="streamer.input_configuration.InputType.raw_images">
-<code class="descname">raw_images</code><em class="property"> = 'raw_images'</em><a class="headerlink" href="#streamer.input_configuration.InputType.raw_images" title="Permalink to this definition">¶</a></dt>
+<dt id="streamer.input_configuration.InputType.RAW_IMAGES">
+<code class="descname">RAW_IMAGES</code><em class="property"> = 'raw_images'</em><a class="headerlink" href="#streamer.input_configuration.InputType.RAW_IMAGES" title="Permalink to this definition">¶</a></dt>
 <dd><p>A file or pipe with a sequence of raw images.</p>
 <p>Requires the specification of frame_rate.  May require the use of
 extra_input_args if FFmpeg can’t guess the format.</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="streamer.input_configuration.InputType.external_command">
-<code class="descname">external_command</code><em class="property"> = 'external_command'</em><a class="headerlink" href="#streamer.input_configuration.InputType.external_command" title="Permalink to this definition">¶</a></dt>
+<dt id="streamer.input_configuration.InputType.EXTERNAL_COMMAND">
+<code class="descname">EXTERNAL_COMMAND</code><em class="property"> = 'external_command'</em><a class="headerlink" href="#streamer.input_configuration.InputType.EXTERNAL_COMMAND" title="Permalink to this definition">¶</a></dt>
 <dd><p>An external command that generates a stream of audio or video.</p>
 <p>The command should be given in the name field, using shell quoting rules.
 The command should send its generated output to the path in the environment
@@ -221,18 +221,18 @@ framerate.</p>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
 <p>An enumeration.</p>
 <dl class="attribute">
-<dt id="streamer.input_configuration.MediaType.audio">
-<code class="descname">audio</code><em class="property"> = 'audio'</em><a class="headerlink" href="#streamer.input_configuration.MediaType.audio" title="Permalink to this definition">¶</a></dt>
+<dt id="streamer.input_configuration.MediaType.AUDIO">
+<code class="descname">AUDIO</code><em class="property"> = 'audio'</em><a class="headerlink" href="#streamer.input_configuration.MediaType.AUDIO" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
-<dt id="streamer.input_configuration.MediaType.video">
-<code class="descname">video</code><em class="property"> = 'video'</em><a class="headerlink" href="#streamer.input_configuration.MediaType.video" title="Permalink to this definition">¶</a></dt>
+<dt id="streamer.input_configuration.MediaType.VIDEO">
+<code class="descname">VIDEO</code><em class="property"> = 'video'</em><a class="headerlink" href="#streamer.input_configuration.MediaType.VIDEO" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
-<dt id="streamer.input_configuration.MediaType.text">
-<code class="descname">text</code><em class="property"> = 'text'</em><a class="headerlink" href="#streamer.input_configuration.MediaType.text" title="Permalink to this definition">¶</a></dt>
+<dt id="streamer.input_configuration.MediaType.TEXT">
+<code class="descname">TEXT</code><em class="property"> = 'text'</em><a class="headerlink" href="#streamer.input_configuration.MediaType.TEXT" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -246,7 +246,7 @@ values, but you may want to customize the codecs, resolutions, availability
 window, and/or encryption settings.</p>
 <dl class="class">
 <dt id="streamer.pipeline_configuration.PipelineConfig">
-<em class="property">class </em><code class="descclassname">streamer.pipeline_configuration.</code><code class="descname">PipelineConfig</code><span class="sig-paren">(</span><em>dictionary</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/streamer/pipeline_configuration.html#PipelineConfig"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#streamer.pipeline_configuration.PipelineConfig" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">streamer.pipeline_configuration.</code><code class="descname">PipelineConfig</code><span class="sig-paren">(</span><em>*args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/streamer/pipeline_configuration.html#PipelineConfig"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#streamer.pipeline_configuration.PipelineConfig" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">streamer.configuration.Base</span></code></p>
 <p>An object representing the entire pipeline config for Shaka Streamer.</p>
 <dl class="attribute">
@@ -369,14 +369,14 @@ used.</p>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
 <p>An enumeration.</p>
 <dl class="attribute">
-<dt id="streamer.pipeline_configuration.StreamingMode.live">
-<code class="descname">live</code><em class="property"> = 'live'</em><a class="headerlink" href="#streamer.pipeline_configuration.StreamingMode.live" title="Permalink to this definition">¶</a></dt>
+<dt id="streamer.pipeline_configuration.StreamingMode.LIVE">
+<code class="descname">LIVE</code><em class="property"> = 'live'</em><a class="headerlink" href="#streamer.pipeline_configuration.StreamingMode.LIVE" title="Permalink to this definition">¶</a></dt>
 <dd><p>Indicates a live stream, which has no end.</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="streamer.pipeline_configuration.StreamingMode.vod">
-<code class="descname">vod</code><em class="property"> = 'vod'</em><a class="headerlink" href="#streamer.pipeline_configuration.StreamingMode.vod" title="Permalink to this definition">¶</a></dt>
+<dt id="streamer.pipeline_configuration.StreamingMode.VOD">
+<code class="descname">VOD</code><em class="property"> = 'vod'</em><a class="headerlink" href="#streamer.pipeline_configuration.StreamingMode.VOD" title="Permalink to this definition">¶</a></dt>
 <dd><p>Indicates a video-on-demand (VOD) stream, which is finite.</p>
 </dd></dl>
 
@@ -388,13 +388,13 @@ used.</p>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
 <p>An enumeration.</p>
 <dl class="attribute">
-<dt id="streamer.pipeline_configuration.AudioCodec.aac">
-<code class="descname">aac</code><em class="property"> = 'aac'</em><a class="headerlink" href="#streamer.pipeline_configuration.AudioCodec.aac" title="Permalink to this definition">¶</a></dt>
+<dt id="streamer.pipeline_configuration.AudioCodec.AAC">
+<code class="descname">AAC</code><em class="property"> = 'aac'</em><a class="headerlink" href="#streamer.pipeline_configuration.AudioCodec.AAC" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
-<dt id="streamer.pipeline_configuration.AudioCodec.opus">
-<code class="descname">opus</code><em class="property"> = 'opus'</em><a class="headerlink" href="#streamer.pipeline_configuration.AudioCodec.opus" title="Permalink to this definition">¶</a></dt>
+<dt id="streamer.pipeline_configuration.AudioCodec.OPUS">
+<code class="descname">OPUS</code><em class="property"> = 'opus'</em><a class="headerlink" href="#streamer.pipeline_configuration.AudioCodec.OPUS" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -405,26 +405,26 @@ used.</p>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
 <p>An enumeration.</p>
 <dl class="attribute">
-<dt id="streamer.pipeline_configuration.VideoCodec.h264">
-<code class="descname">h264</code><em class="property"> = 'h264'</em><a class="headerlink" href="#streamer.pipeline_configuration.VideoCodec.h264" title="Permalink to this definition">¶</a></dt>
+<dt id="streamer.pipeline_configuration.VideoCodec.H264">
+<code class="descname">H264</code><em class="property"> = 'h264'</em><a class="headerlink" href="#streamer.pipeline_configuration.VideoCodec.H264" title="Permalink to this definition">¶</a></dt>
 <dd><p>H264, also known as AVC.</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="streamer.pipeline_configuration.VideoCodec.hardware_h264">
-<code class="descname">hardware_h264</code><em class="property"> = 'hw:h264'</em><a class="headerlink" href="#streamer.pipeline_configuration.VideoCodec.hardware_h264" title="Permalink to this definition">¶</a></dt>
+<dt id="streamer.pipeline_configuration.VideoCodec.HARDWARE_H264">
+<code class="descname">HARDWARE_H264</code><em class="property"> = 'hw:h264'</em><a class="headerlink" href="#streamer.pipeline_configuration.VideoCodec.HARDWARE_H264" title="Permalink to this definition">¶</a></dt>
 <dd><p>H264 with hardware encoding.</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="streamer.pipeline_configuration.VideoCodec.vp9">
-<code class="descname">vp9</code><em class="property"> = 'vp9'</em><a class="headerlink" href="#streamer.pipeline_configuration.VideoCodec.vp9" title="Permalink to this definition">¶</a></dt>
+<dt id="streamer.pipeline_configuration.VideoCodec.VP9">
+<code class="descname">VP9</code><em class="property"> = 'vp9'</em><a class="headerlink" href="#streamer.pipeline_configuration.VideoCodec.VP9" title="Permalink to this definition">¶</a></dt>
 <dd><p>VP9.</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="streamer.pipeline_configuration.VideoCodec.hardware_vp9">
-<code class="descname">hardware_vp9</code><em class="property"> = 'hw:vp9'</em><a class="headerlink" href="#streamer.pipeline_configuration.VideoCodec.hardware_vp9" title="Permalink to this definition">¶</a></dt>
+<dt id="streamer.pipeline_configuration.VideoCodec.HARDWARE_VP9">
+<code class="descname">HARDWARE_VP9</code><em class="property"> = 'hw:vp9'</em><a class="headerlink" href="#streamer.pipeline_configuration.VideoCodec.HARDWARE_VP9" title="Permalink to this definition">¶</a></dt>
 <dd><p>VP9 with hardware encoding.</p>
 </dd></dl>
 
@@ -436,13 +436,13 @@ used.</p>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
 <p>An enumeration.</p>
 <dl class="attribute">
-<dt id="streamer.pipeline_configuration.ManifestFormat.dash">
-<code class="descname">dash</code><em class="property"> = 'dash'</em><a class="headerlink" href="#streamer.pipeline_configuration.ManifestFormat.dash" title="Permalink to this definition">¶</a></dt>
+<dt id="streamer.pipeline_configuration.ManifestFormat.DASH">
+<code class="descname">DASH</code><em class="property"> = 'dash'</em><a class="headerlink" href="#streamer.pipeline_configuration.ManifestFormat.DASH" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
-<dt id="streamer.pipeline_configuration.ManifestFormat.hls">
-<code class="descname">hls</code><em class="property"> = 'hls'</em><a class="headerlink" href="#streamer.pipeline_configuration.ManifestFormat.hls" title="Permalink to this definition">¶</a></dt>
+<dt id="streamer.pipeline_configuration.ManifestFormat.HLS">
+<code class="descname">HLS</code><em class="property"> = 'hls'</em><a class="headerlink" href="#streamer.pipeline_configuration.ManifestFormat.HLS" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -453,14 +453,14 @@ used.</p>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
 <p>An enumeration.</p>
 <dl class="attribute">
-<dt id="streamer.pipeline_configuration.ProtectionScheme.cenc">
-<code class="descname">cenc</code><em class="property"> = 'cenc'</em><a class="headerlink" href="#streamer.pipeline_configuration.ProtectionScheme.cenc" title="Permalink to this definition">¶</a></dt>
+<dt id="streamer.pipeline_configuration.ProtectionScheme.CENC">
+<code class="descname">CENC</code><em class="property"> = 'cenc'</em><a class="headerlink" href="#streamer.pipeline_configuration.ProtectionScheme.CENC" title="Permalink to this definition">¶</a></dt>
 <dd><p>AES-128-CTR mode.</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="streamer.pipeline_configuration.ProtectionScheme.cbcs">
-<code class="descname">cbcs</code><em class="property"> = 'cbcs'</em><a class="headerlink" href="#streamer.pipeline_configuration.ProtectionScheme.cbcs" title="Permalink to this definition">¶</a></dt>
+<dt id="streamer.pipeline_configuration.ProtectionScheme.CBCS">
+<code class="descname">CBCS</code><em class="property"> = 'cbcs'</em><a class="headerlink" href="#streamer.pipeline_configuration.ProtectionScheme.CBCS" title="Permalink to this definition">¶</a></dt>
 <dd><p>AES-128-CBC mode with pattern encryption.</p>
 </dd></dl>
 

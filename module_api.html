@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Module API &#8212; Shaka Streamer 0.1.0 documentation</title>
+    <title>Module API &#8212; Shaka Streamer 0.2.0 documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -32,10 +32,11 @@
             
   <div class="section" id="module-streamer.controller_node">
 <span id="module-api"></span><h1>Module API<a class="headerlink" href="#module-streamer.controller_node" title="Permalink to this headline">¶</a></h1>
+<p>Top-level module API.</p>
 <p>If you’d like to import Shaka Streamer as a Python module and build it into
 your own application, this is the top-level API you can use for that.  You may
-also want to look at the source code to the command-line front end
-<cite>shaka_streamer.py</cite>.</p>
+also want to look at the source code to the command-line front end script
+<cite>shaka-streamer</cite>.</p>
 <dl class="class">
 <dt id="streamer.controller_node.ControllerNode">
 <em class="property">class </em><code class="descclassname">streamer.controller_node.</code><code class="descname">ControllerNode</code><a class="reference internal" href="_modules/streamer/controller_node.html#ControllerNode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#streamer.controller_node.ControllerNode" title="Permalink to this definition">¶</a></dt>
@@ -101,8 +102,9 @@ running.  If there are no nodes, this returns Finished.</p>
 <dt id="streamer.controller_node.VersionError">
 <em class="property">exception </em><code class="descclassname">streamer.controller_node.</code><code class="descname">VersionError</code><a class="reference internal" href="_modules/streamer/controller_node.html#VersionError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#streamer.controller_node.VersionError" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
-<p>Raised when a dependency (like FFmpeg) is missing or not new enough to
-work with Shaka Streamer.  See also <a class="reference internal" href="prerequisites.html"><span class="doc">Installing Prerequisites</span></a>.</p>
+<p>A version error for one of Shaka Streamer’s external dependencies.</p>
+<p>Raised when a dependency (like FFmpeg) is missing or not new enough to work
+with Shaka Streamer.  See also <a class="reference internal" href="prerequisites.html"><span class="doc">Installing Prerequisites</span></a>.</p>
 <dl class="attribute">
 <dt id="streamer.controller_node.VersionError.args">
 <code class="descname">args</code><a class="headerlink" href="#streamer.controller_node.VersionError.args" title="Permalink to this definition">¶</a></dt>
@@ -225,11 +227,6 @@ type.</p>
 <dl class="attribute">
 <dt id="streamer.configuration.HexString.name">
 <code class="descname">name</code><em class="property"> = 'hexadecimal string'</em><a class="headerlink" href="#streamer.configuration.HexString.name" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="staticmethod">
-<dt id="streamer.configuration.HexString.validate">
-<em class="property">static </em><code class="descname">validate</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/streamer/configuration.html#HexString.validate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#streamer.configuration.HexString.validate" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>

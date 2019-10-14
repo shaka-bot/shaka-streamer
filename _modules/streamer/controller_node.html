@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>streamer.controller_node &#8212; Shaka Streamer 0.1.0 documentation</title>
+    <title>streamer.controller_node &#8212; Shaka Streamer 0.2.0 documentation</title>
     <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
@@ -44,10 +44,13 @@
 <span class="c1"># See the License for the specific language governing permissions and</span>
 <span class="c1"># limitations under the License.</span>
 
-<span class="sd">&quot;&quot;&quot;If you&#39;d like to import Shaka Streamer as a Python module and build it into</span>
+<span class="sd">&quot;&quot;&quot;Top-level module API.</span>
+
+<span class="sd">If you&#39;d like to import Shaka Streamer as a Python module and build it into</span>
 <span class="sd">your own application, this is the top-level API you can use for that.  You may</span>
-<span class="sd">also want to look at the source code to the command-line front end</span>
-<span class="sd">`shaka_streamer.py`.&quot;&quot;&quot;</span>
+<span class="sd">also want to look at the source code to the command-line front end script</span>
+<span class="sd">`shaka-streamer`.</span>
+<span class="sd">&quot;&quot;&quot;</span>
 
 
 <span class="kn">import</span> <span class="nn">os</span>
@@ -61,7 +64,6 @@
 <span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">cloud_node</span>
 <span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">external_command_node</span>
 <span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">input_configuration</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">loop_input_node</span>
 <span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">metadata</span>
 <span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">node_base</span>
 <span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">packager_node</span>
@@ -108,7 +110,7 @@
 <span class="sd">      The path to the named pipe, as a string.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="c1"># TODO: mkfifo only works on Unix.  We would need a special case for a</span>
+    <span class="c1"># TODO(#8): mkfifo only works on Unix.  We would need a special case for a</span>
     <span class="c1"># Windows port some day.</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">os</span><span class="p">,</span> <span class="s1">&#39;mkfifo&#39;</span><span class="p">):</span>
@@ -130,7 +132,8 @@
 
 <span class="sd">    :raises: `RuntimeError` if the controller has already started.</span>
 <span class="sd">    :raises: :class:`streamer.configuration.ConfigError` if the configuration is</span>
-<span class="sd">             invalid.&quot;&quot;&quot;</span>
+<span class="sd">             invalid.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nodes</span><span class="p">:</span>
       <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;Controller already started!&#39;</span><span class="p">)</span>
@@ -145,41 +148,18 @@
     <span class="n">pipeline_config</span> <span class="o">=</span> <span class="n">PipelineConfig</span><span class="p">(</span><span class="n">pipeline_config_dict</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_pipeline_config</span> <span class="o">=</span> <span class="n">pipeline_config</span>
 
-    <span class="c1"># Some inputs get processed by Shaka Streamer before being transcoded, so</span>
-    <span class="c1"># this array will keep track of the input paths to pass to the transcoder.</span>
-    <span class="c1"># Some will be input files/devices, while others will be named pipes.</span>
-    <span class="c1"># TODO(joeyparrish): put input paths into input_config.inputs</span>
-    <span class="n">input_paths</span> <span class="o">=</span> <span class="p">[]</span>
-
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">input_config</span><span class="o">.</span><span class="n">inputs</span><span class="p">:</span>
-      <span class="k">if</span> <span class="n">pipeline_config</span><span class="o">.</span><span class="n">streaming_mode</span> <span class="o">==</span> <span class="n">StreamingMode</span><span class="o">.</span><span class="n">live</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">i</span><span class="o">.</span><span class="n">input_type</span> <span class="o">==</span> <span class="n">InputType</span><span class="o">.</span><span class="n">looped_file</span><span class="p">:</span>
-          <span class="n">loop_output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_pipe</span><span class="p">()</span>
-          <span class="n">input_node</span> <span class="o">=</span> <span class="n">loop_input_node</span><span class="o">.</span><span class="n">LoopInputNode</span><span class="p">(</span>
-              <span class="n">pipeline_config</span><span class="p">,</span> <span class="n">i</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">loop_output</span><span class="p">)</span>
-          <span class="bp">self</span><span class="o">.</span><span class="n">_nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">input_node</span><span class="p">)</span>
-          <span class="n">input_paths</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">loop_output</span><span class="p">)</span>
-
-        <span class="k">elif</span> <span class="n">i</span><span class="o">.</span><span class="n">input_type</span> <span class="o">==</span> <span class="n">InputType</span><span class="o">.</span><span class="n">external_command</span><span class="p">:</span>
-          <span class="n">command_output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_pipe</span><span class="p">()</span>
-          <span class="n">command_node</span> <span class="o">=</span> <span class="n">external_command_node</span><span class="o">.</span><span class="n">ExternalCommandNode</span><span class="p">(</span>
-              <span class="n">i</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">command_output</span><span class="p">)</span>
-          <span class="bp">self</span><span class="o">.</span><span class="n">_nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">command_node</span><span class="p">)</span>
-          <span class="n">input_paths</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">command_output</span><span class="p">)</span>
-
-        <span class="k">elif</span> <span class="n">i</span><span class="o">.</span><span class="n">input_type</span> <span class="o">==</span> <span class="n">InputType</span><span class="o">.</span><span class="n">raw_images</span><span class="p">:</span>
-          <span class="n">input_paths</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
-
-        <span class="k">elif</span> <span class="n">i</span><span class="o">.</span><span class="n">input_type</span> <span class="o">==</span> <span class="n">InputType</span><span class="o">.</span><span class="n">webcam</span><span class="p">:</span>
-          <span class="n">input_paths</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
-
-        <span class="k">elif</span> <span class="n">i</span><span class="o">.</span><span class="n">input_type</span> <span class="o">==</span> <span class="n">InputType</span><span class="o">.</span><span class="n">file</span><span class="p">:</span>
-          <span class="n">input_paths</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
-
-      <span class="k">elif</span> <span class="n">pipeline_config</span><span class="o">.</span><span class="n">streaming_mode</span> <span class="o">==</span> <span class="n">StreamingMode</span><span class="o">.</span><span class="n">vod</span><span class="p">:</span>
-        <span class="n">input_paths</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
-
-    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">input_config</span><span class="o">.</span><span class="n">inputs</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">input_paths</span><span class="p">)</span>
+    <span class="c1"># External command inputs need to be processed by an additional node before</span>
+    <span class="c1"># being transcoded.  In this case, the input doesn&#39;t have a filename that</span>
+    <span class="c1"># FFmpeg can read, so we generate an intermediate pipe for that node to</span>
+    <span class="c1"># write to.  TranscoderNode will then instruct FFmpeg to read from that</span>
+    <span class="c1"># pipe for this input.</span>
+    <span class="k">for</span> <span class="nb">input</span> <span class="ow">in</span> <span class="n">input_config</span><span class="o">.</span><span class="n">inputs</span><span class="p">:</span>
+      <span class="k">if</span> <span class="nb">input</span><span class="o">.</span><span class="n">input_type</span> <span class="o">==</span> <span class="n">InputType</span><span class="o">.</span><span class="n">EXTERNAL_COMMAND</span><span class="p">:</span>
+        <span class="n">command_output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_pipe</span><span class="p">()</span>
+        <span class="n">command_node</span> <span class="o">=</span> <span class="n">external_command_node</span><span class="o">.</span><span class="n">ExternalCommandNode</span><span class="p">(</span>
+            <span class="nb">input</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">command_output</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">command_node</span><span class="p">)</span>
+        <span class="nb">input</span><span class="o">.</span><span class="n">set_pipe</span><span class="p">(</span><span class="n">command_output</span><span class="p">)</span>
 
     <span class="c1"># TODO: This is unnecessary.  Just process each input in turn.</span>
     <span class="n">media_outputs</span> <span class="o">=</span> <span class="p">{</span>
@@ -207,8 +187,7 @@
                                            <span class="n">pipeline_config</span><span class="o">.</span><span class="n">video_codecs</span><span class="p">))</span>
 
     <span class="c1"># Process input through a transcoder node using ffmpeg.</span>
-    <span class="n">ffmpeg_node</span> <span class="o">=</span> <span class="n">transcoder_node</span><span class="o">.</span><span class="n">TranscoderNode</span><span class="p">(</span><span class="n">input_paths</span><span class="p">,</span>
-                                                 <span class="n">audio_outputs</span><span class="p">,</span>
+    <span class="n">ffmpeg_node</span> <span class="o">=</span> <span class="n">transcoder_node</span><span class="o">.</span><span class="n">TranscoderNode</span><span class="p">(</span><span class="n">audio_outputs</span><span class="p">,</span>
                                                  <span class="n">video_outputs</span><span class="p">,</span>
                                                  <span class="n">input_config</span><span class="p">,</span>
                                                  <span class="n">pipeline_config</span><span class="p">)</span>
@@ -316,13 +295,17 @@
 <div class="viewcode-block" id="ControllerNode.is_vod"><a class="viewcode-back" href="../../module_api.html#streamer.controller_node.ControllerNode.is_vod">[docs]</a>  <span class="k">def</span> <span class="nf">is_vod</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Returns True if the pipeline is running in VOD mode.</span>
 
-<span class="sd">    :rtype: bool&quot;&quot;&quot;</span>
+<span class="sd">    :rtype: bool</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pipeline_config</span><span class="o">.</span><span class="n">streaming_mode</span> <span class="o">==</span> <span class="n">StreamingMode</span><span class="o">.</span><span class="n">vod</span></div></div>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pipeline_config</span><span class="o">.</span><span class="n">streaming_mode</span> <span class="o">==</span> <span class="n">StreamingMode</span><span class="o">.</span><span class="n">VOD</span></div></div>
 
 <div class="viewcode-block" id="VersionError"><a class="viewcode-back" href="../../module_api.html#streamer.controller_node.VersionError">[docs]</a><span class="k">class</span> <span class="nc">VersionError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
-  <span class="sd">&quot;&quot;&quot;Raised when a dependency (like FFmpeg) is missing or not new enough to</span>
-<span class="sd">  work with Shaka Streamer.  See also :doc:`prerequisites`.&quot;&quot;&quot;</span>
+  <span class="sd">&quot;&quot;&quot;A version error for one of Shaka Streamer&#39;s external dependencies.</span>
+
+<span class="sd">  Raised when a dependency (like FFmpeg) is missing or not new enough to work</span>
+<span class="sd">  with Shaka Streamer.  See also :doc:`prerequisites`.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
 
   <span class="k">pass</span></div>
 

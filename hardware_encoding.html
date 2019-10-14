@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Hardware Encoding &#8212; Shaka Streamer 0.1.0 documentation</title>
+    <title>Hardware Encoding &#8212; Shaka Streamer 0.2.0 documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -37,15 +37,10 @@
 <h2>Setup on Linux<a class="headerlink" href="#setup-on-linux" title="Permalink to this headline">¶</a></h2>
 <p>Hardware encoding on Linux can be enabled through FFmpeg’s vaapi support.</p>
 <p>To get started, install the appropriate vaapi package for your device.  For
-example, for Intel’s Kaby Lake family of processors, which support hardware VP9
-encoding, you would install this on Ubuntu:</p>
-<div class="code sh highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">apt</span> <span class="n">install</span> <span class="n">i965</span><span class="o">-</span><span class="n">va</span><span class="o">-</span><span class="n">driver</span>
+example, on Ubuntu, you can install all available vaapi drivers with:</p>
+<div class="code sh highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">apt</span> <span class="n">install</span> <span class="n">va</span><span class="o">-</span><span class="n">driver</span><span class="o">-</span><span class="nb">all</span>
 </pre></div>
 </div>
-<p>Or build and install from source here:
-<a class="reference external" href="https://github.com/intel/intel-vaapi-driver">https://github.com/intel/intel-vaapi-driver</a></p>
-<p>You will need to install the correct vaapi drivers for your device.  These are
-only examples.</p>
 <p>If hardware encoding still does not work, you may need to recompile FFmpeg from
 source. See instructions in <a class="reference internal" href="prerequisites.html"><span class="doc">Installing Prerequisites</span></a> for details.</p>
 </div>

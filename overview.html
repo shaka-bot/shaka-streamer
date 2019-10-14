@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Overview &#8212; Shaka Streamer 0.1.0 documentation</title>
+    <title>Overview &#8212; Shaka Streamer 0.2.0 documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -45,6 +45,7 @@
 <li>Supports VOD and live content</li>
 <li>Supports DASH and HLS output</li>
 <li>Supports clear and encrypted output</li>
+<li>Supports hardware encoding (if available from the platform)</li>
 <li>Supports almost any input FFmpeg can ingest</li>
 <li>Can push output automatically to Google Cloud Storage or Amazon S3</li>
 <li>Lots of options for input<ul>
@@ -72,6 +73,15 @@ are accepting PRs if you’d like to add Windows support. See <a class="referenc
 </div>
 <div class="section" id="getting-started">
 <h2>Getting started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h2>
+<p>Release versions of Shaka Streamer can be installed or upgraded through <cite>pip</cite>
+with:</p>
+<div class="code sh highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># To install/upgrade per-user:</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="o">--</span><span class="n">upgrade</span> <span class="o">--</span><span class="n">user</span> <span class="n">shaka</span><span class="o">-</span><span class="n">streamer</span>
+
+<span class="c1"># To install/upgrade globally (add sudo on Linux):</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="o">--</span><span class="n">upgrade</span> <span class="n">shaka</span><span class="o">-</span><span class="n">streamer</span>
+</pre></div>
+</div>
 <p>Shaka Streamer requires at a minimum:</p>
 <ul class="simple">
 <li><a class="reference external" href="https://www.python.org/downloads/">Python 3</a></li>
@@ -90,7 +100,7 @@ downloaded individually over HTTPS or all at once through gsutil:</p>
 </div>
 <div class="section" id="example-command-line-for-live-streaming-to-google-cloud-storage">
 <h3>Example command-line for live streaming to Google Cloud Storage:<a class="headerlink" href="#example-command-line-for-live-streaming-to-google-cloud-storage" title="Permalink to this headline">¶</a></h3>
-<div class="code sh highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python3</span> <span class="n">shaka_streamer</span><span class="o">.</span><span class="n">py</span> \
+<div class="code sh highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python3</span> <span class="n">shaka</span><span class="o">-</span><span class="n">streamer</span> \
   <span class="o">-</span><span class="n">i</span> <span class="n">config_files</span><span class="o">/</span><span class="n">input_looped_file_config</span><span class="o">.</span><span class="n">yaml</span> \
   <span class="o">-</span><span class="n">p</span> <span class="n">config_files</span><span class="o">/</span><span class="n">pipeline_live_config</span><span class="o">.</span><span class="n">yaml</span> \
   <span class="o">-</span><span class="n">c</span> <span class="n">gs</span><span class="p">:</span><span class="o">//</span><span class="n">my_gcs_bucket</span><span class="o">/</span><span class="n">folder</span><span class="o">/</span>
@@ -99,7 +109,7 @@ downloaded individually over HTTPS or all at once through gsutil:</p>
 </div>
 <div class="section" id="example-command-line-for-live-streaming-to-amazon-s3">
 <h3>Example command-line for live streaming to Amazon S3:<a class="headerlink" href="#example-command-line-for-live-streaming-to-amazon-s3" title="Permalink to this headline">¶</a></h3>
-<div class="code sh highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python3</span> <span class="n">shaka_streamer</span><span class="o">.</span><span class="n">py</span> \
+<div class="code sh highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python3</span> <span class="n">shaka</span><span class="o">-</span><span class="n">streamer</span> \
   <span class="o">-</span><span class="n">i</span> <span class="n">config_files</span><span class="o">/</span><span class="n">input_looped_file_config</span><span class="o">.</span><span class="n">yaml</span> \
   <span class="o">-</span><span class="n">p</span> <span class="n">config_files</span><span class="o">/</span><span class="n">pipeline_live_config</span><span class="o">.</span><span class="n">yaml</span> \
   <span class="o">-</span><span class="n">c</span> <span class="n">s3</span><span class="p">:</span><span class="o">//</span><span class="n">my_s3_bucket</span><span class="o">/</span><span class="n">folder</span><span class="o">/</span>
@@ -115,10 +125,6 @@ browser using Shaka Player. End-to-end tests can be run like so:</p>
 </pre></div>
 </div>
 </div>
-<div class="section" id="hardware-encoding">
-<h2>Hardware encoding<a class="headerlink" href="#hardware-encoding" title="Permalink to this headline">¶</a></h2>
-<p>For details on hardware encoding support, see <a class="reference internal" href="hardware_encoding.html"><span class="doc">Hardware Encoding</span></a>.</p>
-</div>
 <div class="section" id="technical-details">
 <h2>Technical details<a class="headerlink" href="#technical-details" title="Permalink to this headline">¶</a></h2>
 <p>Shaka Streamer connects FFmpeg and Shaka Packager in a pipeline, such that
@@ -127,11 +133,9 @@ transcoding of all resolutions, bitrates, and languages occur in parallel.</p>
 <p>The overall pipeline is composed of several nodes. At a minimum, these are
 <code class="docutils literal notranslate"><span class="pre">TranscoderNode</span></code> (which runs FFmpeg) and <code class="docutils literal notranslate"><span class="pre">PackagerNode</span></code> (which runs Shaka
 Packager). They communicate via named pipes on Linux and macOS.</p>
-<p>If the input type is <code class="docutils literal notranslate"><span class="pre">looped_file</span></code>, then <code class="docutils literal notranslate"><span class="pre">LoopInputNode</span></code> is placed before
-<code class="docutils literal notranslate"><span class="pre">TranscoderNode</span></code> in the pipeline. <code class="docutils literal notranslate"><span class="pre">LoopInputNode</span></code> runs another instance of
-FFmpeg to encode the input file in a never-ending loop, and output to a named
-pipe. For all other input types, the input files are read directly by
-<code class="docutils literal notranslate"><span class="pre">TranscoderNode</span></code>.</p>
+<p>All input types are read directly by <code class="docutils literal notranslate"><span class="pre">TranscoderNode</span></code>. If the input type is
+<code class="docutils literal notranslate"><span class="pre">looped_file</span></code>, then <code class="docutils literal notranslate"><span class="pre">TranscoderNode</span></code> will add additional FFmpeg options to
+loop that input file indefinitely.</p>
 <p>If the <code class="docutils literal notranslate"><span class="pre">-c</span></code> option is given with a Google Cloud Storage URL, then an
 additional node called <code class="docutils literal notranslate"><span class="pre">CloudNode</span></code> is added after <code class="docutils literal notranslate"><span class="pre">PackagerNode</span></code>. It runs a
 thread which watches the output of the packager and pushes updated files to the
@@ -140,7 +144,7 @@ cloud.</p>
 your config files. If you want to write your own front-end or interface
 directly to the pipeline, you can create a <code class="docutils literal notranslate"><span class="pre">ControllerNode</span></code> and call the
 <code class="docutils literal notranslate"><span class="pre">start()</span></code>, <code class="docutils literal notranslate"><span class="pre">stop()</span></code>, and <code class="docutils literal notranslate"><span class="pre">is_running()</span></code> methods on it. You can use
-<code class="docutils literal notranslate"><span class="pre">shaka_streamer.py</span></code> as an example of how to do this.  See also
+the <code class="docutils literal notranslate"><span class="pre">shaka-streamer</span></code> script as an example of how to do this.  See also
 <a class="reference internal" href="module_api.html"><span class="doc">Module API</span></a>.</p>
 </div>
 </div>
@@ -168,7 +172,6 @@ directly to the pipeline, you can create a <code class="docutils literal notrans
 <li class="toctree-l2"><a class="reference internal" href="#platform-support">Platform support</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#getting-started">Getting started</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#running-tests">Running tests</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#hardware-encoding">Hardware encoding</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#technical-details">Technical details</a></li>
 </ul>
 </li>

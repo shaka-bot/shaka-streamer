@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>streamer.pipeline_configuration &#8212; Shaka Streamer 0.1.0 documentation</title>
+    <title>streamer.pipeline_configuration &#8212; Shaka Streamer 0.2.0 documentation</title>
     <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
@@ -69,39 +69,39 @@
 
 
 <div class="viewcode-block" id="StreamingMode"><a class="viewcode-back" href="../../configuration_fields.html#streamer.pipeline_configuration.StreamingMode">[docs]</a><span class="k">class</span> <span class="nc">StreamingMode</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">):</span>
-  <span class="n">live</span> <span class="o">=</span> <span class="s1">&#39;live&#39;</span>
+  <span class="n">LIVE</span> <span class="o">=</span> <span class="s1">&#39;live&#39;</span>
   <span class="sd">&quot;&quot;&quot;Indicates a live stream, which has no end.&quot;&quot;&quot;</span>
 
-  <span class="n">vod</span> <span class="o">=</span> <span class="s1">&#39;vod&#39;</span>
+  <span class="n">VOD</span> <span class="o">=</span> <span class="s1">&#39;vod&#39;</span>
   <span class="sd">&quot;&quot;&quot;Indicates a video-on-demand (VOD) stream, which is finite.&quot;&quot;&quot;</span></div>
 
 <div class="viewcode-block" id="AudioCodec"><a class="viewcode-back" href="../../configuration_fields.html#streamer.pipeline_configuration.AudioCodec">[docs]</a><span class="k">class</span> <span class="nc">AudioCodec</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">):</span>
-  <span class="n">aac</span> <span class="o">=</span> <span class="s1">&#39;aac&#39;</span>
-  <span class="n">opus</span> <span class="o">=</span> <span class="s1">&#39;opus&#39;</span></div>
+  <span class="n">AAC</span> <span class="o">=</span> <span class="s1">&#39;aac&#39;</span>
+  <span class="n">OPUS</span> <span class="o">=</span> <span class="s1">&#39;opus&#39;</span></div>
 
 <span class="c1"># TODO: ideally, we wouldn&#39;t have to explicitly list hw: variants</span>
 <div class="viewcode-block" id="VideoCodec"><a class="viewcode-back" href="../../configuration_fields.html#streamer.pipeline_configuration.VideoCodec">[docs]</a><span class="k">class</span> <span class="nc">VideoCodec</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">):</span>
-  <span class="n">h264</span> <span class="o">=</span> <span class="s1">&#39;h264&#39;</span>
+  <span class="n">H264</span> <span class="o">=</span> <span class="s1">&#39;h264&#39;</span>
   <span class="sd">&quot;&quot;&quot;H264, also known as AVC.&quot;&quot;&quot;</span>
 
-  <span class="n">hardware_h264</span> <span class="o">=</span> <span class="s1">&#39;hw:h264&#39;</span>
+  <span class="n">HARDWARE_H264</span> <span class="o">=</span> <span class="s1">&#39;hw:h264&#39;</span>
   <span class="sd">&quot;&quot;&quot;H264 with hardware encoding.&quot;&quot;&quot;</span>
 
-  <span class="n">vp9</span> <span class="o">=</span> <span class="s1">&#39;vp9&#39;</span>
+  <span class="n">VP9</span> <span class="o">=</span> <span class="s1">&#39;vp9&#39;</span>
   <span class="sd">&quot;&quot;&quot;VP9.&quot;&quot;&quot;</span>
 
-  <span class="n">hardware_vp9</span> <span class="o">=</span> <span class="s1">&#39;hw:vp9&#39;</span>
+  <span class="n">HARDWARE_VP9</span> <span class="o">=</span> <span class="s1">&#39;hw:vp9&#39;</span>
   <span class="sd">&quot;&quot;&quot;VP9 with hardware encoding.&quot;&quot;&quot;</span></div>
 
 <div class="viewcode-block" id="ManifestFormat"><a class="viewcode-back" href="../../configuration_fields.html#streamer.pipeline_configuration.ManifestFormat">[docs]</a><span class="k">class</span> <span class="nc">ManifestFormat</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">):</span>
-  <span class="n">dash</span> <span class="o">=</span> <span class="s1">&#39;dash&#39;</span>
-  <span class="n">hls</span> <span class="o">=</span> <span class="s1">&#39;hls&#39;</span></div>
+  <span class="n">DASH</span> <span class="o">=</span> <span class="s1">&#39;dash&#39;</span>
+  <span class="n">HLS</span> <span class="o">=</span> <span class="s1">&#39;hls&#39;</span></div>
 
 <div class="viewcode-block" id="ProtectionScheme"><a class="viewcode-back" href="../../configuration_fields.html#streamer.pipeline_configuration.ProtectionScheme">[docs]</a><span class="k">class</span> <span class="nc">ProtectionScheme</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">):</span>
-  <span class="n">cenc</span> <span class="o">=</span> <span class="s1">&#39;cenc&#39;</span>
+  <span class="n">CENC</span> <span class="o">=</span> <span class="s1">&#39;cenc&#39;</span>
   <span class="sd">&quot;&quot;&quot;AES-128-CTR mode.&quot;&quot;&quot;</span>
 
-  <span class="n">cbcs</span> <span class="o">=</span> <span class="s1">&#39;cbcs&#39;</span>
+  <span class="n">CBCS</span> <span class="o">=</span> <span class="s1">&#39;cbcs&#39;</span>
   <span class="sd">&quot;&quot;&quot;AES-128-CBC mode with pattern encryption.&quot;&quot;&quot;</span></div>
 
 
@@ -149,7 +149,7 @@
 <span class="sd">  &quot;&quot;&quot;</span>
 
   <span class="n">protection_scheme</span> <span class="o">=</span> <span class="n">configuration</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">ProtectionScheme</span><span class="p">,</span>
-                                          <span class="n">default</span><span class="o">=</span><span class="n">ProtectionScheme</span><span class="o">.</span><span class="n">cenc</span><span class="p">)</span>
+                                          <span class="n">default</span><span class="o">=</span><span class="n">ProtectionScheme</span><span class="o">.</span><span class="n">CENC</span><span class="p">)</span>
   <span class="sd">&quot;&quot;&quot;The protection scheme (cenc or cbcs) to use when encrypting.&quot;&quot;&quot;</span>
 
   <span class="n">clear_lead</span> <span class="o">=</span> <span class="n">configuration</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
@@ -192,20 +192,21 @@
   <span class="sd">&quot;&quot;&quot;The number of audio channels to encode.&quot;&quot;&quot;</span>
 
   <span class="n">audio_codecs</span> <span class="o">=</span> <span class="n">configuration</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="n">subtype</span><span class="o">=</span><span class="n">AudioCodec</span><span class="p">,</span>
-                                     <span class="n">default</span><span class="o">=</span><span class="p">[</span><span class="n">AudioCodec</span><span class="o">.</span><span class="n">aac</span><span class="p">])</span>
+                                     <span class="n">default</span><span class="o">=</span><span class="p">[</span><span class="n">AudioCodec</span><span class="o">.</span><span class="n">AAC</span><span class="p">])</span>
   <span class="sd">&quot;&quot;&quot;The audio codecs to encode with.&quot;&quot;&quot;</span>
 
   <span class="n">video_codecs</span> <span class="o">=</span> <span class="n">configuration</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="n">subtype</span><span class="o">=</span><span class="n">VideoCodec</span><span class="p">,</span>
-                                     <span class="n">default</span><span class="o">=</span><span class="p">[</span><span class="n">VideoCodec</span><span class="o">.</span><span class="n">h264</span><span class="p">])</span>
+                                     <span class="n">default</span><span class="o">=</span><span class="p">[</span><span class="n">VideoCodec</span><span class="o">.</span><span class="n">H264</span><span class="p">])</span>
   <span class="sd">&quot;&quot;&quot;The video codecs to encode with.</span>
 
 <span class="sd">  Note that the prefix &quot;hw:&quot; indicates that a hardware encoder should be</span>
-<span class="sd">  used.&quot;&quot;&quot;</span>
+<span class="sd">  used.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
 
   <span class="n">manifest_format</span> <span class="o">=</span> <span class="n">configuration</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="n">subtype</span><span class="o">=</span><span class="n">ManifestFormat</span><span class="p">,</span>
                                         <span class="n">default</span><span class="o">=</span><span class="p">[</span>
-                                            <span class="n">ManifestFormat</span><span class="o">.</span><span class="n">dash</span><span class="p">,</span>
-                                            <span class="n">ManifestFormat</span><span class="o">.</span><span class="n">hls</span><span class="p">,</span>
+                                            <span class="n">ManifestFormat</span><span class="o">.</span><span class="n">DASH</span><span class="p">,</span>
+                                            <span class="n">ManifestFormat</span><span class="o">.</span><span class="n">HLS</span><span class="p">,</span>
                                         <span class="p">])</span>
   <span class="sd">&quot;&quot;&quot;A list of manifest formats (dash or hls) to create.</span>
 
@@ -244,8 +245,10 @@
   <span class="sd">&quot;&quot;&quot;Encryption settings.&quot;&quot;&quot;</span>
 
 
-  <span class="k">def</span> <span class="nf">_validate_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">streaming_mode</span> <span class="o">==</span> <span class="n">StreamingMode</span><span class="o">.</span><span class="n">live</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">segment_per_file</span><span class="p">:</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">streaming_mode</span> <span class="o">==</span> <span class="n">StreamingMode</span><span class="o">.</span><span class="n">LIVE</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">segment_per_file</span><span class="p">:</span>
       <span class="n">field</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">segment_per_file</span>
       <span class="n">reason</span> <span class="o">=</span> <span class="s1">&#39;must be true when streaming_mode is &quot;live&quot;&#39;</span>
       <span class="k">raise</span> <span class="n">configuration</span><span class="o">.</span><span class="n">MalformedField</span><span class="p">(</span>
