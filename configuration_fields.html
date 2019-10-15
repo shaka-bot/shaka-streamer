@@ -100,40 +100,14 @@ Streamer set to the path to the output pipe.</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="streamer.input_configuration.Input.frame_rate">
-<code class="descname">frame_rate</code><em class="property">: float</em><a class="headerlink" href="#streamer.input_configuration.Input.frame_rate" title="Permalink to this definition">¶</a></dt>
-<dd><p>The frame rate of the input stream, in frames per second.</p>
-<p>Required for media_type of ‘video’.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="streamer.input_configuration.Input.resolution">
-<code class="descname">resolution</code><em class="property">: Resolution (one of '144p', '240p', '360p', '480p', '576p', '720p', '720p-hfr', '1080p', '1080p-hfr', '2k', '2k-hfr', '4k', '4k-hfr')</em><a class="headerlink" href="#streamer.input_configuration.Input.resolution" title="Permalink to this definition">¶</a></dt>
-<dd><p>The name of the input resolution (1080p, etc).</p>
-<p>Required for media_type of ‘video’.</p>
-</dd></dl>
-
-<dl class="attribute">
 <dt id="streamer.input_configuration.Input.track_num">
 <code class="descname">track_num</code><em class="property">: int</em><a class="headerlink" href="#streamer.input_configuration.Input.track_num" title="Permalink to this definition">¶</a></dt>
-<dd><p>The track number of the input.  Defaults to 0.</p>
-<p>For multiplexed input files, video is usually track 0, and the first audio
-track is usually track 1.  This may vary, though.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="streamer.input_configuration.Input.is_interlaced">
-<code class="descname">is_interlaced</code><em class="property">: bool</em><a class="headerlink" href="#streamer.input_configuration.Input.is_interlaced" title="Permalink to this definition">¶</a></dt>
-<dd><p>True if the input video is interlaced.</p>
-<p>If true, the video will be deinterlaced during transcoding.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="streamer.input_configuration.Input.language">
-<code class="descname">language</code><em class="property">: string</em><a class="headerlink" href="#streamer.input_configuration.Input.language" title="Permalink to this definition">¶</a></dt>
-<dd><p>The language of an audio or text stream.</p>
-<p>With input_type set to ‘file’ or ‘looped_file’, this will be auto-detected.
-Otherwise, it will default to ‘und’ (undetermined).</p>
+<dd><p>The track number of the input.</p>
+<p>The track number is specific to the media_type.  For example, if there is one
+video track and two audio tracks, media_type of ‘audio’ and track_num of ‘0’
+indicates the first audio track, not the first track overall in that file.</p>
+<p>If unspecified, track_num will default to 0, meaning the first track matching
+the media_type field will be used.</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -155,6 +129,42 @@ Otherwise, it will default to ‘und’ (undetermined).</p>
 <code class="descname">filters</code><em class="property">: list of string</em><a class="headerlink" href="#streamer.input_configuration.Input.filters" title="Permalink to this definition">¶</a></dt>
 <dd><p>A list of FFmpeg filter strings to add to the transcoding of this input.</p>
 <p>Each filter is a single string.  For example, ‘pad=1280:720:20:20’.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="streamer.input_configuration.Input.is_interlaced">
+<code class="descname">is_interlaced</code><em class="property">: bool</em><a class="headerlink" href="#streamer.input_configuration.Input.is_interlaced" title="Permalink to this definition">¶</a></dt>
+<dd><p>True if the input video is interlaced.</p>
+<p>Only valid for media_type of ‘video’.</p>
+<p>If true, the video will be deinterlaced during transcoding.</p>
+<p>Can be auto-detected for some input types, but may be default to False for
+others.  For example, an input_type of ‘webcam’ will default to False.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="streamer.input_configuration.Input.frame_rate">
+<code class="descname">frame_rate</code><em class="property">: float</em><a class="headerlink" href="#streamer.input_configuration.Input.frame_rate" title="Permalink to this definition">¶</a></dt>
+<dd><p>The frame rate of the input stream, in frames per second.</p>
+<p>Only valid for media_type of ‘video’.</p>
+<p>Can be auto-detected for some input types, but may be required for others.
+For example, required for input_type of ‘webcam’.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="streamer.input_configuration.Input.resolution">
+<code class="descname">resolution</code><em class="property">: Resolution (one of '144p', '240p', '360p', '480p', '576p', '720p', '720p-hfr', '1080p', '1080p-hfr', '2k', '2k-hfr', '4k', '4k-hfr')</em><a class="headerlink" href="#streamer.input_configuration.Input.resolution" title="Permalink to this definition">¶</a></dt>
+<dd><p>The name of the input resolution (1080p, etc).</p>
+<p>Only valid for media_type of ‘video’.</p>
+<p>Can be auto-detected for some input types, but may be required for others.
+For example, required for input_type of ‘webcam’.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="streamer.input_configuration.Input.language">
+<code class="descname">language</code><em class="property">: string</em><a class="headerlink" href="#streamer.input_configuration.Input.language" title="Permalink to this definition">¶</a></dt>
+<dd><p>The language of an audio or text stream.</p>
+<p>With input_type set to ‘file’ or ‘looped_file’, this will be auto-detected.
+Otherwise, it will default to ‘und’ (undetermined).</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -241,9 +251,9 @@ framerate.</p>
 <div class="section" id="pipeline-configs">
 <h2>Pipeline Configs<a class="headerlink" href="#pipeline-configs" title="Permalink to this headline">¶</a></h2>
 <p>The pipeline config describes the encoding pipeline.  The only required
-parameter is the streaming mode (live or VOD).  Everything else has default
-values, but you may want to customize the codecs, resolutions, availability
-window, and/or encryption settings.</p>
+parameters are the streaming mode (live or VOD) and the resolutions.
+Everything else has default values, but you may want to customize the codecs,
+resolutions, availability window, and/or encryption settings.</p>
 <dl class="class">
 <dt id="streamer.pipeline_configuration.PipelineConfig">
 <em class="property">class </em><code class="descclassname">streamer.pipeline_configuration.</code><code class="descname">PipelineConfig</code><span class="sig-paren">(</span><em>*args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/streamer/pipeline_configuration.html#PipelineConfig"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#streamer.pipeline_configuration.PipelineConfig" title="Permalink to this definition">¶</a></dt>
@@ -272,11 +282,20 @@ for debugging.</p>
 </dd></dl>
 
 <dl class="attribute">
+<dt id="streamer.pipeline_configuration.PipelineConfig.hwaccel_api">
+<code class="descname">hwaccel_api</code><em class="property">: string</em><a class="headerlink" href="#streamer.pipeline_configuration.PipelineConfig.hwaccel_api" title="Permalink to this definition">¶</a></dt>
+<dd><p>The FFmpeg hardware acceleration API to use with hardware codecs.</p>
+<p>A per-platform default will be chosen if this field is omitted.</p>
+<p>See documentation here: <a class="reference external" href="https://trac.ffmpeg.org/wiki/HWAccelIntro">https://trac.ffmpeg.org/wiki/HWAccelIntro</a></p>
+</dd></dl>
+
+<dl class="attribute">
 <dt id="streamer.pipeline_configuration.PipelineConfig.resolutions">
 <code class="descname">resolutions</code><em class="property">: list of Resolution (one of '144p', '240p', '360p', '480p', '576p', '720p', '720p-hfr', '1080p', '1080p-hfr', '2k', '2k-hfr', '4k', '4k-hfr')</em><a class="headerlink" href="#streamer.pipeline_configuration.PipelineConfig.resolutions" title="Permalink to this definition">¶</a></dt>
 <dd><p>A list of resolution names to encode.</p>
 <p>Any resolution greater than the input resolution will be ignored, to avoid
-upscaling the content.  By default, will encode in 480p and 720p.</p>
+upscaling the content.  This also allows you to reuse a pipeline config for
+multiple inputs.</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -383,54 +402,6 @@ used.</p>
 </dd></dl>
 
 <dl class="class">
-<dt id="streamer.pipeline_configuration.AudioCodec">
-<em class="property">class </em><code class="descclassname">streamer.pipeline_configuration.</code><code class="descname">AudioCodec</code><a class="reference internal" href="_modules/streamer/pipeline_configuration.html#AudioCodec"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#streamer.pipeline_configuration.AudioCodec" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
-<p>An enumeration.</p>
-<dl class="attribute">
-<dt id="streamer.pipeline_configuration.AudioCodec.AAC">
-<code class="descname">AAC</code><em class="property"> = 'aac'</em><a class="headerlink" href="#streamer.pipeline_configuration.AudioCodec.AAC" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="streamer.pipeline_configuration.AudioCodec.OPUS">
-<code class="descname">OPUS</code><em class="property"> = 'opus'</em><a class="headerlink" href="#streamer.pipeline_configuration.AudioCodec.OPUS" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="streamer.pipeline_configuration.VideoCodec">
-<em class="property">class </em><code class="descclassname">streamer.pipeline_configuration.</code><code class="descname">VideoCodec</code><a class="reference internal" href="_modules/streamer/pipeline_configuration.html#VideoCodec"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#streamer.pipeline_configuration.VideoCodec" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
-<p>An enumeration.</p>
-<dl class="attribute">
-<dt id="streamer.pipeline_configuration.VideoCodec.H264">
-<code class="descname">H264</code><em class="property"> = 'h264'</em><a class="headerlink" href="#streamer.pipeline_configuration.VideoCodec.H264" title="Permalink to this definition">¶</a></dt>
-<dd><p>H264, also known as AVC.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="streamer.pipeline_configuration.VideoCodec.HARDWARE_H264">
-<code class="descname">HARDWARE_H264</code><em class="property"> = 'hw:h264'</em><a class="headerlink" href="#streamer.pipeline_configuration.VideoCodec.HARDWARE_H264" title="Permalink to this definition">¶</a></dt>
-<dd><p>H264 with hardware encoding.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="streamer.pipeline_configuration.VideoCodec.VP9">
-<code class="descname">VP9</code><em class="property"> = 'vp9'</em><a class="headerlink" href="#streamer.pipeline_configuration.VideoCodec.VP9" title="Permalink to this definition">¶</a></dt>
-<dd><p>VP9.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="streamer.pipeline_configuration.VideoCodec.HARDWARE_VP9">
-<code class="descname">HARDWARE_VP9</code><em class="property"> = 'hw:vp9'</em><a class="headerlink" href="#streamer.pipeline_configuration.VideoCodec.HARDWARE_VP9" title="Permalink to this definition">¶</a></dt>
-<dd><p>VP9 with hardware encoding.</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="class">
 <dt id="streamer.pipeline_configuration.ManifestFormat">
 <em class="property">class </em><code class="descclassname">streamer.pipeline_configuration.</code><code class="descname">ManifestFormat</code><a class="reference internal" href="_modules/streamer/pipeline_configuration.html#ManifestFormat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#streamer.pipeline_configuration.ManifestFormat" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
@@ -529,6 +500,141 @@ server.</p>
 </dd></dl>
 
 </div>
+<div class="section" id="custom-bitrate-and-resolution-configs">
+<h2>Custom Bitrate and Resolution Configs<a class="headerlink" href="#custom-bitrate-and-resolution-configs" title="Permalink to this headline">¶</a></h2>
+<p>To customize bitrates or resolution, you may provide a third config file
+defining these.  If this config is given, it replaces the default definitions.</p>
+<dl class="class">
+<dt id="streamer.bitrate_configuration.BitrateConfig">
+<em class="property">class </em><code class="descclassname">streamer.bitrate_configuration.</code><code class="descname">BitrateConfig</code><span class="sig-paren">(</span><em>dictionary</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/streamer/bitrate_configuration.html#BitrateConfig"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#streamer.bitrate_configuration.BitrateConfig" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">streamer.configuration.Base</span></code></p>
+<dl class="attribute">
+<dt id="streamer.bitrate_configuration.BitrateConfig.audio_channel_layouts">
+<code class="descname">audio_channel_layouts</code><em class="property">: dictionary of string to AudioChannelLayout</em><a class="headerlink" href="#streamer.bitrate_configuration.BitrateConfig.audio_channel_layouts" title="Permalink to this definition">¶</a></dt>
+<dd><p>A map of named channel layouts.</p>
+<p>For example, the key would be a name like “stereo”, and the value would be an
+object with all the parameters of how stereo audio would be encoded (2
+channels max, bitrates, etc.).</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="streamer.bitrate_configuration.BitrateConfig.video_resolutions">
+<code class="descname">video_resolutions</code><em class="property">: dictionary of string to VideoResolution</em><a class="headerlink" href="#streamer.bitrate_configuration.BitrateConfig.video_resolutions" title="Permalink to this definition">¶</a></dt>
+<dd><p>A map of named resolutions.</p>
+<p>For example, the key would be a name like “1080p”, and the value would be an
+object with all the parameters of how 1080p video would be encoded (max size,
+bitrates, etc.)</p>
+</dd></dl>
+
+</dd></dl>
+
+<span class="target" id="module-streamer.bitrate_configuration"></span><dl class="class">
+<dt id="streamer.bitrate_configuration.AudioCodec">
+<em class="property">class </em><code class="descclassname">streamer.bitrate_configuration.</code><code class="descname">AudioCodec</code><a class="reference internal" href="_modules/streamer/bitrate_configuration.html#AudioCodec"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#streamer.bitrate_configuration.AudioCodec" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
+<p>An enumeration.</p>
+<dl class="attribute">
+<dt id="streamer.bitrate_configuration.AudioCodec.AAC">
+<code class="descname">AAC</code><em class="property"> = 'aac'</em><a class="headerlink" href="#streamer.bitrate_configuration.AudioCodec.AAC" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="streamer.bitrate_configuration.AudioCodec.OPUS">
+<code class="descname">OPUS</code><em class="property"> = 'opus'</em><a class="headerlink" href="#streamer.bitrate_configuration.AudioCodec.OPUS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="streamer.bitrate_configuration.VideoCodec">
+<em class="property">class </em><code class="descclassname">streamer.bitrate_configuration.</code><code class="descname">VideoCodec</code><a class="reference internal" href="_modules/streamer/bitrate_configuration.html#VideoCodec"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#streamer.bitrate_configuration.VideoCodec" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
+<p>An enumeration.</p>
+<dl class="attribute">
+<dt id="streamer.bitrate_configuration.VideoCodec.H264">
+<code class="descname">H264</code><em class="property"> = 'h264'</em><a class="headerlink" href="#streamer.bitrate_configuration.VideoCodec.H264" title="Permalink to this definition">¶</a></dt>
+<dd><p>H264, also known as AVC.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="streamer.bitrate_configuration.VideoCodec.HARDWARE_H264">
+<code class="descname">HARDWARE_H264</code><em class="property"> = 'hw:h264'</em><a class="headerlink" href="#streamer.bitrate_configuration.VideoCodec.HARDWARE_H264" title="Permalink to this definition">¶</a></dt>
+<dd><p>H264 with hardware encoding.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="streamer.bitrate_configuration.VideoCodec.VP9">
+<code class="descname">VP9</code><em class="property"> = 'vp9'</em><a class="headerlink" href="#streamer.bitrate_configuration.VideoCodec.VP9" title="Permalink to this definition">¶</a></dt>
+<dd><p>VP9.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="streamer.bitrate_configuration.VideoCodec.HARDWARE_VP9">
+<code class="descname">HARDWARE_VP9</code><em class="property"> = 'hw:vp9'</em><a class="headerlink" href="#streamer.bitrate_configuration.VideoCodec.HARDWARE_VP9" title="Permalink to this definition">¶</a></dt>
+<dd><p>VP9 with hardware encoding.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="streamer.bitrate_configuration.AudioChannelLayout">
+<em class="property">class </em><code class="descclassname">streamer.bitrate_configuration.</code><code class="descname">AudioChannelLayout</code><span class="sig-paren">(</span><em>dictionary</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/streamer/bitrate_configuration.html#AudioChannelLayout"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#streamer.bitrate_configuration.AudioChannelLayout" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">streamer.configuration.Base</span></code></p>
+<dl class="attribute">
+<dt id="streamer.bitrate_configuration.AudioChannelLayout.max_channels">
+<code class="descname">max_channels</code><em class="property">: int</em><a class="headerlink" href="#streamer.bitrate_configuration.AudioChannelLayout.max_channels" title="Permalink to this definition">¶</a></dt>
+<dd><p>The maximum number of channels in this layout.</p>
+<p>For example, the maximum number of channels for stereo is 2.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="streamer.bitrate_configuration.AudioChannelLayout.bitrates">
+<code class="descname">bitrates</code><em class="property">: dictionary of AudioCodec (one of 'aac', 'opus') to bitrate string</em><a class="headerlink" href="#streamer.bitrate_configuration.AudioChannelLayout.bitrates" title="Permalink to this definition">¶</a></dt>
+<dd><p>A map of audio codecs to the target bitrate for this channel layout.</p>
+<p>For example, in stereo, AAC can have a different bitrate from Opus.</p>
+<p>This value is a string in bits per second, with the suffix ‘k’ or ‘M’ for
+kilobits per second or megabits per second.</p>
+<p>For example, this could be ‘500k’ or ‘7.5M’.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="streamer.bitrate_configuration.VideoResolution">
+<em class="property">class </em><code class="descclassname">streamer.bitrate_configuration.</code><code class="descname">VideoResolution</code><span class="sig-paren">(</span><em>dictionary</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/streamer/bitrate_configuration.html#VideoResolution"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#streamer.bitrate_configuration.VideoResolution" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">streamer.configuration.Base</span></code></p>
+<dl class="attribute">
+<dt id="streamer.bitrate_configuration.VideoResolution.max_width">
+<code class="descname">max_width</code><em class="property">: int</em><a class="headerlink" href="#streamer.bitrate_configuration.VideoResolution.max_width" title="Permalink to this definition">¶</a></dt>
+<dd><p>The maximum width in pixels for this named resolution.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="streamer.bitrate_configuration.VideoResolution.max_height">
+<code class="descname">max_height</code><em class="property">: int</em><a class="headerlink" href="#streamer.bitrate_configuration.VideoResolution.max_height" title="Permalink to this definition">¶</a></dt>
+<dd><p>The maximum height in pixels for this named resolution.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="streamer.bitrate_configuration.VideoResolution.max_frame_rate">
+<code class="descname">max_frame_rate</code><em class="property">: float</em><a class="headerlink" href="#streamer.bitrate_configuration.VideoResolution.max_frame_rate" title="Permalink to this definition">¶</a></dt>
+<dd><p>The maximum frame rate in frames per second for this named resolution.</p>
+<p>By default, the max frame rate is unlimited.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="streamer.bitrate_configuration.VideoResolution.bitrates">
+<code class="descname">bitrates</code><em class="property">: dictionary of VideoCodec (one of 'h264', 'hw:h264', 'vp9', 'hw:vp9') to bitrate string</em><a class="headerlink" href="#streamer.bitrate_configuration.VideoResolution.bitrates" title="Permalink to this definition">¶</a></dt>
+<dd><p>A map of video codecs to the target bitrate for this resolution.</p>
+<p>For example, in 1080p, H264 can have a different bitrate from VP9.</p>
+<p>This value is a string in bits per second, with the suffix ‘k’ or ‘M’ for
+kilobits per second or megabits per second.</p>
+<p>For example, this could be ‘500k’ or ‘7.5M’.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
 </div>
 
 
@@ -555,6 +661,7 @@ server.</p>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Configuration Field Reference</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#input-configs">Input Configs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#pipeline-configs">Pipeline Configs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#custom-bitrate-and-resolution-configs">Custom Bitrate and Resolution Configs</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="module_api.html">Module API</a></li>

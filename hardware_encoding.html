@@ -33,22 +33,42 @@
             
   <div class="section" id="hardware-encoding">
 <h1>Hardware Encoding<a class="headerlink" href="#hardware-encoding" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="setup-on-linux">
-<h2>Setup on Linux<a class="headerlink" href="#setup-on-linux" title="Permalink to this headline">¶</a></h2>
-<p>Hardware encoding on Linux can be enabled through FFmpeg’s vaapi support.</p>
-<p>To get started, install the appropriate vaapi package for your device.  For
-example, on Ubuntu, you can install all available vaapi drivers with:</p>
-<div class="code sh highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">apt</span> <span class="n">install</span> <span class="n">va</span><span class="o">-</span><span class="n">driver</span><span class="o">-</span><span class="nb">all</span>
+<div class="section" id="setup-on-linux-intel">
+<h2>Setup on Linux (Intel)<a class="headerlink" href="#setup-on-linux-intel" title="Permalink to this headline">¶</a></h2>
+<p>By default, hardware encoding on Linux uses FFmpeg’s VAAPI support, which
+supports Intel devices.</p>
+<p>To use VAAPI, you must also install the appropriate VAAPI driver for your
+device.  For example, on Ubuntu, you can install all available VAAPI drivers
+with:</p>
+<div class="code sh highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">apt</span> <span class="o">-</span><span class="n">y</span> <span class="n">install</span> <span class="n">va</span><span class="o">-</span><span class="n">driver</span><span class="o">-</span><span class="nb">all</span>
 </pre></div>
 </div>
-<p>If hardware encoding still does not work, you may need to recompile FFmpeg from
-source. See instructions in <a class="reference internal" href="prerequisites.html"><span class="doc">Installing Prerequisites</span></a> for details.</p>
+<p>VAAPI support is enabled by default in Debian &amp; Ubuntu packages for FFmpeg.</p>
 </div>
-<div class="section" id="setup-on-mac-and-windows">
-<h2>Setup on Mac and Windows<a class="headerlink" href="#setup-on-mac-and-windows" title="Permalink to this headline">¶</a></h2>
-<p>Hardware encoding for Mac and Windows is not yet supported, but we are
-accepting PRs if you’d like to contribute additional platform support.  This
-doc may be a useful reference for hardware-related options in FFmpeg:
+<div class="section" id="setup-on-linux-nvidia">
+<h2>Setup on Linux (Nvidia)<a class="headerlink" href="#setup-on-linux-nvidia" title="Permalink to this headline">¶</a></h2>
+<p>You may also use FFmpeg’s NVENC support on Linux, which supports Nvidia devices.</p>
+<p>For this, set <code class="docutils literal notranslate"><span class="pre">hwaccel_api</span></code> in the pipeline config to <code class="docutils literal notranslate"><span class="pre">'nvenc'</span></code>.</p>
+<p>The underlying driver and special FFmpeg headers can be installed with:</p>
+<div class="code sh highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">apt</span> <span class="o">-</span><span class="n">y</span> <span class="n">install</span> <span class="n">libnvidia</span><span class="o">-</span><span class="n">encode1</span>
+<span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">git</span><span class="o">.</span><span class="n">videolan</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">git</span><span class="o">/</span><span class="n">ffmpeg</span><span class="o">/</span><span class="n">nv</span><span class="o">-</span><span class="n">codec</span><span class="o">-</span><span class="n">headers</span><span class="o">.</span><span class="n">git</span>
+<span class="p">(</span><span class="n">cd</span> <span class="n">nv</span><span class="o">-</span><span class="n">codec</span><span class="o">-</span><span class="n">headers</span> <span class="o">&amp;&amp;</span> <span class="n">make</span> <span class="o">&amp;</span> <span class="n">sudo</span> <span class="n">make</span> <span class="n">install</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>NVENC support is <strong>not</strong> enabled by default in Debian &amp; Ubuntu packages for
+FFmpeg.  To use it, you may need to build FFmpeg from source and pass
+<code class="docutils literal notranslate"><span class="pre">--enable-nvenc</span></code> to configure.  See instructions in <a class="reference internal" href="prerequisites.html"><span class="doc">Installing Prerequisites</span></a> for
+details on building FFmpeg from source.</p>
+</div>
+<div class="section" id="setup-on-macos">
+<h2>Setup on macOS<a class="headerlink" href="#setup-on-macos" title="Permalink to this headline">¶</a></h2>
+<p>Hardware encoding on macOS uses Apple’s VideoToolbox API.  No setup is required.</p>
+</div>
+<div class="section" id="setup-on-windows">
+<h2>Setup on Windows<a class="headerlink" href="#setup-on-windows" title="Permalink to this headline">¶</a></h2>
+<p>Hardware encoding for Windows is not yet supported, but we are accepting PRs if
+you’d like to contribute additional platform support.  This doc may be a useful
+reference for hardware-related options in FFmpeg:
 <a class="reference external" href="https://trac.ffmpeg.org/wiki/HWAccelIntro">https://trac.ffmpeg.org/wiki/HWAccelIntro</a></p>
 </div>
 <div class="section" id="configuration">
@@ -65,6 +85,8 @@ with <code class="docutils literal notranslate"><span class="pre">hw:</span></co
   <span class="o">-</span> <span class="n">hw</span><span class="p">:</span><span class="n">vp9</span>
 </pre></div>
 </div>
+<p>Note that not all codecs are supported by all devices or APIs.  For a list of
+supported hardware codecs, see: <a class="reference external" href="https://trac.ffmpeg.org/wiki/HWAccelIntro">https://trac.ffmpeg.org/wiki/HWAccelIntro</a></p>
 </div>
 </div>
 
@@ -89,8 +111,10 @@ with <code class="docutils literal notranslate"><span class="pre">hw:</span></co
 <li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="prerequisites.html">Installing Prerequisites</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Hardware Encoding</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#setup-on-linux">Setup on Linux</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#setup-on-mac-and-windows">Setup on Mac and Windows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#setup-on-linux-intel">Setup on Linux (Intel)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#setup-on-linux-nvidia">Setup on Linux (Nvidia)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#setup-on-macos">Setup on macOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#setup-on-windows">Setup on Windows</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#configuration">Configuration</a></li>
 </ul>
 </li>

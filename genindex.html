@@ -35,6 +35,7 @@
 
 <div class="genindex-jumpbox">
  <a href="#A"><strong>A</strong></a>
+ | <a href="#B"><strong>B</strong></a>
  | <a href="#C"><strong>C</strong></a>
  | <a href="#D"><strong>D</strong></a>
  | <a href="#E"><strong>E</strong></a>
@@ -59,20 +60,40 @@
 <h2 id="A">A</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="configuration_fields.html#streamer.pipeline_configuration.AudioCodec.AAC">AAC (streamer.pipeline_configuration.AudioCodec attribute)</a>
+      <li><a href="configuration_fields.html#streamer.bitrate_configuration.AudioCodec.AAC">AAC (streamer.bitrate_configuration.AudioCodec attribute)</a>
 </li>
       <li><a href="module_api.html#streamer.controller_node.VersionError.args">args (streamer.controller_node.VersionError attribute)</a>
 </li>
       <li><a href="configuration_fields.html#streamer.input_configuration.MediaType.AUDIO">AUDIO (streamer.input_configuration.MediaType attribute)</a>
 </li>
+      <li><a href="configuration_fields.html#streamer.bitrate_configuration.BitrateConfig.audio_channel_layouts">audio_channel_layouts (streamer.bitrate_configuration.BitrateConfig attribute)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="configuration_fields.html#streamer.pipeline_configuration.PipelineConfig.audio_codecs">audio_codecs (streamer.pipeline_configuration.PipelineConfig attribute)</a>
 </li>
-      <li><a href="configuration_fields.html#streamer.pipeline_configuration.AudioCodec">AudioCodec (class in streamer.pipeline_configuration)</a>
+      <li><a href="configuration_fields.html#streamer.bitrate_configuration.AudioChannelLayout">AudioChannelLayout (class in streamer.bitrate_configuration)</a>
+</li>
+      <li><a href="configuration_fields.html#streamer.bitrate_configuration.AudioCodec">AudioCodec (class in streamer.bitrate_configuration)</a>
 </li>
       <li><a href="configuration_fields.html#streamer.pipeline_configuration.PipelineConfig.availability_window">availability_window (streamer.pipeline_configuration.PipelineConfig attribute)</a>
 </li>
+  </ul></td>
+</tr></table>
+
+<h2 id="B">B</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="configuration_fields.html#streamer.bitrate_configuration.BitrateConfig">BitrateConfig (class in streamer.bitrate_configuration)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="configuration_fields.html#streamer.bitrate_configuration.AudioChannelLayout.bitrates">bitrates (streamer.bitrate_configuration.AudioChannelLayout attribute)</a>
+
+      <ul>
+        <li><a href="configuration_fields.html#streamer.bitrate_configuration.VideoResolution.bitrates">(streamer.bitrate_configuration.VideoResolution attribute)</a>
+</li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
@@ -163,11 +184,11 @@
 <h2 id="H">H</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="configuration_fields.html#streamer.pipeline_configuration.VideoCodec.H264">H264 (streamer.pipeline_configuration.VideoCodec attribute)</a>
+      <li><a href="configuration_fields.html#streamer.bitrate_configuration.VideoCodec.H264">H264 (streamer.bitrate_configuration.VideoCodec attribute)</a>
 </li>
-      <li><a href="configuration_fields.html#streamer.pipeline_configuration.VideoCodec.HARDWARE_H264">HARDWARE_H264 (streamer.pipeline_configuration.VideoCodec attribute)</a>
+      <li><a href="configuration_fields.html#streamer.bitrate_configuration.VideoCodec.HARDWARE_H264">HARDWARE_H264 (streamer.bitrate_configuration.VideoCodec attribute)</a>
 </li>
-      <li><a href="configuration_fields.html#streamer.pipeline_configuration.VideoCodec.HARDWARE_VP9">HARDWARE_VP9 (streamer.pipeline_configuration.VideoCodec attribute)</a>
+      <li><a href="configuration_fields.html#streamer.bitrate_configuration.VideoCodec.HARDWARE_VP9">HARDWARE_VP9 (streamer.bitrate_configuration.VideoCodec attribute)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
@@ -176,6 +197,8 @@
       <li><a href="configuration_fields.html#streamer.pipeline_configuration.ManifestFormat.HLS">HLS (streamer.pipeline_configuration.ManifestFormat attribute)</a>
 </li>
       <li><a href="configuration_fields.html#streamer.pipeline_configuration.PipelineConfig.hls_output">hls_output (streamer.pipeline_configuration.PipelineConfig attribute)</a>
+</li>
+      <li><a href="configuration_fields.html#streamer.pipeline_configuration.PipelineConfig.hwaccel_api">hwaccel_api (streamer.pipeline_configuration.PipelineConfig attribute)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -233,8 +256,16 @@
 </li>
       <li><a href="configuration_fields.html#streamer.pipeline_configuration.ManifestFormat">ManifestFormat (class in streamer.pipeline_configuration)</a>
 </li>
+      <li><a href="configuration_fields.html#streamer.bitrate_configuration.AudioChannelLayout.max_channels">max_channels (streamer.bitrate_configuration.AudioChannelLayout attribute)</a>
+</li>
+      <li><a href="configuration_fields.html#streamer.bitrate_configuration.VideoResolution.max_frame_rate">max_frame_rate (streamer.bitrate_configuration.VideoResolution attribute)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="configuration_fields.html#streamer.bitrate_configuration.VideoResolution.max_height">max_height (streamer.bitrate_configuration.VideoResolution attribute)</a>
+</li>
+      <li><a href="configuration_fields.html#streamer.bitrate_configuration.VideoResolution.max_width">max_width (streamer.bitrate_configuration.VideoResolution attribute)</a>
+</li>
       <li><a href="configuration_fields.html#streamer.input_configuration.Input.media_type">media_type (streamer.input_configuration.Input attribute)</a>
 </li>
       <li><a href="configuration_fields.html#streamer.input_configuration.MediaType">MediaType (class in streamer.input_configuration)</a>
@@ -259,7 +290,7 @@
 <h2 id="O">O</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="configuration_fields.html#streamer.pipeline_configuration.AudioCodec.OPUS">OPUS (streamer.pipeline_configuration.AudioCodec attribute)</a>
+      <li><a href="configuration_fields.html#streamer.bitrate_configuration.AudioCodec.OPUS">OPUS (streamer.bitrate_configuration.AudioCodec attribute)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -323,11 +354,13 @@
 </li>
       <li><a href="module_api.html#streamer.controller_node.ControllerNode.start">start() (streamer.controller_node.ControllerNode method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="configuration_fields.html#streamer.input_configuration.Input.start_time">start_time (streamer.input_configuration.Input attribute)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="module_api.html#streamer.controller_node.ControllerNode.stop">stop() (streamer.controller_node.ControllerNode method)</a>
+</li>
+      <li><a href="configuration_fields.html#module-streamer.bitrate_configuration">streamer.bitrate_configuration (module)</a>
 </li>
       <li><a href="module_api.html#module-streamer.configuration">streamer.configuration (module)</a>
 </li>
@@ -371,21 +404,23 @@
 <h2 id="V">V</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="module_api.html#streamer.configuration.ValidatingType">ValidatingType (class in streamer.configuration)</a>
-</li>
       <li><a href="module_api.html#streamer.controller_node.VersionError">VersionError</a>
 </li>
       <li><a href="configuration_fields.html#streamer.input_configuration.MediaType.VIDEO">VIDEO (streamer.input_configuration.MediaType attribute)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="configuration_fields.html#streamer.pipeline_configuration.PipelineConfig.video_codecs">video_codecs (streamer.pipeline_configuration.PipelineConfig attribute)</a>
 </li>
-      <li><a href="configuration_fields.html#streamer.pipeline_configuration.VideoCodec">VideoCodec (class in streamer.pipeline_configuration)</a>
+      <li><a href="configuration_fields.html#streamer.bitrate_configuration.BitrateConfig.video_resolutions">video_resolutions (streamer.bitrate_configuration.BitrateConfig attribute)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="configuration_fields.html#streamer.bitrate_configuration.VideoCodec">VideoCodec (class in streamer.bitrate_configuration)</a>
+</li>
+      <li><a href="configuration_fields.html#streamer.bitrate_configuration.VideoResolution">VideoResolution (class in streamer.bitrate_configuration)</a>
 </li>
       <li><a href="configuration_fields.html#streamer.pipeline_configuration.StreamingMode.VOD">VOD (streamer.pipeline_configuration.StreamingMode attribute)</a>
 </li>
-      <li><a href="configuration_fields.html#streamer.pipeline_configuration.VideoCodec.VP9">VP9 (streamer.pipeline_configuration.VideoCodec attribute)</a>
+      <li><a href="configuration_fields.html#streamer.bitrate_configuration.VideoCodec.VP9">VP9 (streamer.bitrate_configuration.VideoCodec attribute)</a>
 </li>
   </ul></td>
 </tr></table>

@@ -47,8 +47,8 @@
 <span class="kn">import</span> <span class="nn">enum</span>
 <span class="kn">import</span> <span class="nn">shlex</span>
 
+<span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">bitrate_configuration</span>
 <span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">configuration</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">metadata</span>
 
 
 <div class="viewcode-block" id="InputType"><a class="viewcode-back" href="../../configuration_fields.html#streamer.input_configuration.InputType">[docs]</a><span class="k">class</span> <span class="nc">InputType</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">):</span>
@@ -90,10 +90,6 @@
   <span class="n">TEXT</span> <span class="o">=</span> <span class="s1">&#39;text&#39;</span></div>
 
 
-<span class="c1"># A runtime-created enum for valid resolutions, based on the |metadata| module.</span>
-<span class="n">Resolution</span> <span class="o">=</span> <span class="n">configuration</span><span class="o">.</span><span class="n">enum_from_keys</span><span class="p">(</span><span class="s1">&#39;Resolution&#39;</span><span class="p">,</span> <span class="n">metadata</span><span class="o">.</span><span class="n">RESOLUTION_MAP</span><span class="p">)</span>
-
-
 <div class="viewcode-block" id="Input"><a class="viewcode-back" href="../../configuration_fields.html#streamer.input_configuration.Input">[docs]</a><span class="k">class</span> <span class="nc">Input</span><span class="p">(</span><span class="n">configuration</span><span class="o">.</span><span class="n">Base</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;An object representing a single input stream to Shaka Streamer.&quot;&quot;&quot;</span>
 
@@ -133,33 +129,44 @@
   <span class="n">media_type</span> <span class="o">=</span> <span class="n">configuration</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">MediaType</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
   <span class="sd">&quot;&quot;&quot;The media type of the input stream.&quot;&quot;&quot;</span>
 
-  <span class="c1"># TODO: detect frame rate if not given, require only for raw_images</span>
   <span class="n">frame_rate</span> <span class="o">=</span> <span class="n">configuration</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
   <span class="sd">&quot;&quot;&quot;The frame rate of the input stream, in frames per second.</span>
 
-<span class="sd">  Required for media_type of &#39;video&#39;.</span>
+<span class="sd">  Only valid for media_type of &#39;video&#39;.</span>
+
+<span class="sd">  Can be auto-detected for some input types, but may be required for others.</span>
+<span class="sd">  For example, required for input_type of &#39;webcam&#39;.</span>
 <span class="sd">  &quot;&quot;&quot;</span>
 
-  <span class="c1"># TODO: detect resolution if not given</span>
-  <span class="c1"># TODO: support custom resolutions</span>
-  <span class="n">resolution</span> <span class="o">=</span> <span class="n">configuration</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">Resolution</span><span class="p">)</span>
+  <span class="n">resolution</span> <span class="o">=</span> <span class="n">configuration</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">bitrate_configuration</span><span class="o">.</span><span class="n">Resolution</span><span class="p">)</span>
   <span class="sd">&quot;&quot;&quot;The name of the input resolution (1080p, etc).</span>
 
-<span class="sd">  Required for media_type of &#39;video&#39;.</span>
+<span class="sd">  Only valid for media_type of &#39;video&#39;.</span>
+
+<span class="sd">  Can be auto-detected for some input types, but may be required for others.</span>
+<span class="sd">  For example, required for input_type of &#39;webcam&#39;.</span>
 <span class="sd">  &quot;&quot;&quot;</span>
 
-  <span class="c1"># TODO: detect track number based on media_type</span>
   <span class="n">track_num</span> <span class="o">=</span> <span class="n">configuration</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-  <span class="sd">&quot;&quot;&quot;The track number of the input.  Defaults to 0.</span>
+  <span class="sd">&quot;&quot;&quot;The track number of the input.</span>
 
-<span class="sd">  For multiplexed input files, video is usually track 0, and the first audio</span>
-<span class="sd">  track is usually track 1.  This may vary, though.</span>
+<span class="sd">  The track number is specific to the media_type.  For example, if there is one</span>
+<span class="sd">  video track and two audio tracks, media_type of &#39;audio&#39; and track_num of &#39;0&#39;</span>
+<span class="sd">  indicates the first audio track, not the first track overall in that file.</span>
+
+<span class="sd">  If unspecified, track_num will default to 0, meaning the first track matching</span>
+<span class="sd">  the media_type field will be used.</span>
 <span class="sd">  &quot;&quot;&quot;</span>
 
-  <span class="n">is_interlaced</span> <span class="o">=</span> <span class="n">configuration</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="nb">bool</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+  <span class="n">is_interlaced</span> <span class="o">=</span> <span class="n">configuration</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span>
   <span class="sd">&quot;&quot;&quot;True if the input video is interlaced.</span>
 
+<span class="sd">  Only valid for media_type of &#39;video&#39;.</span>
+
 <span class="sd">  If true, the video will be deinterlaced during transcoding.</span>
+
+<span class="sd">  Can be auto-detected for some input types, but may be default to False for</span>
+<span class="sd">  others.  For example, an input_type of &#39;webcam&#39; will default to False.</span>
 <span class="sd">  &quot;&quot;&quot;</span>
 
   <span class="n">language</span> <span class="o">=</span> <span class="n">configuration</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
@@ -191,15 +198,33 @@
   <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
     <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
 
+    <span class="c1"># FIXME: A late import to avoid circular dependency issues between these two</span>
+    <span class="c1"># modules.</span>
+    <span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">autodetect</span>
+
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">media_type</span> <span class="o">==</span> <span class="n">MediaType</span><span class="o">.</span><span class="n">VIDEO</span><span class="p">:</span>
       <span class="c1"># These fields are required for video inputs.</span>
+      <span class="c1"># We will attempt to auto-detect them if possible.</span>
+      <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_interlaced</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">is_interlaced</span> <span class="o">=</span> <span class="n">autodetect</span><span class="o">.</span><span class="n">get_interlaced</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+      <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">frame_rate</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">frame_rate</span> <span class="o">=</span> <span class="n">autodetect</span><span class="o">.</span><span class="n">get_frame_rate</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
       <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">frame_rate</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">configuration</span><span class="o">.</span><span class="n">MissingRequiredField</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="s1">&#39;frame_rate&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">frame_rate</span><span class="p">)</span>
 
       <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">resolution</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">resolution</span> <span class="o">=</span> <span class="n">autodetect</span><span class="o">.</span><span class="n">get_resolution</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+      <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">resolution</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">configuration</span><span class="o">.</span><span class="n">MissingRequiredField</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="s1">&#39;resolution&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">resolution</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">media_type</span> <span class="o">==</span> <span class="n">MediaType</span><span class="o">.</span><span class="n">AUDIO</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">media_type</span> <span class="o">==</span> <span class="n">MediaType</span><span class="o">.</span><span class="n">TEXT</span><span class="p">:</span>
+      <span class="c1"># Language is required for audio and text inputs.</span>
+      <span class="c1"># We will attempt to auto-detect this.</span>
+      <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">language</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">language</span> <span class="o">=</span> <span class="n">autodetect</span><span class="o">.</span><span class="n">get_language</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="ow">or</span> <span class="s1">&#39;und&#39;</span>
 
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_type</span> <span class="o">!=</span> <span class="n">InputType</span><span class="o">.</span><span class="n">FILE</span><span class="p">:</span>
       <span class="c1"># These fields are only valid for file inputs.</span>
@@ -228,6 +253,7 @@
 
 <span class="sd">    If set, this is what TranscoderNode will read from instead of .name.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="bp">self</span><span class="o">.</span><span class="n">_pipe</span> <span class="o">=</span> <span class="n">pipe</span>
 
   <span class="k">def</span> <span class="nf">get_path_for_transcode</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -235,7 +261,28 @@
 
 <span class="sd">    For some input types, this is a named pipe.  For others, this is .name.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pipe</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span></div>
+
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pipe</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+
+  <span class="k">def</span> <span class="nf">get_stream_specifier</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Get an FFmpeg stream specifier for this input.</span>
+
+<span class="sd">    For example, the first video track would be &quot;v:0&quot;, and the 3rd text track</span>
+<span class="sd">    would be &quot;s:2&quot;.  Note that all track numbers are per media type in this</span>
+<span class="sd">    format, not overall track numbers from the input file, and that they are</span>
+<span class="sd">    indexed starting at 0.</span>
+
+<span class="sd">    See also http://ffmpeg.org/ffmpeg.html#Stream-specifiers</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">media_type</span> <span class="o">==</span> <span class="n">MediaType</span><span class="o">.</span><span class="n">VIDEO</span><span class="p">:</span>
+      <span class="k">return</span> <span class="s1">&#39;v:</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">track_num</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">media_type</span> <span class="o">==</span> <span class="n">MediaType</span><span class="o">.</span><span class="n">AUDIO</span><span class="p">:</span>
+      <span class="k">return</span> <span class="s1">&#39;a:</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">track_num</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">media_type</span> <span class="o">==</span> <span class="n">MediaType</span><span class="o">.</span><span class="n">TEXT</span><span class="p">:</span>
+      <span class="k">return</span> <span class="s1">&#39;s:</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">track_num</span><span class="p">)</span>
+
+    <span class="k">assert</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;Unrecognized media_type!  This should not happen.&#39;</span></div>
 
 
 <div class="viewcode-block" id="InputConfig"><a class="viewcode-back" href="../../configuration_fields.html#streamer.input_configuration.InputConfig">[docs]</a><span class="k">class</span> <span class="nc">InputConfig</span><span class="p">(</span><span class="n">configuration</span><span class="o">.</span><span class="n">Base</span><span class="p">):</span>

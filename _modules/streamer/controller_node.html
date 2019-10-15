@@ -61,18 +61,27 @@
 <span class="kn">import</span> <span class="nn">tempfile</span>
 <span class="kn">import</span> <span class="nn">uuid</span>
 
+<span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">bitrate_configuration</span>
 <span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">cloud_node</span>
 <span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">external_command_node</span>
 <span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">input_configuration</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">metadata</span>
 <span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">node_base</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">output_stream</span>
 <span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">packager_node</span>
 <span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">pipeline_configuration</span>
 <span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">transcoder_node</span>
 
 <span class="c1"># Alias a few classes to avoid repeating namespaces later.</span>
+<span class="n">BitrateConfig</span> <span class="o">=</span> <span class="n">bitrate_configuration</span><span class="o">.</span><span class="n">BitrateConfig</span>
+
 <span class="n">InputConfig</span> <span class="o">=</span> <span class="n">input_configuration</span><span class="o">.</span><span class="n">InputConfig</span>
 <span class="n">InputType</span> <span class="o">=</span> <span class="n">input_configuration</span><span class="o">.</span><span class="n">InputType</span>
+<span class="n">MediaType</span> <span class="o">=</span> <span class="n">input_configuration</span><span class="o">.</span><span class="n">MediaType</span>
+
+<span class="n">AudioOutputStream</span> <span class="o">=</span> <span class="n">output_stream</span><span class="o">.</span><span class="n">AudioOutputStream</span>
+<span class="n">TextOutputStream</span> <span class="o">=</span> <span class="n">output_stream</span><span class="o">.</span><span class="n">TextOutputStream</span>
+<span class="n">VideoOutputStream</span> <span class="o">=</span> <span class="n">output_stream</span><span class="o">.</span><span class="n">VideoOutputStream</span>
+
 <span class="n">PipelineConfig</span> <span class="o">=</span> <span class="n">pipeline_configuration</span><span class="o">.</span><span class="n">PipelineConfig</span>
 <span class="n">StreamingMode</span> <span class="o">=</span> <span class="n">pipeline_configuration</span><span class="o">.</span><span class="n">StreamingMode</span>
 
@@ -126,7 +135,9 @@
 
     <span class="k">return</span> <span class="n">path</span>
 
-<div class="viewcode-block" id="ControllerNode.start"><a class="viewcode-back" href="../../module_api.html#streamer.controller_node.ControllerNode.start">[docs]</a>  <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output_dir</span><span class="p">,</span> <span class="n">input_config_dict</span><span class="p">,</span> <span class="n">pipeline_config_dict</span><span class="p">,</span>
+<div class="viewcode-block" id="ControllerNode.start"><a class="viewcode-back" href="../../module_api.html#streamer.controller_node.ControllerNode.start">[docs]</a>  <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output_dir</span><span class="p">,</span>
+            <span class="n">input_config_dict</span><span class="p">,</span> <span class="n">pipeline_config_dict</span><span class="p">,</span>
+            <span class="n">bitrate_config_dict</span><span class="o">=</span><span class="p">{},</span>
             <span class="n">bucket_url</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Create and start all other nodes.</span>
 
@@ -144,71 +155,71 @@
     <span class="c1"># Check that Shaka Packager version is 2.1 or above.</span>
     <span class="n">_check_version</span><span class="p">(</span><span class="s1">&#39;Packager&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;packager&#39;</span><span class="p">,</span> <span class="s1">&#39;-version&#39;</span><span class="p">],</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
 
+    <span class="c1"># Define resolutions and bitrates before parsing other configs.</span>
+    <span class="n">bitrate_config</span> <span class="o">=</span> <span class="n">BitrateConfig</span><span class="p">(</span><span class="n">bitrate_config_dict</span><span class="p">)</span>
+
+    <span class="c1"># Now that the definitions have been parsed, register the maps of valid</span>
+    <span class="c1"># resolutions and channel layouts so that InputConfig and PipelineConfig</span>
+    <span class="c1"># can be validated accordingly.</span>
+    <span class="n">bitrate_configuration</span><span class="o">.</span><span class="n">Resolution</span><span class="o">.</span><span class="n">set_map</span><span class="p">(</span><span class="n">bitrate_config</span><span class="o">.</span><span class="n">video_resolutions</span><span class="p">)</span>
+    <span class="n">bitrate_configuration</span><span class="o">.</span><span class="n">ChannelLayout</span><span class="o">.</span><span class="n">set_map</span><span class="p">(</span>
+        <span class="n">bitrate_config</span><span class="o">.</span><span class="n">audio_channel_layouts</span><span class="p">)</span>
+
     <span class="n">input_config</span> <span class="o">=</span> <span class="n">InputConfig</span><span class="p">(</span><span class="n">input_config_dict</span><span class="p">)</span>
     <span class="n">pipeline_config</span> <span class="o">=</span> <span class="n">PipelineConfig</span><span class="p">(</span><span class="n">pipeline_config_dict</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_pipeline_config</span> <span class="o">=</span> <span class="n">pipeline_config</span>
 
-    <span class="c1"># External command inputs need to be processed by an additional node before</span>
-    <span class="c1"># being transcoded.  In this case, the input doesn&#39;t have a filename that</span>
-    <span class="c1"># FFmpeg can read, so we generate an intermediate pipe for that node to</span>
-    <span class="c1"># write to.  TranscoderNode will then instruct FFmpeg to read from that</span>
-    <span class="c1"># pipe for this input.</span>
+    <span class="n">outputs</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="nb">input</span> <span class="ow">in</span> <span class="n">input_config</span><span class="o">.</span><span class="n">inputs</span><span class="p">:</span>
+      <span class="c1"># External command inputs need to be processed by an additional node</span>
+      <span class="c1"># before being transcoded.  In this case, the input doesn&#39;t have a</span>
+      <span class="c1"># filename that FFmpeg can read, so we generate an intermediate pipe for</span>
+      <span class="c1"># that node to write to.  TranscoderNode will then instruct FFmpeg to</span>
+      <span class="c1"># read from that pipe for this input.</span>
       <span class="k">if</span> <span class="nb">input</span><span class="o">.</span><span class="n">input_type</span> <span class="o">==</span> <span class="n">InputType</span><span class="o">.</span><span class="n">EXTERNAL_COMMAND</span><span class="p">:</span>
         <span class="n">command_output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_pipe</span><span class="p">()</span>
-        <span class="n">command_node</span> <span class="o">=</span> <span class="n">external_command_node</span><span class="o">.</span><span class="n">ExternalCommandNode</span><span class="p">(</span>
-            <span class="nb">input</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">command_output</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">command_node</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">external_command_node</span><span class="o">.</span><span class="n">ExternalCommandNode</span><span class="p">(</span>
+            <span class="nb">input</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">command_output</span><span class="p">))</span>
         <span class="nb">input</span><span class="o">.</span><span class="n">set_pipe</span><span class="p">(</span><span class="n">command_output</span><span class="p">)</span>
 
-    <span class="c1"># TODO: This is unnecessary.  Just process each input in turn.</span>
-    <span class="n">media_outputs</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s1">&#39;audio&#39;</span><span class="p">:</span> <span class="p">[],</span>
-        <span class="s1">&#39;video&#39;</span><span class="p">:</span> <span class="p">[],</span>
-        <span class="s1">&#39;text&#39;</span><span class="p">:</span> <span class="p">[],</span>
-    <span class="p">}</span>
+      <span class="k">if</span> <span class="nb">input</span><span class="o">.</span><span class="n">media_type</span> <span class="o">==</span> <span class="n">MediaType</span><span class="o">.</span><span class="n">AUDIO</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">codec</span> <span class="ow">in</span> <span class="n">pipeline_config</span><span class="o">.</span><span class="n">audio_codecs</span><span class="p">:</span>
+          <span class="n">outputs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">AudioOutputStream</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_create_pipe</span><span class="p">(),</span>
+                                           <span class="nb">input</span><span class="p">,</span>
+                                           <span class="n">codec</span><span class="p">,</span>
+                                           <span class="n">pipeline_config</span><span class="o">.</span><span class="n">channels</span><span class="p">))</span>
 
-    <span class="c1"># Sorting the media by type.  So all the audio streams are in one list,</span>
-    <span class="c1"># all the video stream are in one list, etc.</span>
-    <span class="k">for</span> <span class="n">media</span> <span class="ow">in</span> <span class="n">input_config</span><span class="o">.</span><span class="n">inputs</span><span class="p">:</span>
-      <span class="n">media_type</span> <span class="o">=</span> <span class="n">media</span><span class="o">.</span><span class="n">media_type</span><span class="o">.</span><span class="n">value</span>
-      <span class="n">media_outputs</span><span class="p">[</span><span class="n">media_type</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">media</span><span class="p">)</span>
+      <span class="k">elif</span> <span class="nb">input</span><span class="o">.</span><span class="n">media_type</span> <span class="o">==</span> <span class="n">MediaType</span><span class="o">.</span><span class="n">VIDEO</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">codec</span> <span class="ow">in</span> <span class="n">pipeline_config</span><span class="o">.</span><span class="n">video_codecs</span><span class="p">:</span>
+          <span class="k">for</span> <span class="n">output_resolution</span> <span class="ow">in</span> <span class="n">pipeline_config</span><span class="o">.</span><span class="n">resolutions</span><span class="p">:</span>
+            <span class="c1"># Only going to output lower or equal resolution videos.</span>
+            <span class="c1"># Upscaling is costly and does not do anything.</span>
+            <span class="k">if</span> <span class="nb">input</span><span class="o">.</span><span class="n">resolution</span> <span class="o">&lt;</span> <span class="n">output_resolution</span><span class="p">:</span>
+              <span class="k">continue</span>
 
-    <span class="n">audio_outputs</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">media_outputs</span><span class="p">[</span><span class="s1">&#39;audio&#39;</span><span class="p">]:</span>
-      <span class="n">audio_outputs</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_add_audio</span><span class="p">(</span><span class="n">i</span><span class="p">,</span>
-                                           <span class="n">pipeline_config</span><span class="o">.</span><span class="n">channels</span><span class="p">,</span>
-                                           <span class="n">pipeline_config</span><span class="o">.</span><span class="n">audio_codecs</span><span class="p">))</span>
+            <span class="n">outputs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">VideoOutputStream</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_create_pipe</span><span class="p">(),</span>
+                                             <span class="nb">input</span><span class="p">,</span>
+                                             <span class="n">codec</span><span class="p">,</span>
+                                             <span class="n">output_resolution</span><span class="p">))</span>
 
-    <span class="n">video_outputs</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">media_outputs</span><span class="p">[</span><span class="s1">&#39;video&#39;</span><span class="p">]:</span>
-      <span class="n">video_outputs</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_add_video</span><span class="p">(</span><span class="n">i</span><span class="p">,</span>
-                                           <span class="n">pipeline_config</span><span class="o">.</span><span class="n">resolutions</span><span class="p">,</span>
-                                           <span class="n">pipeline_config</span><span class="o">.</span><span class="n">video_codecs</span><span class="p">))</span>
+      <span class="k">elif</span> <span class="nb">input</span><span class="o">.</span><span class="n">media_type</span> <span class="o">==</span> <span class="n">MediaType</span><span class="o">.</span><span class="n">TEXT</span><span class="p">:</span>
+        <span class="n">outputs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">TextOutputStream</span><span class="p">(</span><span class="nb">input</span><span class="p">))</span>
 
-    <span class="c1"># Process input through a transcoder node using ffmpeg.</span>
-    <span class="n">ffmpeg_node</span> <span class="o">=</span> <span class="n">transcoder_node</span><span class="o">.</span><span class="n">TranscoderNode</span><span class="p">(</span><span class="n">audio_outputs</span><span class="p">,</span>
-                                                 <span class="n">video_outputs</span><span class="p">,</span>
-                                                 <span class="n">input_config</span><span class="p">,</span>
-                                                 <span class="n">pipeline_config</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">transcoder_node</span><span class="o">.</span><span class="n">TranscoderNode</span><span class="p">(</span><span class="n">input_config</span><span class="p">,</span>
+                                                      <span class="n">pipeline_config</span><span class="p">,</span>
+                                                      <span class="n">outputs</span><span class="p">))</span>
 
-    <span class="bp">self</span><span class="o">.</span><span class="n">_nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ffmpeg_node</span><span class="p">)</span>
-
-    <span class="c1"># Process input through a packager node using Shaka Packager.</span>
-    <span class="n">package_node</span> <span class="o">=</span> <span class="n">packager_node</span><span class="o">.</span><span class="n">PackagerNode</span><span class="p">(</span><span class="n">audio_outputs</span><span class="p">,</span>
-                                              <span class="n">video_outputs</span><span class="p">,</span>
-                                              <span class="n">media_outputs</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">],</span>
-                                              <span class="n">output_dir</span><span class="p">,</span>
-                                              <span class="n">pipeline_config</span><span class="p">)</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">_nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">package_node</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">packager_node</span><span class="o">.</span><span class="n">PackagerNode</span><span class="p">(</span><span class="n">pipeline_config</span><span class="p">,</span>
+                                                  <span class="n">output_dir</span><span class="p">,</span>
+                                                  <span class="n">outputs</span><span class="p">))</span>
 
     <span class="k">if</span> <span class="n">bucket_url</span><span class="p">:</span>
       <span class="n">cloud_temp_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_temp_dir</span><span class="p">,</span> <span class="s1">&#39;cloud&#39;</span><span class="p">)</span>
       <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">cloud_temp_dir</span><span class="p">)</span>
 
-      <span class="n">push_to_cloud</span> <span class="o">=</span> <span class="n">cloud_node</span><span class="o">.</span><span class="n">CloudNode</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span> <span class="n">bucket_url</span><span class="p">,</span>
-                                           <span class="n">cloud_temp_dir</span><span class="p">)</span>
-      <span class="bp">self</span><span class="o">.</span><span class="n">_nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">push_to_cloud</span><span class="p">)</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">_nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cloud_node</span><span class="o">.</span><span class="n">CloudNode</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span>
+                                              <span class="n">bucket_url</span><span class="p">,</span>
+                                              <span class="n">cloud_temp_dir</span><span class="p">))</span>
 
     <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nodes</span><span class="p">:</span>
       <span class="n">node</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
@@ -234,63 +245,6 @@
     <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nodes</span><span class="p">:</span>
       <span class="n">node</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_nodes</span> <span class="o">=</span> <span class="p">[]</span></div>
-
-  <span class="k">def</span> <span class="nf">_add_audio</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">input</span><span class="p">,</span> <span class="n">channels</span><span class="p">,</span> <span class="n">codecs</span><span class="p">):</span>
-    <span class="n">audio_outputs</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">language</span> <span class="o">=</span> <span class="nb">input</span><span class="o">.</span><span class="n">language</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_probe_language</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">codec</span> <span class="ow">in</span> <span class="n">codecs</span><span class="p">:</span>
-      <span class="n">codec</span> <span class="o">=</span> <span class="n">codec</span><span class="o">.</span><span class="n">value</span>
-      <span class="n">audio_outputs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">metadata</span><span class="o">.</span><span class="n">Metadata</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_create_pipe</span><span class="p">(),</span>
-                                             <span class="n">channels</span><span class="o">=</span><span class="n">channels</span><span class="p">,</span> <span class="n">codec</span><span class="o">=</span><span class="n">codec</span><span class="p">,</span>
-                                             <span class="n">language</span><span class="o">=</span><span class="n">language</span><span class="p">))</span>
-    <span class="k">return</span> <span class="n">audio_outputs</span>
-
-  <span class="k">def</span> <span class="nf">_add_video</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">input</span><span class="p">,</span> <span class="n">resolutions</span><span class="p">,</span> <span class="n">codecs</span><span class="p">):</span>
-    <span class="n">video_outputs</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">codec</span> <span class="ow">in</span> <span class="n">codecs</span><span class="p">:</span>
-      <span class="n">codec</span> <span class="o">=</span> <span class="n">codec</span><span class="o">.</span><span class="n">value</span>
-      <span class="n">hardware_encoding</span> <span class="o">=</span> <span class="kc">False</span>
-      <span class="k">if</span> <span class="n">codec</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;hw:&#39;</span><span class="p">):</span>
-        <span class="n">hardware_encoding</span> <span class="o">=</span> <span class="kc">True</span>
-        <span class="n">codec</span> <span class="o">=</span> <span class="n">codec</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
-
-      <span class="c1"># TODO: on ingest, convert the resolution string into a value from the map</span>
-      <span class="n">in_res</span> <span class="o">=</span> <span class="nb">input</span><span class="o">.</span><span class="n">resolution</span><span class="o">.</span><span class="n">value</span>
-      <span class="k">for</span> <span class="n">out_res</span> <span class="ow">in</span> <span class="n">resolutions</span><span class="p">:</span>
-        <span class="n">out_res</span> <span class="o">=</span> <span class="n">out_res</span><span class="o">.</span><span class="n">value</span>
-        <span class="c1"># Only going to output lower or equal resolution videos.</span>
-        <span class="c1"># Upscaling is costly and does not do anything.</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">metadata</span><span class="o">.</span><span class="n">RESOLUTION_MAP</span><span class="p">[</span><span class="n">in_res</span><span class="p">]</span> <span class="o">&gt;=</span>
-            <span class="n">metadata</span><span class="o">.</span><span class="n">RESOLUTION_MAP</span><span class="p">[</span><span class="n">out_res</span><span class="p">]):</span>
-          <span class="n">video_outputs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">metadata</span><span class="o">.</span><span class="n">Metadata</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_create_pipe</span><span class="p">(),</span>
-                                                 <span class="n">resolution_name</span><span class="o">=</span><span class="n">out_res</span><span class="p">,</span>
-                                                 <span class="n">codec</span><span class="o">=</span><span class="n">codec</span><span class="p">,</span>
-                                                 <span class="n">hardware</span><span class="o">=</span><span class="n">hardware_encoding</span><span class="p">))</span>
-
-    <span class="k">return</span> <span class="n">video_outputs</span>
-
-  <span class="c1"># TODO: Move to input_configuration</span>
-  <span class="k">def</span> <span class="nf">_probe_language</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">input</span><span class="p">):</span>
-    <span class="c1"># ffprobe {input}: list out metadata of input</span>
-    <span class="c1"># -show_entries stream=index:stream_tags=language: list out tracks with</span>
-    <span class="c1"># stream and language information</span>
-    <span class="c1"># -select_streams {track}: Only return stream/language information for</span>
-    <span class="c1"># specified track.</span>
-    <span class="c1"># -of compact=p=0:nk=1: Specify no keys printed and don&#39;t print the name</span>
-    <span class="c1"># at the beginning of each line.</span>
-    <span class="n">command</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;ffprobe&#39;</span><span class="p">,</span> <span class="nb">input</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;-show_entries&#39;</span><span class="p">,</span>
-               <span class="s1">&#39;stream=index:stream_tags=language&#39;</span><span class="p">,</span> <span class="s1">&#39;-select_streams&#39;</span><span class="p">,</span>
-               <span class="nb">str</span><span class="p">(</span><span class="nb">input</span><span class="o">.</span><span class="n">track_num</span><span class="p">),</span> <span class="s1">&#39;-of&#39;</span><span class="p">,</span> <span class="s1">&#39;compact=p=0:nk=1&#39;</span><span class="p">]</span>
-
-    <span class="n">lang_str</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">check_output</span><span class="p">(</span>
-        <span class="n">command</span><span class="p">,</span> <span class="n">stderr</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">DEVNULL</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
-    <span class="c1"># The regex is looking for a string that is of the format number|language.</span>
-    <span class="c1"># Once it finds a number| match, it will copy the string until the end of</span>
-    <span class="c1"># the line.</span>
-    <span class="n">lang_match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\d+\|(.*$)&#39;</span><span class="p">,</span> <span class="n">lang_str</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">lang_match</span><span class="p">:</span>
-      <span class="k">return</span> <span class="n">lang_match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-    <span class="k">return</span> <span class="s1">&#39;und&#39;</span>
 
 <div class="viewcode-block" id="ControllerNode.is_vod"><a class="viewcode-back" href="../../module_api.html#streamer.controller_node.ControllerNode.is_vod">[docs]</a>  <span class="k">def</span> <span class="nf">is_vod</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Returns True if the pipeline is running in VOD mode.</span>
