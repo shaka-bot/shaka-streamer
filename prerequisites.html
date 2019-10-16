@@ -35,12 +35,20 @@
 <h1>Installing Prerequisites<a class="headerlink" href="#installing-prerequisites" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="yaml-module">
 <h2>Yaml Module<a class="headerlink" href="#yaml-module" title="Permalink to this headline">¶</a></h2>
-<p>We use the Python YAML module to parse config files. To install it on Ubuntu:</p>
+<p>We use the Python YAML module to parse config files.  If you install Shaka
+Streamer via <code class="docutils literal notranslate"><span class="pre">pip3</span></code>, then this dependency will be installed for you
+automatically.  If you got Shaka Streamer source from GitHub, you will need to
+install the YAML module separately.</p>
+<p>To install it on Ubuntu:</p>
 <div class="code sh highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">apt</span> <span class="o">-</span><span class="n">y</span> <span class="n">install</span> <span class="n">python3</span><span class="o">-</span><span class="n">yaml</span>
 </pre></div>
 </div>
-<p>This can also be installed via pip on any platform:</p>
-<div class="code sh highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip3</span> <span class="n">install</span> <span class="o">--</span><span class="n">user</span> <span class="n">pyyaml</span>
+<p>This can also be installed via <code class="docutils literal notranslate"><span class="pre">pip3</span></code> on any platform:</p>
+<div class="code sh highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># To install/upgrade globally (drop the &quot;sudo&quot; for Windows):</span>
+<span class="n">sudo</span> <span class="n">pip3</span> <span class="n">install</span> <span class="o">--</span><span class="n">upgrade</span> <span class="n">pyyaml</span>
+
+<span class="c1"># To install/upgrade per-user:</span>
+<span class="n">pip3</span> <span class="n">install</span> <span class="o">--</span><span class="n">user</span> <span class="o">--</span><span class="n">upgrade</span> <span class="n">pyyaml</span>
 </pre></div>
 </div>
 </div>
@@ -116,8 +124,12 @@ config file</a> or login interactively using the <a class="reference external" h
 <span class="n">sudo</span> <span class="n">npm</span> <span class="n">install</span> <span class="o">-</span><span class="n">g</span> <span class="n">npm</span>
 </pre></div>
 </div>
-<p>Flask can also be installed via pip on any platform:</p>
-<div class="code sh highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip3</span> <span class="n">install</span> <span class="o">--</span><span class="n">user</span> <span class="n">flask</span>
+<p>Flask can also be installed via <code class="docutils literal notranslate"><span class="pre">pip3</span></code> on any platform:</p>
+<div class="code sh highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># To install/upgrade globally (drop the &quot;sudo&quot; for Windows):</span>
+<span class="n">sudo</span> <span class="n">pip3</span> <span class="n">install</span> <span class="o">--</span><span class="n">upgrade</span> <span class="n">flask</span>
+
+<span class="c1"># To install/upgrade per-user:</span>
+<span class="n">pip3</span> <span class="n">install</span> <span class="o">--</span><span class="n">user</span> <span class="o">--</span><span class="n">upgrade</span> <span class="n">flask</span>
 </pre></div>
 </div>
 <p>To install Node.js and NPM on any other platform, you can try one of these:</p>
