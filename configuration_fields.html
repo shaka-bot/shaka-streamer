@@ -82,8 +82,9 @@ files.</p>
 <p>With input_type set to ‘file’, this is a path to a file name.</p>
 <p>With input_type set to ‘looped_file’, this is a path to a file name to be
 looped indefinitely in FFmpeg.</p>
-<p>With input_type set to ‘webcam’, this is a path to the device node for the
-webcam.  For example, on Linux, this might be /dev/video0.</p>
+<p>With input_type set to ‘webcam’, this is which webcam.  On Linux, this is a
+path to the device node for the webcam, such as ‘/dev/video0’.  On macOS, this
+is a device name, such as ‘default’.</p>
 <p>With input_type set to ‘raw_images’, this is a path to a file or pipe
 containing a sequence of raw images.</p>
 <p>With input_type set to ‘external_command’, this is an external command that
@@ -115,6 +116,7 @@ the media_type field will be used.</p>
 <code class="descname">start_time</code><em class="property">: string</em><a class="headerlink" href="#streamer.input_configuration.Input.start_time" title="Permalink to this definition">¶</a></dt>
 <dd><p>The start time of the slice of the input to use.</p>
 <p>Only valid for VOD and with input_type set to ‘file’.</p>
+<p>Not supported with media_type of ‘text’.</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -122,6 +124,7 @@ the media_type field will be used.</p>
 <code class="descname">end_time</code><em class="property">: string</em><a class="headerlink" href="#streamer.input_configuration.Input.end_time" title="Permalink to this definition">¶</a></dt>
 <dd><p>The end time of the slice of the input to use.</p>
 <p>Only valid for VOD and with input_type set to ‘file’.</p>
+<p>Not supported with media_type of ‘text’.</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -129,6 +132,7 @@ the media_type field will be used.</p>
 <code class="descname">filters</code><em class="property">: list of string</em><a class="headerlink" href="#streamer.input_configuration.Input.filters" title="Permalink to this definition">¶</a></dt>
 <dd><p>A list of FFmpeg filter strings to add to the transcoding of this input.</p>
 <p>Each filter is a single string.  For example, ‘pad=1280:720:20:20’.</p>
+<p>Not supported with media_type of ‘text’.</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -138,7 +142,8 @@ the media_type field will be used.</p>
 <p>Only valid for media_type of ‘video’.</p>
 <p>If true, the video will be deinterlaced during transcoding.</p>
 <p>Can be auto-detected for some input types, but may be default to False for
-others.  For example, an input_type of ‘webcam’ will default to False.</p>
+others.  For example, an input_type of ‘external_command’, it will default to
+False.</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -147,16 +152,16 @@ others.  For example, an input_type of ‘webcam’ will default to False.</p>
 <dd><p>The frame rate of the input stream, in frames per second.</p>
 <p>Only valid for media_type of ‘video’.</p>
 <p>Can be auto-detected for some input types, but may be required for others.
-For example, required for input_type of ‘webcam’.</p>
+For example, required for input_type of ‘external_command’.</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="streamer.input_configuration.Input.resolution">
-<code class="descname">resolution</code><em class="property">: Resolution (one of '144p', '240p', '360p', '480p', '576p', '720p', '720p-hfr', '1080p', '1080p-hfr', '2k', '2k-hfr', '4k', '4k-hfr')</em><a class="headerlink" href="#streamer.input_configuration.Input.resolution" title="Permalink to this definition">¶</a></dt>
+<code class="descname">resolution</code><em class="property">: Resolution (one of '144p', '240p', '360p', '480p', '576p', '720p', '720p-hfr', '1080p', '1080p-hfr', '1440p', '1440p-hfr', '4k', '4k-hfr', '8k', '8k-hfr')</em><a class="headerlink" href="#streamer.input_configuration.Input.resolution" title="Permalink to this definition">¶</a></dt>
 <dd><p>The name of the input resolution (1080p, etc).</p>
 <p>Only valid for media_type of ‘video’.</p>
 <p>Can be auto-detected for some input types, but may be required for others.
-For example, required for input_type of ‘webcam’.</p>
+For example, required for input_type of ‘external_command’.</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -193,6 +198,7 @@ automatically by FFmpeg.</p>
 <dt id="streamer.input_configuration.InputType.LOOPED_FILE">
 <code class="descname">LOOPED_FILE</code><em class="property"> = 'looped_file'</em><a class="headerlink" href="#streamer.input_configuration.InputType.LOOPED_FILE" title="Permalink to this definition">¶</a></dt>
 <dd><p>A track from a file, looped forever by FFmpeg.  Usable only with live.</p>
+<p>Does not support media_type of ‘text’.</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -201,6 +207,7 @@ automatically by FFmpeg.</p>
 <dd><p>A webcam device.  Usable only with live.</p>
 <p>The device path should be given in the name field.  For example, on Linux,
 this might be /dev/video0.</p>
+<p>Does not support media_type of ‘text’.</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -209,6 +216,7 @@ this might be /dev/video0.</p>
 <dd><p>A file or pipe with a sequence of raw images.</p>
 <p>Requires the specification of frame_rate.  May require the use of
 extra_input_args if FFmpeg can’t guess the format.</p>
+<p>Does not support media_type of ‘text’ or ‘audio’.</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -221,6 +229,7 @@ variable $SHAKA_STREAMER_EXTERNAL_COMMAND_OUTPUT, which Shaka Streamer set to
 the path to the output pipe.</p>
 <p>May require the user of extra_input_args if FFmpeg can’t guess the format or
 framerate.</p>
+<p>Does not support media_type of ‘text’.</p>
 </dd></dl>
 
 </dd></dl>
@@ -291,7 +300,7 @@ for debugging.</p>
 
 <dl class="attribute">
 <dt id="streamer.pipeline_configuration.PipelineConfig.resolutions">
-<code class="descname">resolutions</code><em class="property">: list of Resolution (one of '144p', '240p', '360p', '480p', '576p', '720p', '720p-hfr', '1080p', '1080p-hfr', '2k', '2k-hfr', '4k', '4k-hfr')</em><a class="headerlink" href="#streamer.pipeline_configuration.PipelineConfig.resolutions" title="Permalink to this definition">¶</a></dt>
+<code class="descname">resolutions</code><em class="property">: list of Resolution (one of '144p', '240p', '360p', '480p', '576p', '720p', '720p-hfr', '1080p', '1080p-hfr', '1440p', '1440p-hfr', '4k', '4k-hfr', '8k', '8k-hfr')</em><a class="headerlink" href="#streamer.pipeline_configuration.PipelineConfig.resolutions" title="Permalink to this definition">¶</a></dt>
 <dd><p>A list of resolution names to encode.</p>
 <p>Any resolution greater than the input resolution will be ignored, to avoid
 upscaling the content.  This also allows you to reuse a pipeline config for

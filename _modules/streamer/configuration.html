@@ -160,8 +160,12 @@
     <span class="bp">cls</span><span class="o">.</span><span class="n">_map</span> <span class="o">=</span> <span class="nb">map</span>
 
     <span class="c1"># Synthesize a method on each value to allow the key to be recovered.</span>
+    <span class="c1"># Use a default parameter in the lambda to effectively bind the parameter,</span>
+    <span class="c1"># as described here: https://stackoverflow.com/a/19837683</span>
+    <span class="c1"># Not doing this causes the lambda to always return the key from the final</span>
+    <span class="c1"># iteration of the loop (a problem familiar to many JavaScript developers).</span>
     <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="nb">map</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-      <span class="nb">setattr</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="s1">&#39;get_key&#39;</span><span class="p">,</span> <span class="k">lambda</span><span class="p">:</span> <span class="n">key</span><span class="p">)</span>
+      <span class="nb">setattr</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="s1">&#39;get_key&#39;</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">bound_key</span><span class="o">=</span><span class="n">key</span><span class="p">:</span> <span class="n">bound_key</span><span class="p">)</span>
 
   <span class="c1"># __new__ is special and doesn&#39;t use @classmethod</span>
   <span class="k">def</span> <span class="nf">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>

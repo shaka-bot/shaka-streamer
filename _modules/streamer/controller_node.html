@@ -152,8 +152,11 @@
     <span class="c1"># Check that ffmpeg version is 4.1 or above.</span>
     <span class="n">_check_version</span><span class="p">(</span><span class="s1">&#39;FFmpeg&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;ffmpeg&#39;</span><span class="p">,</span> <span class="s1">&#39;-version&#39;</span><span class="p">],</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
 
+    <span class="c1"># Check that ffprobe version (used for autodetect features) is 4.1 or above.</span>
+    <span class="n">_check_version</span><span class="p">(</span><span class="s1">&#39;ffprobe&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;ffprobe&#39;</span><span class="p">,</span> <span class="s1">&#39;-version&#39;</span><span class="p">],</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+
     <span class="c1"># Check that Shaka Packager version is 2.1 or above.</span>
-    <span class="n">_check_version</span><span class="p">(</span><span class="s1">&#39;Packager&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;packager&#39;</span><span class="p">,</span> <span class="s1">&#39;-version&#39;</span><span class="p">],</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="n">_check_version</span><span class="p">(</span><span class="s1">&#39;Shaka Packager&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;packager&#39;</span><span class="p">,</span> <span class="s1">&#39;-version&#39;</span><span class="p">],</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
 
     <span class="c1"># Define resolutions and bitrates before parsing other configs.</span>
     <span class="n">bitrate_config</span> <span class="o">=</span> <span class="n">BitrateConfig</span><span class="p">(</span><span class="n">bitrate_config_dict</span><span class="p">)</span>
@@ -219,7 +222,8 @@
 
       <span class="bp">self</span><span class="o">.</span><span class="n">_nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cloud_node</span><span class="o">.</span><span class="n">CloudNode</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span>
                                               <span class="n">bucket_url</span><span class="p">,</span>
-                                              <span class="n">cloud_temp_dir</span><span class="p">))</span>
+                                              <span class="n">cloud_temp_dir</span><span class="p">,</span>
+                                              <span class="bp">self</span><span class="o">.</span><span class="n">is_vod</span><span class="p">()))</span>
 
     <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nodes</span><span class="p">:</span>
       <span class="n">node</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
