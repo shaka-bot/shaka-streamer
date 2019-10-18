@@ -158,6 +158,17 @@
     <span class="c1"># Check that Shaka Packager version is 2.1 or above.</span>
     <span class="n">_check_version</span><span class="p">(</span><span class="s1">&#39;Shaka Packager&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;packager&#39;</span><span class="p">,</span> <span class="s1">&#39;-version&#39;</span><span class="p">],</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
 
+    <span class="k">if</span> <span class="n">bucket_url</span><span class="p">:</span>
+      <span class="c1"># Check that the Google Cloud SDK is at least v254, which introduced</span>
+      <span class="c1"># gsutil 4.40 with an important rsync bug fix.</span>
+      <span class="c1"># https://cloud.google.com/sdk/docs/release-notes</span>
+      <span class="c1"># https://github.com/GoogleCloudPlatform/gsutil/blob/master/CHANGES.md</span>
+      <span class="c1"># This is only required if the user asked for upload to cloud storage.</span>
+      <span class="n">_check_version</span><span class="p">(</span><span class="s1">&#39;Google Cloud SDK&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;gcloud&#39;</span><span class="p">,</span> <span class="s1">&#39;--version&#39;</span><span class="p">],</span> <span class="p">(</span><span class="mi">254</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+
+      <span class="c1"># Also, make sure the user is logged in and can access the destination.</span>
+      <span class="n">cloud_node</span><span class="o">.</span><span class="n">CloudNode</span><span class="o">.</span><span class="n">check_access</span><span class="p">(</span><span class="n">bucket_url</span><span class="p">)</span>
+
     <span class="c1"># Define resolutions and bitrates before parsing other configs.</span>
     <span class="n">bitrate_config</span> <span class="o">=</span> <span class="n">BitrateConfig</span><span class="p">(</span><span class="n">bitrate_config_dict</span><span class="p">)</span>
 
@@ -246,8 +257,9 @@
 
 <div class="viewcode-block" id="ControllerNode.stop"><a class="viewcode-back" href="../../module_api.html#streamer.controller_node.ControllerNode.stop">[docs]</a>  <span class="k">def</span> <span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Stop all nodes.&quot;&quot;&quot;</span>
+    <span class="n">status</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_status</span><span class="p">()</span>
     <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nodes</span><span class="p">:</span>
-      <span class="n">node</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+      <span class="n">node</span><span class="o">.</span><span class="n">stop</span><span class="p">(</span><span class="n">status</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_nodes</span> <span class="o">=</span> <span class="p">[]</span></div>
 
 <div class="viewcode-block" id="ControllerNode.is_vod"><a class="viewcode-back" href="../../module_api.html#streamer.controller_node.ControllerNode.is_vod">[docs]</a>  <span class="k">def</span> <span class="nf">is_vod</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -268,7 +280,7 @@
   <span class="k">pass</span></div>
 
 <span class="k">def</span> <span class="nf">_check_version</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">command</span><span class="p">,</span> <span class="n">minimum_version</span><span class="p">):</span>
-  <span class="n">min_version_string</span> <span class="o">=</span> <span class="s1">&#39;.&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">minimum_version</span><span class="p">])</span>
+  <span class="n">min_version_string</span> <span class="o">=</span> <span class="s1">&#39;.&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">minimum_version</span><span class="p">)</span>
 
   <span class="n">version_error_string</span> <span class="o">=</span> <span class="p">(</span>
       <span class="n">name</span> <span class="o">+</span> <span class="s1">&#39; not installed! Please install version &#39;</span> <span class="o">+</span> <span class="n">min_version_string</span> <span class="o">+</span>

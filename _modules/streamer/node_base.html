@@ -54,6 +54,7 @@
 <span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">import</span> <span class="nn">threading</span>
 <span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">traceback</span>
 
 
 <div class="viewcode-block" id="ProcessStatus"><a class="viewcode-back" href="../../module_api.html#streamer.node_base.ProcessStatus">[docs]</a><span class="k">class</span> <span class="nc">ProcessStatus</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">):</span>
@@ -79,7 +80,7 @@
   <span class="k">def</span> <span class="nf">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="c1"># If the process isn&#39;t stopped by now, stop it here.  It is preferable to</span>
     <span class="c1"># explicitly call stop().</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">stop</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
 
   <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
   <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -141,7 +142,7 @@
     <span class="k">else</span><span class="p">:</span>
       <span class="k">return</span> <span class="n">ProcessStatus</span><span class="o">.</span><span class="n">Errored</span>
 
-  <span class="k">def</span> <span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+  <span class="k">def</span> <span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">status</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Stop the subprocess if it&#39;s still running.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_process</span><span class="p">:</span>
       <span class="c1"># Slightly more polite than kill.  Try this first.</span>
@@ -159,6 +160,23 @@
         <span class="c1"># this, it can create a zombie process.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_process</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
 
+<span class="k">class</span> <span class="nc">PolitelyWaitOnFinishMixin</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;A mixin that makes stop() wait for the subprocess if status is Finished.</span>
+
+<span class="sd">  This is as opposed to the base class behavior, in which stop() forces</span>
+<span class="sd">  the subprocesses of a node to terminate.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+
+  <span class="k">def</span> <span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">status</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">status</span> <span class="o">==</span> <span class="n">ProcessStatus</span><span class="o">.</span><span class="n">Finished</span><span class="p">:</span>
+      <span class="k">try</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Waiting for&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_process</span><span class="o">.</span><span class="n">wait</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>  <span class="c1"># 5m timeout</span>
+      <span class="k">except</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">TimeoutExpired</span><span class="p">:</span>
+        <span class="n">traceback</span><span class="o">.</span><span class="n">print_exc</span><span class="p">()</span>  <span class="c1"># print the exception</span>
+        <span class="c1"># Fall through.</span>
+
+    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">stop</span><span class="p">(</span><span class="n">status</span><span class="p">)</span>
 
 <span class="k">class</span> <span class="nc">ThreadedNodeBase</span><span class="p">(</span><span class="n">NodeBase</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;A base class for nodes that run a thread.</span>
@@ -207,7 +225,7 @@
     <span class="bp">self</span><span class="o">.</span><span class="n">_status</span> <span class="o">=</span> <span class="n">ProcessStatus</span><span class="o">.</span><span class="n">Running</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_thread</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
 
-  <span class="k">def</span> <span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+  <span class="k">def</span> <span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">status</span><span class="p">):</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_status</span> <span class="o">=</span> <span class="n">ProcessStatus</span><span class="o">.</span><span class="n">Finished</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_thread</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
 
