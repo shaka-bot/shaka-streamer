@@ -138,7 +138,8 @@
 <div class="viewcode-block" id="ControllerNode.start"><a class="viewcode-back" href="../../module_api.html#streamer.controller_node.ControllerNode.start">[docs]</a>  <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output_dir</span><span class="p">,</span>
             <span class="n">input_config_dict</span><span class="p">,</span> <span class="n">pipeline_config_dict</span><span class="p">,</span>
             <span class="n">bitrate_config_dict</span><span class="o">=</span><span class="p">{},</span>
-            <span class="n">bucket_url</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+            <span class="n">bucket_url</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">check_deps</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Create and start all other nodes.</span>
 
 <span class="sd">    :raises: `RuntimeError` if the controller has already started.</span>
@@ -149,24 +150,29 @@
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nodes</span><span class="p">:</span>
       <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;Controller already started!&#39;</span><span class="p">)</span>
 
-    <span class="c1"># Check that ffmpeg version is 4.1 or above.</span>
-    <span class="n">_check_version</span><span class="p">(</span><span class="s1">&#39;FFmpeg&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;ffmpeg&#39;</span><span class="p">,</span> <span class="s1">&#39;-version&#39;</span><span class="p">],</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">check_deps</span><span class="p">:</span>
+      <span class="c1"># Check that ffmpeg version is 4.1 or above.</span>
+      <span class="n">_check_version</span><span class="p">(</span><span class="s1">&#39;FFmpeg&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;ffmpeg&#39;</span><span class="p">,</span> <span class="s1">&#39;-version&#39;</span><span class="p">],</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
 
-    <span class="c1"># Check that ffprobe version (used for autodetect features) is 4.1 or above.</span>
-    <span class="n">_check_version</span><span class="p">(</span><span class="s1">&#39;ffprobe&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;ffprobe&#39;</span><span class="p">,</span> <span class="s1">&#39;-version&#39;</span><span class="p">],</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+      <span class="c1"># Check that ffprobe version (used for autodetect features) is 4.1 or</span>
+      <span class="c1"># above.</span>
+      <span class="n">_check_version</span><span class="p">(</span><span class="s1">&#39;ffprobe&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;ffprobe&#39;</span><span class="p">,</span> <span class="s1">&#39;-version&#39;</span><span class="p">],</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
 
-    <span class="c1"># Check that Shaka Packager version is 2.1 or above.</span>
-    <span class="n">_check_version</span><span class="p">(</span><span class="s1">&#39;Shaka Packager&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;packager&#39;</span><span class="p">,</span> <span class="s1">&#39;-version&#39;</span><span class="p">],</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+      <span class="c1"># Check that Shaka Packager version is 2.1 or above.</span>
+      <span class="n">_check_version</span><span class="p">(</span><span class="s1">&#39;Shaka Packager&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;packager&#39;</span><span class="p">,</span> <span class="s1">&#39;-version&#39;</span><span class="p">],</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+
+      <span class="k">if</span> <span class="n">bucket_url</span><span class="p">:</span>
+        <span class="c1"># Check that the Google Cloud SDK is at least v212, which introduced</span>
+        <span class="c1"># gsutil 4.33 with an important rsync bug fix.</span>
+        <span class="c1"># https://cloud.google.com/sdk/docs/release-notes</span>
+        <span class="c1"># https://github.com/GoogleCloudPlatform/gsutil/blob/master/CHANGES.md</span>
+        <span class="c1"># This is only required if the user asked for upload to cloud storage.</span>
+        <span class="n">_check_version</span><span class="p">(</span><span class="s1">&#39;Google Cloud SDK&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;gcloud&#39;</span><span class="p">,</span> <span class="s1">&#39;--version&#39;</span><span class="p">],</span> <span class="p">(</span><span class="mi">212</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+
 
     <span class="k">if</span> <span class="n">bucket_url</span><span class="p">:</span>
-      <span class="c1"># Check that the Google Cloud SDK is at least v212, which introduced</span>
-      <span class="c1"># gsutil 4.33 with an important rsync bug fix.</span>
-      <span class="c1"># https://cloud.google.com/sdk/docs/release-notes</span>
-      <span class="c1"># https://github.com/GoogleCloudPlatform/gsutil/blob/master/CHANGES.md</span>
-      <span class="c1"># This is only required if the user asked for upload to cloud storage.</span>
-      <span class="n">_check_version</span><span class="p">(</span><span class="s1">&#39;Google Cloud SDK&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;gcloud&#39;</span><span class="p">,</span> <span class="s1">&#39;--version&#39;</span><span class="p">],</span> <span class="p">(</span><span class="mi">212</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
-
-      <span class="c1"># Also, make sure the user is logged in and can access the destination.</span>
+      <span class="c1"># If using cloud storage, make sure the user is logged in and can access</span>
+      <span class="c1"># the destination, independent of the version check above.</span>
       <span class="n">cloud_node</span><span class="o">.</span><span class="n">CloudNode</span><span class="o">.</span><span class="n">check_access</span><span class="p">(</span><span class="n">bucket_url</span><span class="p">)</span>
 
     <span class="c1"># Define resolutions and bitrates before parsing other configs.</span>
@@ -358,7 +364,7 @@
       &copy;2019, Google.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.4</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.5</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
       
     </div>
