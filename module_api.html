@@ -44,7 +44,7 @@ also want to look at the source code to the command-line front end script
 <p>Controls all other nodes and manages shared resources.</p>
 <dl class="method">
 <dt id="streamer.controller_node.ControllerNode.start">
-<code class="descname">start</code><span class="sig-paren">(</span><em>output_dir</em>, <em>input_config_dict</em>, <em>pipeline_config_dict</em>, <em>bitrate_config_dict={}</em>, <em>bucket_url=None</em>, <em>check_deps=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/streamer/controller_node.html#ControllerNode.start"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#streamer.controller_node.ControllerNode.start" title="Permalink to this definition">¶</a></dt>
+<code class="descname">start</code><span class="sig-paren">(</span><em>output_dir: str, input_config_dict: Dict[str, Any], pipeline_config_dict: Dict[str, Any], bitrate_config_dict: Dict[Any, Any] = {}, bucket_url: Optional[str] = None, check_deps: bool = True</em><span class="sig-paren">)</span> &#x2192; streamer.controller_node.ControllerNode<a class="reference internal" href="_modules/streamer/controller_node.html#ControllerNode.start"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#streamer.controller_node.ControllerNode.start" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create and start all other nodes.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -61,7 +61,7 @@ invalid.</td>
 
 <dl class="method">
 <dt id="streamer.controller_node.ControllerNode.check_status">
-<code class="descname">check_status</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/streamer/controller_node.html#ControllerNode.check_status"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#streamer.controller_node.ControllerNode.check_status" title="Permalink to this definition">¶</a></dt>
+<code class="descname">check_status</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; streamer.node_base.ProcessStatus<a class="reference internal" href="_modules/streamer/controller_node.html#ControllerNode.check_status"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#streamer.controller_node.ControllerNode.check_status" title="Permalink to this definition">¶</a></dt>
 <dd><p>Checks the status of all the nodes.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -78,13 +78,13 @@ running.  If there are no nodes, this returns Finished.</p>
 
 <dl class="method">
 <dt id="streamer.controller_node.ControllerNode.stop">
-<code class="descname">stop</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/streamer/controller_node.html#ControllerNode.stop"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#streamer.controller_node.ControllerNode.stop" title="Permalink to this definition">¶</a></dt>
+<code class="descname">stop</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/streamer/controller_node.html#ControllerNode.stop"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#streamer.controller_node.ControllerNode.stop" title="Permalink to this definition">¶</a></dt>
 <dd><p>Stop all nodes.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="streamer.controller_node.ControllerNode.is_vod">
-<code class="descname">is_vod</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/streamer/controller_node.html#ControllerNode.is_vod"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#streamer.controller_node.ControllerNode.is_vod" title="Permalink to this definition">¶</a></dt>
+<code class="descname">is_vod</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="_modules/streamer/controller_node.html#ControllerNode.is_vod"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#streamer.controller_node.ControllerNode.is_vod" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns True if the pipeline is running in VOD mode.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
