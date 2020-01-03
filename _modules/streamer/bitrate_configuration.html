@@ -52,13 +52,16 @@
 <span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">configuration</span>
 
 
+<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
 <span class="k">class</span> <span class="nc">BitrateString</span><span class="p">(</span><span class="n">configuration</span><span class="o">.</span><span class="n">ValidatingType</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;A wrapper that can be used in Field() to require a bitrate string.&quot;&quot;&quot;</span>
 
-  <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;bitrate string&#39;</span>
+  <span class="nd">@staticmethod</span>
+  <span class="k">def</span> <span class="nf">name</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">return</span> <span class="s1">&#39;bitrate string&#39;</span>
 
   <span class="nd">@staticmethod</span>
-  <span class="k">def</span> <span class="nf">validate</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+  <span class="k">def</span> <span class="nf">validate</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">str</span><span class="p">:</span>
       <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">()</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^[\d\.]+(?:[kM])?$&#39;</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
@@ -67,25 +70,25 @@
 
 <div class="viewcode-block" id="AudioCodec"><a class="viewcode-back" href="../../configuration_fields.html#streamer.bitrate_configuration.AudioCodec">[docs]</a><span class="k">class</span> <span class="nc">AudioCodec</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">):</span>
 
-  <span class="n">AAC</span> <span class="o">=</span> <span class="s1">&#39;aac&#39;</span>
-  <span class="n">OPUS</span> <span class="o">=</span> <span class="s1">&#39;opus&#39;</span>
+  <span class="n">AAC</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;aac&#39;</span>
+  <span class="n">OPUS</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;opus&#39;</span>
 
-  <span class="k">def</span> <span class="nf">is_hardware_accelerated</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+  <span class="k">def</span> <span class="nf">is_hardware_accelerated</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Returns True if this codec is hardware accelerated.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="kc">False</span>
 
-  <span class="k">def</span> <span class="nf">get_ffmpeg_codec_string</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hwaccel_api</span><span class="p">):</span>
+  <span class="k">def</span> <span class="nf">get_ffmpeg_codec_string</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hwaccel_api</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Returns a codec string accepted by FFmpeg for this codec.&quot;&quot;&quot;</span>
     <span class="c1"># FFmpeg warns:</span>
     <span class="c1">#   The encoder &#39;opus&#39; is experimental but experimental codecs are not</span>
     <span class="c1">#   enabled, add &#39;-strict -2&#39; if you want to use it. Alternatively use the</span>
     <span class="c1">#   non experimental encoder &#39;libopus&#39;.</span>
-    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="s1">&#39;opus&#39;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">AudioCodec</span><span class="o">.</span><span class="n">OPUS</span><span class="p">:</span>
       <span class="k">return</span> <span class="s1">&#39;libopus&#39;</span>
 
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span>
 
-  <span class="k">def</span> <span class="nf">get_output_format</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+  <span class="k">def</span> <span class="nf">get_output_format</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Returns an FFmpeg output format suitable for this codec.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">AudioCodec</span><span class="o">.</span><span class="n">OPUS</span><span class="p">:</span>
       <span class="k">return</span> <span class="s1">&#39;webm&#39;</span>
@@ -111,11 +114,11 @@
   <span class="n">HARDWARE_VP9</span> <span class="o">=</span> <span class="s1">&#39;hw:vp9&#39;</span>
   <span class="sd">&quot;&quot;&quot;VP9 with hardware encoding.&quot;&quot;&quot;</span>
 
-  <span class="k">def</span> <span class="nf">is_hardware_accelerated</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+  <span class="k">def</span> <span class="nf">is_hardware_accelerated</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Returns True if this codec is hardware accelerated.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;hw:&#39;</span><span class="p">)</span>
 
-  <span class="k">def</span> <span class="nf">get_base_codec</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+  <span class="k">def</span> <span class="nf">get_base_codec</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;VideoCodec&#39;</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Returns an instance of the same codec without hardware acceleration.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_hardware_accelerated</span><span class="p">():</span>
       <span class="n">value_without_prefix</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
@@ -123,7 +126,7 @@
 
     <span class="k">return</span> <span class="bp">self</span>
 
-  <span class="k">def</span> <span class="nf">get_ffmpeg_codec_string</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hwaccel_api</span><span class="p">):</span>
+  <span class="k">def</span> <span class="nf">get_ffmpeg_codec_string</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hwaccel_api</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Returns a codec string accepted by FFmpeg for this codec.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_hardware_accelerated</span><span class="p">():</span>
       <span class="k">assert</span> <span class="n">hwaccel_api</span><span class="p">,</span> <span class="s1">&#39;No hardware encoding support on this platform!&#39;</span>
@@ -131,7 +134,7 @@
 
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span>
 
-  <span class="k">def</span> <span class="nf">get_output_format</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+  <span class="k">def</span> <span class="nf">get_output_format</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Returns an FFmpeg output format suitable for this codec.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_base_codec</span><span class="p">()</span> <span class="o">==</span> <span class="n">VideoCodec</span><span class="o">.</span><span class="n">VP9</span><span class="p">:</span>
       <span class="k">return</span> <span class="s1">&#39;webm&#39;</span>
@@ -165,10 +168,14 @@
 <span class="sd">  For example, this could be &#39;500k&#39; or &#39;7.5M&#39;.</span>
 <span class="sd">  &quot;&quot;&quot;</span>
 
-  <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+  <span class="c1"># The __eq__ method, defined on the object level is supposed to</span>
+  <span class="c1"># take in any object as an argument, not just AudioChannelLayout.</span>
+  <span class="c1"># The typechecker freaks out at the signature. The &#39;type: ignore&#39;</span>
+  <span class="c1"># comment on the next line silences the error.</span>
+  <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s1">&#39;AudioChannelLayout&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span> <span class="c1"># type: ignore</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_channels</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">max_channels</span>
 
-  <span class="k">def</span> <span class="nf">__lt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+  <span class="k">def</span> <span class="nf">__lt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s1">&#39;AudioChannelLayout&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_channels</span> <span class="o">&lt;</span> <span class="n">other</span><span class="o">.</span><span class="n">max_channels</span></div>
 
 
@@ -219,14 +226,18 @@
 <span class="sd">  For example, this could be &#39;500k&#39; or &#39;7.5M&#39;.</span>
 <span class="sd">  &quot;&quot;&quot;</span>
 
-  <span class="k">def</span> <span class="nf">_sortable_properties</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+  <span class="k">def</span> <span class="nf">_sortable_properties</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Return a tuple of properties we can sort on.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">max_width</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_height</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_frame_rate</span><span class="p">)</span>
 
-  <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+  <span class="c1"># The __eq__ method, defined on the object level is supposed to</span>
+  <span class="c1"># take in any object as an argument, not just AudioChannelLayout.</span>
+  <span class="c1"># The typechecker freaks out at the signature. The &#39;type: ignore&#39;</span>
+  <span class="c1"># comment on the next line silences the error.</span>
+  <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s1">&#39;VideoResolution&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span> <span class="c1"># type: ignore</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sortable_properties</span><span class="p">()</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">_sortable_properties</span><span class="p">()</span>
 
-  <span class="k">def</span> <span class="nf">__lt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+  <span class="k">def</span> <span class="nf">__lt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s1">&#39;VideoResolution&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sortable_properties</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">other</span><span class="o">.</span><span class="n">_sortable_properties</span><span class="p">()</span></div>
 
 
