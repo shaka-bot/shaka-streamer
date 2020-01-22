@@ -63,14 +63,6 @@ invalid.</td>
 <dt id="streamer.controller_node.ControllerNode.check_status">
 <code class="descname">check_status</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; streamer.node_base.ProcessStatus<a class="reference internal" href="_modules/streamer/controller_node.html#ControllerNode.check_status"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#streamer.controller_node.ControllerNode.check_status" title="Permalink to this definition">¶</a></dt>
 <dd><p>Checks the status of all the nodes.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#streamer.node_base.ProcessStatus" title="streamer.node_base.ProcessStatus">streamer.node_base.ProcessStatus</a></td>
-</tr>
-</tbody>
-</table>
 <p>If one node is errored, this returns Errored; otherwise if one node is
 finished, this returns Finished; this only returns Running if all nodes are
 running.  If there are no nodes, this returns Finished.</p>

@@ -176,7 +176,7 @@
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_channels</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">max_channels</span>
 
   <span class="k">def</span> <span class="nf">__lt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s1">&#39;AudioChannelLayout&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_channels</span> <span class="o">&lt;</span> <span class="n">other</span><span class="o">.</span><span class="n">max_channels</span></div>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_channels</span> <span class="o">&lt;</span> <span class="n">other</span><span class="o">.</span><span class="n">max_channels</span> <span class="c1"># type: ignore</span></div>
 
 
 <span class="n">DEFAULT_AUDIO_CHANNEL_LAYOUTS</span> <span class="o">=</span> <span class="p">{</span>
