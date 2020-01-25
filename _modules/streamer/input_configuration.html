@@ -73,15 +73,6 @@
 <span class="sd">  Does not support media_type of &#39;text&#39;.</span>
 <span class="sd">  &quot;&quot;&quot;</span>
 
-  <span class="n">RAW_IMAGES</span> <span class="o">=</span> <span class="s1">&#39;raw_images&#39;</span>
-  <span class="sd">&quot;&quot;&quot;A file or pipe with a sequence of raw images.</span>
-
-<span class="sd">  Requires the specification of frame_rate.  May require the use of</span>
-<span class="sd">  extra_input_args if FFmpeg can&#39;t guess the format.</span>
-
-<span class="sd">  Does not support media_type of &#39;text&#39; or &#39;audio&#39;.</span>
-<span class="sd">  &quot;&quot;&quot;</span>
-
   <span class="n">EXTERNAL_COMMAND</span> <span class="o">=</span> <span class="s1">&#39;external_command&#39;</span>
   <span class="sd">&quot;&quot;&quot;An external command that generates a stream of audio or video.</span>
 
@@ -119,9 +110,6 @@
 <span class="sd">  With input_type set to &#39;webcam&#39;, this is which webcam.  On Linux, this is a</span>
 <span class="sd">  path to the device node for the webcam, such as &#39;/dev/video0&#39;.  On macOS, this</span>
 <span class="sd">  is a device name, such as &#39;default&#39;.</span>
-
-<span class="sd">  With input_type set to &#39;raw_images&#39;, this is a path to a file or pipe</span>
-<span class="sd">  containing a sequence of raw images.</span>
 
 <span class="sd">  With input_type set to &#39;external_command&#39;, this is an external command that</span>
 <span class="sd">  generates a stream of audio or video.  The command will be parsed using shell</span>
@@ -268,11 +256,6 @@
       <span class="n">disallow_field</span><span class="p">(</span><span class="s1">&#39;end_time&#39;</span><span class="p">,</span> <span class="n">reason</span><span class="p">)</span>
       <span class="n">disallow_field</span><span class="p">(</span><span class="s1">&#39;filters&#39;</span><span class="p">,</span> <span class="n">reason</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_type</span> <span class="o">==</span> <span class="n">InputType</span><span class="o">.</span><span class="n">RAW_IMAGES</span><span class="p">:</span>
-      <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">media_type</span> <span class="o">!=</span> <span class="n">MediaType</span><span class="o">.</span><span class="n">VIDEO</span><span class="p">:</span>
-        <span class="n">reason</span> <span class="o">=</span> <span class="s1">&#39;input_type &quot;raw_images&quot; only supports media_type &quot;video&quot;&#39;</span>
-        <span class="n">disallow_field</span><span class="p">(</span><span class="s1">&#39;media_type&#39;</span><span class="p">,</span> <span class="n">reason</span><span class="p">)</span>
-
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_type</span> <span class="o">!=</span> <span class="n">InputType</span><span class="o">.</span><span class="n">FILE</span><span class="p">:</span>
       <span class="c1"># These fields are only valid for file inputs.</span>
       <span class="n">reason</span> <span class="o">=</span> <span class="s1">&#39;only valid when input_type is &quot;file&quot;&#39;</span>
@@ -333,16 +316,7 @@
 <span class="sd">    Note that for types which support autodetect, these arguments must be</span>
 <span class="sd">    understood by ffprobe as well as ffmpeg.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_type</span> <span class="o">==</span> <span class="n">InputType</span><span class="o">.</span><span class="n">RAW_IMAGES</span><span class="p">:</span>
-      <span class="k">return</span> <span class="p">[</span>
-          <span class="c1"># Parse the input as a stream of images fed into a pipe.</span>
-          <span class="s1">&#39;-f&#39;</span><span class="p">,</span> <span class="s1">&#39;image2pipe&#39;</span><span class="p">,</span>
-          <span class="c1"># Set the frame rate to the one specified in the input config.</span>
-          <span class="c1"># Note that this is the input framerate for the image2 dexuxer, which</span>
-          <span class="c1"># is not what the similar &#39;-r&#39; option is meant for.</span>
-          <span class="s1">&#39;-framerate&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">frame_rate</span><span class="p">),</span>
-      <span class="p">]</span>
-    <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_type</span> <span class="o">==</span> <span class="n">InputType</span><span class="o">.</span><span class="n">WEBCAM</span><span class="p">:</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_type</span> <span class="o">==</span> <span class="n">InputType</span><span class="o">.</span><span class="n">WEBCAM</span><span class="p">:</span>
       <span class="k">if</span> <span class="n">platform</span><span class="o">.</span><span class="n">system</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;Linux&#39;</span><span class="p">:</span>
         <span class="k">return</span> <span class="p">[</span>
             <span class="c1"># Treat the input as a video4linux device, which is how webcams show</span>

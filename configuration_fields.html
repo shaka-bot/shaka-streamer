@@ -71,7 +71,7 @@ files.</p>
 <p>An object representing a single input stream to Shaka Streamer.</p>
 <dl class="attribute">
 <dt id="streamer.input_configuration.Input.input_type">
-<code class="descname">input_type</code><em class="property">: InputType (one of 'file', 'looped_file', 'webcam', 'raw_images', 'external_command')</em><a class="headerlink" href="#streamer.input_configuration.Input.input_type" title="Permalink to this definition">¶</a></dt>
+<code class="descname">input_type</code><em class="property">: InputType (one of 'file', 'looped_file', 'webcam', 'external_command')</em><a class="headerlink" href="#streamer.input_configuration.Input.input_type" title="Permalink to this definition">¶</a></dt>
 <dd><p>The type of the input.</p>
 </dd></dl>
 
@@ -85,8 +85,6 @@ looped indefinitely in FFmpeg.</p>
 <p>With input_type set to ‘webcam’, this is which webcam.  On Linux, this is a
 path to the device node for the webcam, such as ‘/dev/video0’.  On macOS, this
 is a device name, such as ‘default’.</p>
-<p>With input_type set to ‘raw_images’, this is a path to a file or pipe
-containing a sequence of raw images.</p>
 <p>With input_type set to ‘external_command’, this is an external command that
 generates a stream of audio or video.  The command will be parsed using shell
 quoting rules.  The command should send its generated output to the path in
@@ -208,15 +206,6 @@ automatically by FFmpeg.</p>
 <p>The device path should be given in the name field.  For example, on Linux,
 this might be /dev/video0.</p>
 <p>Does not support media_type of ‘text’.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="streamer.input_configuration.InputType.RAW_IMAGES">
-<code class="descname">RAW_IMAGES</code><em class="property"> = 'raw_images'</em><a class="headerlink" href="#streamer.input_configuration.InputType.RAW_IMAGES" title="Permalink to this definition">¶</a></dt>
-<dd><p>A file or pipe with a sequence of raw images.</p>
-<p>Requires the specification of frame_rate.  May require the use of
-extra_input_args if FFmpeg can’t guess the format.</p>
-<p>Does not support media_type of ‘text’ or ‘audio’.</p>
 </dd></dl>
 
 <dl class="attribute">
