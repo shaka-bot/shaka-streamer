@@ -50,9 +50,9 @@
 <span class="kn">import</span> <span class="nn">re</span>
 
 <span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">configuration</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
 
 
-<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
 <span class="k">class</span> <span class="nc">BitrateString</span><span class="p">(</span><span class="n">configuration</span><span class="o">.</span><span class="n">ValidatingType</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;A wrapper that can be used in Field() to require a bitrate string.&quot;&quot;&quot;</span>
 
@@ -177,15 +177,11 @@
 <span class="sd">  For example, this could be &#39;500k&#39; or &#39;7.5M&#39;.</span>
 <span class="sd">  &quot;&quot;&quot;</span>
 
-  <span class="c1"># The __eq__ method, defined on the object level is supposed to</span>
-  <span class="c1"># take in any object as an argument, not just AudioChannelLayout.</span>
-  <span class="c1"># The typechecker freaks out at the signature. The &#39;type: ignore&#39;</span>
-  <span class="c1"># comment on the next line silences the error.</span>
-  <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s1">&#39;AudioChannelLayout&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span> <span class="c1"># type: ignore</span>
+  <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_channels</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">max_channels</span>
 
-  <span class="k">def</span> <span class="nf">__lt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s1">&#39;AudioChannelLayout&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_channels</span> <span class="o">&lt;</span> <span class="n">other</span><span class="o">.</span><span class="n">max_channels</span> <span class="c1"># type: ignore</span></div>
+  <span class="k">def</span> <span class="nf">__lt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_channels</span> <span class="o">&lt;</span> <span class="n">other</span><span class="o">.</span><span class="n">max_channels</span></div>
 
 
 <span class="n">DEFAULT_AUDIO_CHANNEL_LAYOUTS</span> <span class="o">=</span> <span class="p">{</span>
@@ -235,18 +231,14 @@
 <span class="sd">  For example, this could be &#39;500k&#39; or &#39;7.5M&#39;.</span>
 <span class="sd">  &quot;&quot;&quot;</span>
 
-  <span class="k">def</span> <span class="nf">_sortable_properties</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">:</span>
+  <span class="k">def</span> <span class="nf">_sortable_properties</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot;Return a tuple of properties we can sort on.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">max_width</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_height</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_frame_rate</span><span class="p">)</span>
 
-  <span class="c1"># The __eq__ method, defined on the object level is supposed to</span>
-  <span class="c1"># take in any object as an argument, not just AudioChannelLayout.</span>
-  <span class="c1"># The typechecker freaks out at the signature. The &#39;type: ignore&#39;</span>
-  <span class="c1"># comment on the next line silences the error.</span>
-  <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s1">&#39;VideoResolution&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span> <span class="c1"># type: ignore</span>
+  <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sortable_properties</span><span class="p">()</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">_sortable_properties</span><span class="p">()</span>
 
-  <span class="k">def</span> <span class="nf">__lt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s1">&#39;VideoResolution&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+  <span class="k">def</span> <span class="nf">__lt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sortable_properties</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">other</span><span class="o">.</span><span class="n">_sortable_properties</span><span class="p">()</span></div>
 
 

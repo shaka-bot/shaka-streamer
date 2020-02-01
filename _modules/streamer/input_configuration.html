@@ -246,7 +246,7 @@
       <span class="c1"># Text streams are only supported in plain file inputs.</span>
       <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_type</span> <span class="o">!=</span> <span class="n">InputType</span><span class="o">.</span><span class="n">FILE</span><span class="p">:</span>
         <span class="n">reason</span> <span class="o">=</span> <span class="s1">&#39;text streams are not supported in input_type &quot;</span><span class="si">{}</span><span class="s1">&quot;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">input_type</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="c1">#type: ignore</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">input_type</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
         <span class="n">disallow_field</span><span class="p">(</span><span class="s1">&#39;input_type&#39;</span><span class="p">,</span> <span class="n">reason</span><span class="p">)</span>
 
       <span class="c1"># These fields are not supported with text, because we don&#39;t process or</span>
@@ -264,7 +264,7 @@
 
     <span class="c1"># This needs to be parsed into an argument array.  Note that shlex.split on</span>
     <span class="c1"># an empty string will produce an empty array.</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">extra_input_args</span> <span class="o">=</span> <span class="n">shlex</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">extra_input_args</span><span class="p">)</span> <span class="c1">#type: ignore</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">extra_input_args</span> <span class="o">=</span> <span class="n">shlex</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">extra_input_args</span><span class="p">)</span>
 
     <span class="c1"># A path to a pipe into which this input&#39;s contents are fed.</span>
     <span class="c1"># None for most input types.</span>
@@ -284,7 +284,7 @@
 <span class="sd">    For some input types, this is a named pipe.  For others, this is .name.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pipe</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="c1">#type: ignore</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pipe</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
 
   <span class="k">def</span> <span class="nf">get_stream_specifier</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Get an FFmpeg stream specifier for this input.</span>

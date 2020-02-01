@@ -170,15 +170,15 @@
     <span class="c1"># Now that the definitions have been parsed, register the maps of valid</span>
     <span class="c1"># resolutions and channel layouts so that InputConfig and PipelineConfig</span>
     <span class="c1"># can be validated accordingly.</span>
-    <span class="n">Resolution</span><span class="o">.</span><span class="n">set_map</span><span class="p">(</span><span class="n">bitrate_config</span><span class="o">.</span><span class="n">video_resolutions</span><span class="p">)</span> <span class="c1">#type: ignore</span>
-    <span class="n">ChannelLayout</span><span class="o">.</span><span class="n">set_map</span><span class="p">(</span><span class="n">bitrate_config</span><span class="o">.</span><span class="n">audio_channel_layouts</span><span class="p">)</span> <span class="c1">#type: ignore</span>
+    <span class="n">Resolution</span><span class="o">.</span><span class="n">set_map</span><span class="p">(</span><span class="n">bitrate_config</span><span class="o">.</span><span class="n">video_resolutions</span><span class="p">)</span>
+    <span class="n">ChannelLayout</span><span class="o">.</span><span class="n">set_map</span><span class="p">(</span><span class="n">bitrate_config</span><span class="o">.</span><span class="n">audio_channel_layouts</span><span class="p">)</span>
 
     <span class="n">input_config</span> <span class="o">=</span> <span class="n">InputConfig</span><span class="p">(</span><span class="n">input_config_dict</span><span class="p">)</span>
     <span class="n">pipeline_config</span> <span class="o">=</span> <span class="n">PipelineConfig</span><span class="p">(</span><span class="n">pipeline_config_dict</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_pipeline_config</span> <span class="o">=</span> <span class="n">pipeline_config</span>
 
     <span class="n">outputs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">OutputStream</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="nb">input</span> <span class="ow">in</span> <span class="n">input_config</span><span class="o">.</span><span class="n">inputs</span><span class="p">:</span> <span class="c1">#type: ignore</span>
+    <span class="k">for</span> <span class="nb">input</span> <span class="ow">in</span> <span class="n">input_config</span><span class="o">.</span><span class="n">inputs</span><span class="p">:</span>
       <span class="c1"># External command inputs need to be processed by an additional node</span>
       <span class="c1"># before being transcoded.  In this case, the input doesn&#39;t have a</span>
       <span class="c1"># filename that FFmpeg can read, so we generate an intermediate pipe for</span>
@@ -191,15 +191,15 @@
         <span class="nb">input</span><span class="o">.</span><span class="n">set_pipe</span><span class="p">(</span><span class="n">command_output</span><span class="p">)</span>
 
       <span class="k">if</span> <span class="nb">input</span><span class="o">.</span><span class="n">media_type</span> <span class="o">==</span> <span class="n">MediaType</span><span class="o">.</span><span class="n">AUDIO</span><span class="p">:</span>
-        <span class="k">for</span> <span class="n">codec</span> <span class="ow">in</span> <span class="n">pipeline_config</span><span class="o">.</span><span class="n">audio_codecs</span><span class="p">:</span> <span class="c1">#type: ignore</span>
+        <span class="k">for</span> <span class="n">codec</span> <span class="ow">in</span> <span class="n">pipeline_config</span><span class="o">.</span><span class="n">audio_codecs</span><span class="p">:</span>
           <span class="n">outputs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">AudioOutputStream</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_create_pipe</span><span class="p">(),</span>
                                            <span class="nb">input</span><span class="p">,</span>
                                            <span class="n">codec</span><span class="p">,</span>
-                                           <span class="n">pipeline_config</span><span class="o">.</span><span class="n">channels</span><span class="p">))</span> <span class="c1">#type: ignore</span>
+                                           <span class="n">pipeline_config</span><span class="o">.</span><span class="n">channels</span><span class="p">))</span>
 
       <span class="k">elif</span> <span class="nb">input</span><span class="o">.</span><span class="n">media_type</span> <span class="o">==</span> <span class="n">MediaType</span><span class="o">.</span><span class="n">VIDEO</span><span class="p">:</span>
-        <span class="k">for</span> <span class="n">codec</span> <span class="ow">in</span> <span class="n">pipeline_config</span><span class="o">.</span><span class="n">video_codecs</span><span class="p">:</span> <span class="c1">#type: ignore</span>
-          <span class="k">for</span> <span class="n">output_resolution</span> <span class="ow">in</span> <span class="n">pipeline_config</span><span class="o">.</span><span class="n">resolutions</span><span class="p">:</span> <span class="c1">#type: ignore</span>
+        <span class="k">for</span> <span class="n">codec</span> <span class="ow">in</span> <span class="n">pipeline_config</span><span class="o">.</span><span class="n">video_codecs</span><span class="p">:</span>
+          <span class="k">for</span> <span class="n">output_resolution</span> <span class="ow">in</span> <span class="n">pipeline_config</span><span class="o">.</span><span class="n">resolutions</span><span class="p">:</span>
             <span class="c1"># Only going to output lower or equal resolution videos.</span>
             <span class="c1"># Upscaling is costly and does not do anything.</span>
             <span class="k">if</span> <span class="nb">input</span><span class="o">.</span><span class="n">resolution</span> <span class="o">&lt;</span> <span class="n">output_resolution</span><span class="p">:</span>
