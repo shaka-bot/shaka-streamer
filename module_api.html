@@ -200,8 +200,71 @@ English.</p>
 <dl class="class">
 <dt id="streamer.configuration.HexString">
 <em class="property">class </em><code class="descclassname">streamer.configuration.</code><code class="descname">HexString</code><a class="reference internal" href="_modules/streamer/configuration.html#HexString"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#streamer.configuration.HexString" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">streamer.configuration.ValidatingType</span></code></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">streamer.configuration.ValidatingType</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></p>
 <p>A wrapper that can be used in Field() to require a hex string.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="streamer.configuration.RuntimeMap">
+<em class="property">class </em><code class="descclassname">streamer.configuration.</code><code class="descname">RuntimeMap</code><span class="sig-paren">(</span><em>dictionary: Dict[str, Any]</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/streamer/configuration.html#RuntimeMap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#streamer.configuration.RuntimeMap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">typing.Generic</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">streamer.configuration.Base</span></code></p>
+<p>Maintains a map of keys to specific instances from the config file.</p>
+<p>This means a Field can have its type defined before the valid keys/values of
+that type are known.  For example, this is used for resolutions, which are
+defined by a config file.</p>
+<p>After calling set_map on the subclass, the get_value method can be used to
+look up a value from its key.  For example, after setting the map to
+{‘foo’: ‘bar’}, ‘foo’ becomes the only valid key.  Passing the key ‘foo’ to
+the get_value then results in the value ‘bar’ being returned.</p>
+<dl class="classmethod">
+<dt id="streamer.configuration.RuntimeMap.set_map">
+<em class="property">classmethod </em><code class="descname">set_map</code><span class="sig-paren">(</span><em>map: Dict[str, RuntimeMapSubclass]</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/streamer/configuration.html#RuntimeMap.set_map"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#streamer.configuration.RuntimeMap.set_map" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the map of valid values for this class.</p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="streamer.configuration.RuntimeMap.get_value">
+<em class="property">classmethod </em><code class="descname">get_value</code><span class="sig-paren">(</span><em>key: str</em><span class="sig-paren">)</span> &#x2192; RuntimeMapSubclass<a class="reference internal" href="_modules/streamer/configuration.html#RuntimeMap.get_value"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#streamer.configuration.RuntimeMap.get_value" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a valid value by its key.</p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="streamer.configuration.RuntimeMap.keys">
+<em class="property">classmethod </em><code class="descname">keys</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/streamer/configuration.html#RuntimeMap.keys"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#streamer.configuration.RuntimeMap.keys" title="Permalink to this definition">¶</a></dt>
+<dd><p>This allows the config system to print the list of allowed strings.</p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="streamer.configuration.RuntimeMap.sorted_values">
+<em class="property">classmethod </em><code class="descname">sorted_values</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; List[RuntimeMapSubclass]<a class="reference internal" href="_modules/streamer/configuration.html#RuntimeMap.sorted_values"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#streamer.configuration.RuntimeMap.sorted_values" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="streamer.configuration.RuntimeMapKeyValidator">
+<em class="property">class </em><code class="descclassname">streamer.configuration.</code><code class="descname">RuntimeMapKeyValidator</code><a class="reference internal" href="_modules/streamer/configuration.html#RuntimeMapKeyValidator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#streamer.configuration.RuntimeMapKeyValidator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">streamer.configuration.ValidatingType</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></p>
+<p>A validator that only allows the valid keys for a certain RuntimeMap
+subclass.</p>
+<p>A RuntimeMap subclass should be paired with a RuntimeMapKeyValidator subclass.
+The RuntimeMapKeyValidator subclass should have a “map_class” variable which
+points to the RuntimeMap subclass.</p>
+<dl class="attribute">
+<dt id="streamer.configuration.RuntimeMapKeyValidator.map_class">
+<code class="descname">map_class</code><em class="property"> = None</em><a class="headerlink" href="#streamer.configuration.RuntimeMapKeyValidator.map_class" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="classmethod">
+<dt id="streamer.configuration.RuntimeMapKeyValidator.name">
+<em class="property">classmethod </em><code class="descname">name</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="_modules/streamer/configuration.html#RuntimeMapKeyValidator.name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#streamer.configuration.RuntimeMapKeyValidator.name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="classmethod">
+<dt id="streamer.configuration.RuntimeMapKeyValidator.validate">
+<em class="property">classmethod </em><code class="descname">validate</code><span class="sig-paren">(</span><em>key</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/streamer/configuration.html#RuntimeMapKeyValidator.validate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#streamer.configuration.RuntimeMapKeyValidator.validate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 </div>

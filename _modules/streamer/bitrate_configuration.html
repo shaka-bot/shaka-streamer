@@ -45,15 +45,14 @@
 <span class="c1"># limitations under the License.</span>
 
 <span class="kn">import</span> <span class="nn">enum</span>
-<span class="kn">import</span> <span class="nn">functools</span>
 <span class="kn">import</span> <span class="nn">math</span>
 <span class="kn">import</span> <span class="nn">re</span>
 
 <span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">configuration</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Tuple</span>
 
 
-<span class="k">class</span> <span class="nc">BitrateString</span><span class="p">(</span><span class="n">configuration</span><span class="o">.</span><span class="n">ValidatingType</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">BitrateString</span><span class="p">(</span><span class="n">configuration</span><span class="o">.</span><span class="n">ValidatingType</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;A wrapper that can be used in Field() to require a bitrate string.&quot;&quot;&quot;</span>
 
   <span class="nd">@staticmethod</span>
@@ -154,19 +153,16 @@
           <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span></div>
 
 
-<span class="c1"># This decorator makes it so that we only have to implement __eq__ and __lt__</span>
-<span class="c1"># to make the resolutions sortable.</span>
-<div class="viewcode-block" id="AudioChannelLayout"><a class="viewcode-back" href="../../configuration_fields.html#streamer.bitrate_configuration.AudioChannelLayout">[docs]</a><span class="nd">@functools</span><span class="o">.</span><span class="n">total_ordering</span>
-<span class="k">class</span> <span class="nc">AudioChannelLayout</span><span class="p">(</span><span class="n">configuration</span><span class="o">.</span><span class="n">Base</span><span class="p">):</span>
+<div class="viewcode-block" id="AudioChannelLayout"><a class="viewcode-back" href="../../configuration_fields.html#streamer.bitrate_configuration.AudioChannelLayout">[docs]</a><span class="k">class</span> <span class="nc">AudioChannelLayout</span><span class="p">(</span><span class="n">configuration</span><span class="o">.</span><span class="n">RuntimeMap</span><span class="p">):</span>
 
-  <span class="n">max_channels</span> <span class="o">=</span> <span class="n">configuration</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+  <span class="n">max_channels</span> <span class="o">=</span> <span class="n">configuration</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">cast</span><span class="p">()</span>
   <span class="sd">&quot;&quot;&quot;The maximum number of channels in this layout.</span>
 
 <span class="sd">  For example, the maximum number of channels for stereo is 2.</span>
 <span class="sd">  &quot;&quot;&quot;</span>
 
   <span class="n">bitrates</span> <span class="o">=</span> <span class="n">configuration</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span>
-      <span class="nb">dict</span><span class="p">,</span> <span class="n">keytype</span><span class="o">=</span><span class="n">AudioCodec</span><span class="p">,</span> <span class="n">subtype</span><span class="o">=</span><span class="n">BitrateString</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+      <span class="n">Dict</span><span class="p">[</span><span class="n">AudioCodec</span><span class="p">,</span> <span class="n">BitrateString</span><span class="p">],</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">cast</span><span class="p">()</span>
   <span class="sd">&quot;&quot;&quot;A map of audio codecs to the target bitrate for this channel layout.</span>
 
 <span class="sd">  For example, in stereo, AAC can have a different bitrate from Opus.</span>
@@ -177,11 +173,9 @@
 <span class="sd">  For example, this could be &#39;500k&#39; or &#39;7.5M&#39;.</span>
 <span class="sd">  &quot;&quot;&quot;</span>
 
-  <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_channels</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">max_channels</span>
-
-  <span class="k">def</span> <span class="nf">__lt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_channels</span> <span class="o">&lt;</span> <span class="n">other</span><span class="o">.</span><span class="n">max_channels</span></div>
+  <span class="k">def</span> <span class="nf">_sortable_properties</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;Return a tuple of properties we can sort on.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">max_channels</span><span class="p">,)</span></div>
 
 
 <span class="n">DEFAULT_AUDIO_CHANNEL_LAYOUTS</span> <span class="o">=</span> <span class="p">{</span>
@@ -202,25 +196,22 @@
 <span class="p">}</span>
 
 
-<span class="c1"># This decorator makes it so that we only have to implement __eq__ and __lt__</span>
-<span class="c1"># to make the resolutions sortable.</span>
-<div class="viewcode-block" id="VideoResolution"><a class="viewcode-back" href="../../configuration_fields.html#streamer.bitrate_configuration.VideoResolution">[docs]</a><span class="nd">@functools</span><span class="o">.</span><span class="n">total_ordering</span>
-<span class="k">class</span> <span class="nc">VideoResolution</span><span class="p">(</span><span class="n">configuration</span><span class="o">.</span><span class="n">Base</span><span class="p">):</span>
+<div class="viewcode-block" id="VideoResolution"><a class="viewcode-back" href="../../configuration_fields.html#streamer.bitrate_configuration.VideoResolution">[docs]</a><span class="k">class</span> <span class="nc">VideoResolution</span><span class="p">(</span><span class="n">configuration</span><span class="o">.</span><span class="n">RuntimeMap</span><span class="p">):</span>
 
-  <span class="n">max_width</span> <span class="o">=</span> <span class="n">configuration</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+  <span class="n">max_width</span> <span class="o">=</span> <span class="n">configuration</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">cast</span><span class="p">()</span>
   <span class="sd">&quot;&quot;&quot;The maximum width in pixels for this named resolution.&quot;&quot;&quot;</span>
 
-  <span class="n">max_height</span> <span class="o">=</span> <span class="n">configuration</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+  <span class="n">max_height</span> <span class="o">=</span> <span class="n">configuration</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">cast</span><span class="p">()</span>
   <span class="sd">&quot;&quot;&quot;The maximum height in pixels for this named resolution.&quot;&quot;&quot;</span>
 
-  <span class="n">max_frame_rate</span> <span class="o">=</span> <span class="n">configuration</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">math</span><span class="o">.</span><span class="n">inf</span><span class="p">)</span>
+  <span class="n">max_frame_rate</span> <span class="o">=</span> <span class="n">configuration</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">math</span><span class="o">.</span><span class="n">inf</span><span class="p">)</span><span class="o">.</span><span class="n">cast</span><span class="p">()</span>
   <span class="sd">&quot;&quot;&quot;The maximum frame rate in frames per second for this named resolution.</span>
 
 <span class="sd">  By default, the max frame rate is unlimited.</span>
 <span class="sd">  &quot;&quot;&quot;</span>
 
   <span class="n">bitrates</span> <span class="o">=</span> <span class="n">configuration</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span>
-      <span class="nb">dict</span><span class="p">,</span> <span class="n">keytype</span><span class="o">=</span><span class="n">VideoCodec</span><span class="p">,</span> <span class="n">subtype</span><span class="o">=</span><span class="n">BitrateString</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+      <span class="n">Dict</span><span class="p">[</span><span class="n">VideoCodec</span><span class="p">,</span> <span class="n">BitrateString</span><span class="p">],</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">cast</span><span class="p">()</span>
   <span class="sd">&quot;&quot;&quot;A map of video codecs to the target bitrate for this resolution.</span>
 
 <span class="sd">  For example, in 1080p, H264 can have a different bitrate from VP9.</span>
@@ -233,13 +224,13 @@
 
   <span class="k">def</span> <span class="nf">_sortable_properties</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot;Return a tuple of properties we can sort on.&quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">max_width</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_height</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_frame_rate</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">max_width</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_height</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_frame_rate</span><span class="p">)</span></div>
 
-  <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sortable_properties</span><span class="p">()</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">_sortable_properties</span><span class="p">()</span>
 
-  <span class="k">def</span> <span class="nf">__lt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sortable_properties</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">other</span><span class="o">.</span><span class="n">_sortable_properties</span><span class="p">()</span></div>
+<span class="k">class</span> <span class="nc">VideoResolutionName</span><span class="p">(</span><span class="n">configuration</span><span class="o">.</span><span class="n">RuntimeMapKeyValidator</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;A type which will only allow valid VideoResolution names at runtime.&quot;&quot;&quot;</span>
+
+  <span class="n">map_class</span> <span class="o">=</span> <span class="n">VideoResolution</span>
 
 
 <span class="c1"># Default bitrates and resolutions are tracked internally at</span>
@@ -393,7 +384,8 @@
 <div class="viewcode-block" id="BitrateConfig"><a class="viewcode-back" href="../../configuration_fields.html#streamer.bitrate_configuration.BitrateConfig">[docs]</a><span class="k">class</span> <span class="nc">BitrateConfig</span><span class="p">(</span><span class="n">configuration</span><span class="o">.</span><span class="n">Base</span><span class="p">):</span>
 
   <span class="n">audio_channel_layouts</span> <span class="o">=</span> <span class="n">configuration</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span>
-      <span class="nb">dict</span><span class="p">,</span> <span class="n">subtype</span><span class="o">=</span><span class="n">AudioChannelLayout</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">DEFAULT_AUDIO_CHANNEL_LAYOUTS</span><span class="p">)</span>
+      <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">AudioChannelLayout</span><span class="p">],</span>
+      <span class="n">default</span><span class="o">=</span><span class="n">DEFAULT_AUDIO_CHANNEL_LAYOUTS</span><span class="p">)</span><span class="o">.</span><span class="n">cast</span><span class="p">()</span>
   <span class="sd">&quot;&quot;&quot;A map of named channel layouts.</span>
 
 <span class="sd">  For example, the key would be a name like &quot;stereo&quot;, and the value would be an</span>
@@ -402,25 +394,13 @@
 <span class="sd">  &quot;&quot;&quot;</span>
 
   <span class="n">video_resolutions</span> <span class="o">=</span> <span class="n">configuration</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span>
-      <span class="nb">dict</span><span class="p">,</span> <span class="n">subtype</span><span class="o">=</span><span class="n">VideoResolution</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">DEFAULT_VIDEO_RESOLUTIONS</span><span class="p">)</span>
+      <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">VideoResolution</span><span class="p">],</span> <span class="n">default</span><span class="o">=</span><span class="n">DEFAULT_VIDEO_RESOLUTIONS</span><span class="p">)</span><span class="o">.</span><span class="n">cast</span><span class="p">()</span>
   <span class="sd">&quot;&quot;&quot;A map of named resolutions.</span>
 
 <span class="sd">  For example, the key would be a name like &quot;1080p&quot;, and the value would be an</span>
 <span class="sd">  object with all the parameters of how 1080p video would be encoded (max size,</span>
 <span class="sd">  bitrates, etc.)</span>
 <span class="sd">  &quot;&quot;&quot;</span></div>
-
-
-<span class="k">class</span> <span class="nc">Resolution</span><span class="p">(</span><span class="n">configuration</span><span class="o">.</span><span class="n">RuntimeMapType</span><span class="p">):</span>
-  <span class="sd">&quot;&quot;&quot;A runtime map of resolution names to VideoResolution objects.&quot;&quot;&quot;</span>
-
-  <span class="k">pass</span>
-
-<span class="k">class</span> <span class="nc">ChannelLayout</span><span class="p">(</span><span class="n">configuration</span><span class="o">.</span><span class="n">RuntimeMapType</span><span class="p">):</span>
-  <span class="sd">&quot;&quot;&quot;A runtime map of channel layout names to AudioChannelLayout objects.&quot;&quot;&quot;</span>
-
-  <span class="k">pass</span>
-
 </pre></div>
 
           </div>
