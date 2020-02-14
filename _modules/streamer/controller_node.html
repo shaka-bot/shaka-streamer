@@ -214,12 +214,12 @@
         <span class="n">outputs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">TextOutputStream</span><span class="p">(</span><span class="nb">input</span><span class="p">))</span>
 
     <span class="bp">self</span><span class="o">.</span><span class="n">_nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">TranscoderNode</span><span class="p">(</span><span class="n">input_config</span><span class="p">,</span>
-                                                      <span class="n">pipeline_config</span><span class="p">,</span>
-                                                      <span class="n">outputs</span><span class="p">))</span>
+                                      <span class="n">pipeline_config</span><span class="p">,</span>
+                                      <span class="n">outputs</span><span class="p">))</span>
 
     <span class="bp">self</span><span class="o">.</span><span class="n">_nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">PackagerNode</span><span class="p">(</span><span class="n">pipeline_config</span><span class="p">,</span>
-                                                  <span class="n">output_dir</span><span class="p">,</span>
-                                                  <span class="n">outputs</span><span class="p">))</span>
+                                    <span class="n">output_dir</span><span class="p">,</span>
+                                    <span class="n">outputs</span><span class="p">))</span>
 
     <span class="k">if</span> <span class="n">bucket_url</span><span class="p">:</span>
       <span class="n">cloud_temp_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_temp_dir</span><span class="p">,</span> <span class="s1">&#39;cloud&#39;</span><span class="p">)</span>
