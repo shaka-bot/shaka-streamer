@@ -98,9 +98,13 @@
   <span class="k">def</span> <span class="nf">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">unused_args</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
 
-  <span class="k">def</span> <span class="nf">_create_pipe</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+  <span class="k">def</span> <span class="nf">_create_pipe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">suffix</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Create a uniquely-named named pipe in the node&#39;s temp directory.</span>
 
+<span class="sd">    Args:</span>
+<span class="sd">      suffix (str): An optional suffix added to the pipe&#39;s name.  Used to</span>
+<span class="sd">                    indicate to the packager when it&#39;s getting a certain text</span>
+<span class="sd">                    format in a pipe.</span>
 <span class="sd">    Raises:</span>
 <span class="sd">      RuntimeError: If the platform doesn&#39;t have mkfifo.</span>
 <span class="sd">    Returns:</span>
@@ -115,7 +119,7 @@
 
     <span class="c1"># Since the tempfile module creates actual files, use uuid to generate a</span>
     <span class="c1"># filename, then call mkfifo to create the named pipe.</span>
-    <span class="n">unique_name</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">())</span>
+    <span class="n">unique_name</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">())</span> <span class="o">+</span> <span class="n">suffix</span>
     <span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_temp_dir</span><span class="p">,</span> <span class="n">unique_name</span><span class="p">)</span>
 
     <span class="n">readable_by_owner_only</span> <span class="o">=</span> <span class="mo">0o600</span>  <span class="c1"># Unix permission bits</span>
@@ -147,8 +151,8 @@
       <span class="c1"># above.</span>
       <span class="n">_check_version</span><span class="p">(</span><span class="s1">&#39;ffprobe&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;ffprobe&#39;</span><span class="p">,</span> <span class="s1">&#39;-version&#39;</span><span class="p">],</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
 
-      <span class="c1"># Check that Shaka Packager version is 2.4 or above.</span>
-      <span class="n">_check_version</span><span class="p">(</span><span class="s1">&#39;Shaka Packager&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;packager&#39;</span><span class="p">,</span> <span class="s1">&#39;-version&#39;</span><span class="p">],</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+      <span class="c1"># Check that Shaka Packager version is 2.4.2 or above.</span>
+      <span class="n">_check_version</span><span class="p">(</span><span class="s1">&#39;Shaka Packager&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;packager&#39;</span><span class="p">,</span> <span class="s1">&#39;-version&#39;</span><span class="p">],</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
 
       <span class="k">if</span> <span class="n">bucket_url</span><span class="p">:</span>
         <span class="c1"># Check that the Google Cloud SDK is at least v212, which introduced</span>
@@ -211,7 +215,18 @@
                                              <span class="n">output_resolution</span><span class="p">))</span>
 
       <span class="k">elif</span> <span class="nb">input</span><span class="o">.</span><span class="n">media_type</span> <span class="o">==</span> <span class="n">MediaType</span><span class="o">.</span><span class="n">TEXT</span><span class="p">:</span>
-        <span class="n">outputs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">TextOutputStream</span><span class="p">(</span><span class="nb">input</span><span class="p">))</span>
+        <span class="k">if</span> <span class="nb">input</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;.vtt&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">input</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;.ttml&#39;</span><span class="p">):</span>
+          <span class="c1"># If the input is a VTT or TTML file, pass it directly to the packager</span>
+          <span class="c1"># without any intermediate processing or any named pipe.</span>
+          <span class="c1"># TODO: Test TTML inputs</span>
+          <span class="n">text_pipe</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># Bypass transcoder</span>
+        <span class="k">else</span><span class="p">:</span>
+          <span class="c1"># Otherwise, the input is something like an mkv file with text tracks</span>
+          <span class="c1"># in it.  These will be extracted by the transcoder and passed in a</span>
+          <span class="c1"># pipe to the packager.</span>
+          <span class="n">text_pipe</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_pipe</span><span class="p">(</span><span class="s1">&#39;.vtt&#39;</span><span class="p">)</span>
+
+        <span class="n">outputs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">TextOutputStream</span><span class="p">(</span><span class="n">text_pipe</span><span class="p">,</span> <span class="nb">input</span><span class="p">))</span>
 
     <span class="bp">self</span><span class="o">.</span><span class="n">_nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">TranscoderNode</span><span class="p">(</span><span class="n">input_config</span><span class="p">,</span>
                                       <span class="n">pipeline_config</span><span class="p">,</span>
@@ -226,9 +241,9 @@
       <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">cloud_temp_dir</span><span class="p">)</span>
 
       <span class="bp">self</span><span class="o">.</span><span class="n">_nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">CloudNode</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span>
-                                              <span class="n">bucket_url</span><span class="p">,</span>
-                                              <span class="n">cloud_temp_dir</span><span class="p">,</span>
-                                              <span class="bp">self</span><span class="o">.</span><span class="n">is_vod</span><span class="p">()))</span>
+                                   <span class="n">bucket_url</span><span class="p">,</span>
+                                   <span class="n">cloud_temp_dir</span><span class="p">,</span>
+                                   <span class="bp">self</span><span class="o">.</span><span class="n">is_vod</span><span class="p">()))</span>
 
     <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nodes</span><span class="p">:</span>
       <span class="n">node</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
