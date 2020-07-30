@@ -1,19 +1,17 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
     <title>Installing Prerequisites &#8212; Shaka Streamer 0.3.0 documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="_static/language_data.js"></script>
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Hardware Encoding" href="hardware_encoding.html" />
@@ -40,15 +38,15 @@ Streamer via <code class="docutils literal notranslate"><span class="pre">pip3</
 automatically.  If you got Shaka Streamer source from GitHub, you will need to
 install the YAML module separately.</p>
 <p>To install it on Ubuntu:</p>
-<div class="code sh highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">apt</span> <span class="o">-</span><span class="n">y</span> <span class="n">install</span> <span class="n">python3</span><span class="o">-</span><span class="n">yaml</span>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>sudo apt -y install python3-yaml
 </pre></div>
 </div>
 <p>This can also be installed via <code class="docutils literal notranslate"><span class="pre">pip3</span></code> on any platform:</p>
-<div class="code sh highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># To install/upgrade globally (drop the &quot;sudo&quot; for Windows):</span>
-<span class="n">sudo</span> <span class="n">pip3</span> <span class="n">install</span> <span class="o">--</span><span class="n">upgrade</span> <span class="n">pyyaml</span>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="c1"># To install/upgrade globally (drop the &quot;sudo&quot; for Windows):</span>
+sudo pip3 install --upgrade pyyaml
 
 <span class="c1"># To install/upgrade per-user:</span>
-<span class="n">pip3</span> <span class="n">install</span> <span class="o">--</span><span class="n">user</span> <span class="o">--</span><span class="n">upgrade</span> <span class="n">pyyaml</span>
+pip3 install --user --upgrade pyyaml
 </pre></div>
 </div>
 </div>
@@ -57,8 +55,8 @@ install the YAML module separately.</p>
 <p>Pre-built Shaka Packager binaries can be downloaded from github here:
 <a class="reference external" href="https://github.com/google/shaka-packager/releases">https://github.com/google/shaka-packager/releases</a></p>
 <p>To install a Shaka Packager binary on Linux:</p>
-<div class="code sh highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">install</span> <span class="o">-</span><span class="n">m</span> <span class="mi">755</span> <span class="o">~/</span><span class="n">Downloads</span><span class="o">/</span><span class="n">packager</span><span class="o">-</span><span class="n">linux</span> \
-  <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">packager</span>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>sudo install -m <span class="m">755</span> ~/Downloads/packager-linux <span class="se">\</span>
+  /usr/local/bin/packager
 </pre></div>
 </div>
 <p>To build Shaka Packager from source, follow instructions here:
@@ -68,29 +66,29 @@ install the YAML module separately.</p>
 <h2>FFmpeg<a class="headerlink" href="#ffmpeg" title="Permalink to this headline">¶</a></h2>
 <p>If your Linux distribution has FFmpeg v4.1+, you can just install the package.
 For example, this will work in Ubuntu 19.04+:</p>
-<div class="code sh highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">apt</span> <span class="o">-</span><span class="n">y</span> <span class="n">install</span> <span class="n">ffmpeg</span>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>sudo apt -y install ffmpeg
 </pre></div>
 </div>
 <p>For older versions of Ubuntu or any other Linux distro which does not have a
 new enough version of FFmpeg, you can build it from source. For example:</p>
-<div class="code sh highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">apt</span> <span class="o">-</span><span class="n">y</span> <span class="n">install</span> \
-  <span class="n">libx264</span><span class="o">-</span><span class="n">dev</span> <span class="n">libvpx</span><span class="o">-</span><span class="n">dev</span> <span class="n">libopus</span><span class="o">-</span><span class="n">dev</span> <span class="n">libfreetype6</span><span class="o">-</span><span class="n">dev</span> \
-  <span class="n">libfontconfig1</span><span class="o">-</span><span class="n">dev</span> <span class="n">libsdl2</span><span class="o">-</span><span class="n">dev</span> <span class="n">yasm</span> \
-  <span class="n">va</span><span class="o">-</span><span class="n">driver</span><span class="o">-</span><span class="nb">all</span> <span class="n">libnvidia</span><span class="o">-</span><span class="n">encode1</span>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>sudo apt -y install <span class="se">\</span>
+  libx264-dev libvpx-dev libopus-dev libfreetype6-dev <span class="se">\</span>
+  libfontconfig1-dev libsdl2-dev yasm <span class="se">\</span>
+  va-driver-all libnvidia-encode1
 
-<span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">FFmpeg</span><span class="o">/</span><span class="n">FFmpeg</span> <span class="n">ffmpeg</span>
-<span class="n">cd</span> <span class="n">ffmpeg</span>
-<span class="n">git</span> <span class="n">checkout</span> <span class="n">n4</span><span class="o">.</span><span class="mf">1.3</span>
-<span class="o">./</span><span class="n">configure</span> \
-  <span class="o">--</span><span class="n">enable</span><span class="o">-</span><span class="n">libx264</span> <span class="o">--</span><span class="n">enable</span><span class="o">-</span><span class="n">libvpx</span> <span class="o">--</span><span class="n">enable</span><span class="o">-</span><span class="n">libopus</span> \
-  <span class="o">--</span><span class="n">enable</span><span class="o">-</span><span class="n">gpl</span> <span class="o">--</span><span class="n">enable</span><span class="o">-</span><span class="n">libfreetype</span> <span class="o">--</span><span class="n">enable</span><span class="o">-</span><span class="n">libfontconfig</span>
-<span class="n">make</span>
-<span class="n">sudo</span> <span class="n">make</span> <span class="n">install</span>
+git clone https://github.com/FFmpeg/FFmpeg ffmpeg
+<span class="nb">cd</span> ffmpeg
+git checkout n4.1.3
+./configure <span class="se">\</span>
+  --enable-libx264 --enable-libvpx --enable-libopus <span class="se">\</span>
+  --enable-gpl --enable-libfreetype --enable-libfontconfig
+make
+sudo make install
 </pre></div>
 </div>
 <p>For macOS, you can either build FFmpeg from source or you can use <a class="reference external" href="https://brew.sh/">Homebrew</a>
 to install it:</p>
-<div class="code sh highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">brew</span> <span class="n">install</span> <span class="n">ffmpeg</span>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>brew install ffmpeg
 </pre></div>
 </div>
 </div>
@@ -104,7 +102,7 @@ Cloud SDK on your platform.</p>
 <h3>Google Cloud Storage<a class="headerlink" href="#google-cloud-storage" title="Permalink to this headline">¶</a></h3>
 <p>If you haven’t already, you will need to initialize your gcloud environment and
 log in through your browser.</p>
-<div class="code sh highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gcloud</span> <span class="n">init</span>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>gcloud init
 </pre></div>
 </div>
 <p>Follow the instructions given to you by gcloud to initialize the environment
@@ -119,23 +117,23 @@ config file</a> or login interactively using the <a class="reference external" h
 <div class="section" id="test-dependencies-optional">
 <h2>Test Dependencies (optional)<a class="headerlink" href="#test-dependencies-optional" title="Permalink to this headline">¶</a></h2>
 <p>To run the end-to-end tests, you must install Flask and NPM. In Ubuntu 19.04+:</p>
-<div class="code sh highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">apt</span> <span class="o">-</span><span class="n">y</span> <span class="n">install</span> <span class="n">python3</span><span class="o">-</span><span class="n">flask</span> <span class="n">nodejs</span> <span class="n">npm</span>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>sudo apt -y install python3-flask nodejs npm
 <span class="c1"># Upgrade to a recent npm, which is not packaged:</span>
-<span class="n">sudo</span> <span class="n">npm</span> <span class="n">install</span> <span class="o">-</span><span class="n">g</span> <span class="n">npm</span>
+sudo npm install -g npm
 </pre></div>
 </div>
 <p>Flask can also be installed via <code class="docutils literal notranslate"><span class="pre">pip3</span></code> on any platform:</p>
-<div class="code sh highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># To install/upgrade globally (drop the &quot;sudo&quot; for Windows):</span>
-<span class="n">sudo</span> <span class="n">pip3</span> <span class="n">install</span> <span class="o">--</span><span class="n">upgrade</span> <span class="n">flask</span>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="c1"># To install/upgrade globally (drop the &quot;sudo&quot; for Windows):</span>
+sudo pip3 install --upgrade flask
 
 <span class="c1"># To install/upgrade per-user:</span>
-<span class="n">pip3</span> <span class="n">install</span> <span class="o">--</span><span class="n">user</span> <span class="o">--</span><span class="n">upgrade</span> <span class="n">flask</span>
+pip3 install --user --upgrade flask
 </pre></div>
 </div>
 <p>To install Node.js and NPM on any other platform, you can try one of these:</p>
 <ul class="simple">
-<li><a class="reference external" href="https://github.com/nodesource/distributions">https://github.com/nodesource/distributions</a></li>
-<li><a class="reference external" href="https://nodejs.org/en/download/">https://nodejs.org/en/download/</a></li>
+<li><p><a class="reference external" href="https://github.com/nodesource/distributions">https://github.com/nodesource/distributions</a></p></li>
+<li><p><a class="reference external" href="https://nodejs.org/en/download/">https://nodejs.org/en/download/</a></p></li>
 </ul>
 </div>
 </div>
@@ -182,17 +180,15 @@ config file</a> or login interactively using the <a class="reference external" h
 </ul>
 </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
       <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -201,7 +197,7 @@ config file</a> or login interactively using the <a class="reference external" h
       &copy;2019, Google.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.5</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.4.3</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
       
       |

@@ -1,19 +1,17 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
     <title>Overview &#8212; Shaka Streamer 0.3.0 documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="_static/language_data.js"></script>
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Installing Prerequisites" href="prerequisites.html" />
@@ -36,29 +34,32 @@
 <div class="section" id="features">
 <h2>Features<a class="headerlink" href="#features" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li>Simple, config-file-based application<ul>
-<li>No complicated command-lines</li>
-<li>Sane defaults provided</li>
-<li>You can re-use the same pipeline config across many inputs</li>
+<li><p>Simple, config-file-based application</p>
+<ul>
+<li><p>No complicated command-lines</p></li>
+<li><p>Sane defaults provided</p></li>
+<li><p>You can re-use the same pipeline config across many inputs</p></li>
 </ul>
 </li>
-<li>Supports VOD and live content</li>
-<li>Supports DASH and HLS output</li>
-<li>Supports clear and encrypted output</li>
-<li>Supports hardware encoding (if available from the platform)</li>
-<li>Supports almost any input FFmpeg can ingest</li>
-<li>Can push output automatically to Google Cloud Storage or Amazon S3</li>
-<li>Lots of options for input<ul>
-<li>Transcode and package static input for VOD</li>
-<li>Loop a file for simulated live streaming</li>
-<li>Grab video from a webcam</li>
-<li>Generate input from an arbitrary external command</li>
+<li><p>Supports VOD and live content</p></li>
+<li><p>Supports DASH and HLS output</p></li>
+<li><p>Supports clear and encrypted output</p></li>
+<li><p>Supports hardware encoding (if available from the platform)</p></li>
+<li><p>Supports almost any input FFmpeg can ingest</p></li>
+<li><p>Can push output automatically to Google Cloud Storage or Amazon S3</p></li>
+<li><p>Lots of options for input</p>
+<ul>
+<li><p>Transcode and package static input for VOD</p></li>
+<li><p>Loop a file for simulated live streaming</p></li>
+<li><p>Grab video from a webcam</p></li>
+<li><p>Generate input from an arbitrary external command</p></li>
 </ul>
 </li>
-<li>Gives you control over details if you want it<ul>
-<li>Control DASH live stream attributes</li>
-<li>Control output folders and file names</li>
-<li>Add arbitrary FFmpeg filters for input or output</li>
+<li><p>Gives you control over details if you want it</p>
+<ul>
+<li><p>Control DASH live stream attributes</p></li>
+<li><p>Control output folders and file names</p></li>
+<li><p>Add arbitrary FFmpeg filters for input or output</p></li>
 </ul>
 </li>
 </ul>
@@ -83,19 +84,19 @@ are accepting PRs if you’d like to add Windows support. See <a class="referenc
 <h2>Getting started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h2>
 <p>Release versions of Shaka Streamer can be installed or upgraded through <code class="docutils literal notranslate"><span class="pre">pip3</span></code>
 with:</p>
-<div class="code sh highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># To install/upgrade globally (drop the &quot;sudo&quot; for Windows):</span>
-<span class="n">sudo</span> <span class="n">pip3</span> <span class="n">install</span> <span class="o">--</span><span class="n">upgrade</span> <span class="n">shaka</span><span class="o">-</span><span class="n">streamer</span>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="c1"># To install/upgrade globally (drop the &quot;sudo&quot; for Windows):</span>
+sudo pip3 install --upgrade shaka-streamer
 
 <span class="c1"># To install/upgrade per-user:</span>
-<span class="n">pip3</span> <span class="n">install</span> <span class="o">--</span><span class="n">user</span> <span class="o">--</span><span class="n">upgrade</span> <span class="n">shaka</span><span class="o">-</span><span class="n">streamer</span>
+pip3 install --user --upgrade shaka-streamer
 </pre></div>
 </div>
 <p>Shaka Streamer requires at a minimum:</p>
 <ul class="simple">
-<li><a class="reference external" href="https://www.python.org/downloads/">Python 3</a></li>
-<li><a class="reference external" href="https://pyyaml.org/">Python “yaml” module</a></li>
-<li><a class="reference external" href="https://github.com/google/shaka-packager">Shaka Packager</a></li>
-<li><a class="reference external" href="https://ffmpeg.org/">FFmpeg</a></li>
+<li><p><a class="reference external" href="https://www.python.org/downloads/">Python 3</a></p></li>
+<li><p><a class="reference external" href="https://pyyaml.org/">Python “yaml” module</a></p></li>
+<li><p><a class="reference external" href="https://github.com/google/shaka-packager">Shaka Packager</a></p></li>
+<li><p><a class="reference external" href="https://ffmpeg.org/">FFmpeg</a></p></li>
 </ul>
 <p>See <a class="reference internal" href="prerequisites.html"><span class="doc">Installing Prerequisites</span></a> for detailed instructions on installing prerequisites
 and optional dependencies.</p>
@@ -103,24 +104,24 @@ and optional dependencies.</p>
 input, and one to describe the encoding pipeline. Sample configs can be found
 in the <a class="reference external" href="https://github.com/google/shaka-streamer/tree/master/config_files">config_files/</a> folder. Sample inputs referenced there can be
 downloaded individually over HTTPS or all at once through gsutil:</p>
-<div class="code sh highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gsutil</span> <span class="o">-</span><span class="n">m</span> <span class="n">cp</span> <span class="n">gs</span><span class="p">:</span><span class="o">//</span><span class="n">shaka</span><span class="o">-</span><span class="n">streamer</span><span class="o">-</span><span class="n">assets</span><span class="o">/</span><span class="n">sample</span><span class="o">-</span><span class="n">inputs</span><span class="o">/*</span> <span class="o">.</span>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>gsutil -m cp gs://shaka-streamer-assets/sample-inputs/* .
 </pre></div>
 </div>
 <div class="section" id="example-command-line-for-live-streaming-to-google-cloud-storage">
 <h3>Example command-line for live streaming to Google Cloud Storage:<a class="headerlink" href="#example-command-line-for-live-streaming-to-google-cloud-storage" title="Permalink to this headline">¶</a></h3>
-<div class="code sh highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python3</span> <span class="n">shaka</span><span class="o">-</span><span class="n">streamer</span> \
-  <span class="o">-</span><span class="n">i</span> <span class="n">config_files</span><span class="o">/</span><span class="n">input_looped_file_config</span><span class="o">.</span><span class="n">yaml</span> \
-  <span class="o">-</span><span class="n">p</span> <span class="n">config_files</span><span class="o">/</span><span class="n">pipeline_live_config</span><span class="o">.</span><span class="n">yaml</span> \
-  <span class="o">-</span><span class="n">c</span> <span class="n">gs</span><span class="p">:</span><span class="o">//</span><span class="n">my_gcs_bucket</span><span class="o">/</span><span class="n">folder</span><span class="o">/</span>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>python3 shaka-streamer <span class="se">\</span>
+  -i config_files/input_looped_file_config.yaml <span class="se">\</span>
+  -p config_files/pipeline_live_config.yaml <span class="se">\</span>
+  -c gs://my_gcs_bucket/folder/
 </pre></div>
 </div>
 </div>
 <div class="section" id="example-command-line-for-live-streaming-to-amazon-s3">
 <h3>Example command-line for live streaming to Amazon S3:<a class="headerlink" href="#example-command-line-for-live-streaming-to-amazon-s3" title="Permalink to this headline">¶</a></h3>
-<div class="code sh highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python3</span> <span class="n">shaka</span><span class="o">-</span><span class="n">streamer</span> \
-  <span class="o">-</span><span class="n">i</span> <span class="n">config_files</span><span class="o">/</span><span class="n">input_looped_file_config</span><span class="o">.</span><span class="n">yaml</span> \
-  <span class="o">-</span><span class="n">p</span> <span class="n">config_files</span><span class="o">/</span><span class="n">pipeline_live_config</span><span class="o">.</span><span class="n">yaml</span> \
-  <span class="o">-</span><span class="n">c</span> <span class="n">s3</span><span class="p">:</span><span class="o">//</span><span class="n">my_s3_bucket</span><span class="o">/</span><span class="n">folder</span><span class="o">/</span>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>python3 shaka-streamer <span class="se">\</span>
+  -i config_files/input_looped_file_config.yaml <span class="se">\</span>
+  -p config_files/pipeline_live_config.yaml <span class="se">\</span>
+  -c s3://my_s3_bucket/folder/
 </pre></div>
 </div>
 </div>
@@ -129,7 +130,7 @@ downloaded individually over HTTPS or all at once through gsutil:</p>
 <h2>Running tests<a class="headerlink" href="#running-tests" title="Permalink to this headline">¶</a></h2>
 <p>We have end-to-end tests that will start streams and check them from a headless
 browser using Shaka Player. End-to-end tests can be run like so:</p>
-<div class="code sh highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python3</span> <span class="n">run_end_to_end_tests</span><span class="o">.</span><span class="n">py</span>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>python3 run_end_to_end_tests.py
 </pre></div>
 </div>
 </div>
@@ -199,17 +200,15 @@ the <code class="docutils literal notranslate"><span class="pre">shaka-streamer<
 </ul>
 </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
       <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -218,7 +217,7 @@ the <code class="docutils literal notranslate"><span class="pre">shaka-streamer<
       &copy;2019, Google.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.4</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.4.3</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
       
       |

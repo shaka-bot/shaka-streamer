@@ -1,19 +1,17 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
     <title>streamer.configuration &#8212; Shaka Streamer 0.3.0 documentation</title>
     <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
-    <script type="text/javascript" src="../../_static/jquery.js"></script>
-    <script type="text/javascript" src="../../_static/underscore.js"></script>
-    <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/language_data.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
    
@@ -54,7 +52,7 @@
 <span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Generic</span><span class="p">,</span> <span class="n">TypeVar</span><span class="p">,</span> <span class="n">cast</span>
 
 
-<div class="viewcode-block" id="ConfigError"><a class="viewcode-back" href="../../module_api.html#streamer.configuration.ConfigError">[docs]</a><span class="k">class</span> <span class="nc">ConfigError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+<div class="viewcode-block" id="ConfigError"><a class="viewcode-back" href="../../module_api.html#streamer.input_configuration.ConfigError">[docs]</a><span class="k">class</span> <span class="nc">ConfigError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;A base class for config errors.</span>
 
 <span class="sd">  Each subclass provides a meaningful, human-readable string representation in</span>
@@ -75,28 +73,28 @@
     <span class="sd">&quot;&quot;&quot;The Field metadata object that the error refers to.&quot;&quot;&quot;</span></div>
 
 
-<div class="viewcode-block" id="UnrecognizedField"><a class="viewcode-back" href="../../module_api.html#streamer.configuration.UnrecognizedField">[docs]</a><span class="k">class</span> <span class="nc">UnrecognizedField</span><span class="p">(</span><span class="n">ConfigError</span><span class="p">):</span>
+<div class="viewcode-block" id="UnrecognizedField"><a class="viewcode-back" href="../../module_api.html#streamer.input_configuration.UnrecognizedField">[docs]</a><span class="k">class</span> <span class="nc">UnrecognizedField</span><span class="p">(</span><span class="n">ConfigError</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;An error raised when an unrecognized field is encountered in the input.&quot;&quot;&quot;</span>
 
   <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="k">return</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> contains unrecognized field: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">class_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">field_name</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="WrongType"><a class="viewcode-back" href="../../module_api.html#streamer.configuration.WrongType">[docs]</a><span class="k">class</span> <span class="nc">WrongType</span><span class="p">(</span><span class="n">ConfigError</span><span class="p">):</span>
+<div class="viewcode-block" id="WrongType"><a class="viewcode-back" href="../../module_api.html#streamer.input_configuration.WrongType">[docs]</a><span class="k">class</span> <span class="nc">WrongType</span><span class="p">(</span><span class="n">ConfigError</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;An error raised when a field in the input has the wrong type.&quot;&quot;&quot;</span>
 
   <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="k">return</span> <span class="s1">&#39;In </span><span class="si">{}</span><span class="s1">, </span><span class="si">{}</span><span class="s1"> field requires a </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">class_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">field_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">field</span><span class="o">.</span><span class="n">get_type_name</span><span class="p">())</span></div>
 
-<div class="viewcode-block" id="MissingRequiredField"><a class="viewcode-back" href="../../module_api.html#streamer.configuration.MissingRequiredField">[docs]</a><span class="k">class</span> <span class="nc">MissingRequiredField</span><span class="p">(</span><span class="n">ConfigError</span><span class="p">):</span>
+<div class="viewcode-block" id="MissingRequiredField"><a class="viewcode-back" href="../../module_api.html#streamer.input_configuration.MissingRequiredField">[docs]</a><span class="k">class</span> <span class="nc">MissingRequiredField</span><span class="p">(</span><span class="n">ConfigError</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;An error raised when a required field is missing from the input.&quot;&quot;&quot;</span>
 
   <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="k">return</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> is missing a required field: </span><span class="si">{}</span><span class="s1">, a </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">class_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">field_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">field</span><span class="o">.</span><span class="n">get_type_name</span><span class="p">())</span></div>
 
-<div class="viewcode-block" id="MalformedField"><a class="viewcode-back" href="../../module_api.html#streamer.configuration.MalformedField">[docs]</a><span class="k">class</span> <span class="nc">MalformedField</span><span class="p">(</span><span class="n">ConfigError</span><span class="p">):</span>
+<div class="viewcode-block" id="MalformedField"><a class="viewcode-back" href="../../module_api.html#streamer.input_configuration.MalformedField">[docs]</a><span class="k">class</span> <span class="nc">MalformedField</span><span class="p">(</span><span class="n">ConfigError</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;An error raised when a field is malformed.&quot;&quot;&quot;</span>
 
   <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">class_ref</span><span class="p">,</span> <span class="n">field_name</span><span class="p">,</span> <span class="n">field</span><span class="p">,</span> <span class="n">reason</span><span class="p">):</span>
@@ -133,7 +131,7 @@
     <span class="k">pass</span>
 
 
-<div class="viewcode-block" id="HexString"><a class="viewcode-back" href="../../module_api.html#streamer.configuration.HexString">[docs]</a><span class="k">class</span> <span class="nc">HexString</span><span class="p">(</span><span class="n">ValidatingType</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+<div class="viewcode-block" id="HexString"><a class="viewcode-back" href="../../module_api.html#streamer.input_configuration.HexString">[docs]</a><span class="k">class</span> <span class="nc">HexString</span><span class="p">(</span><span class="n">ValidatingType</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;A wrapper that can be used in Field() to require a hex string.&quot;&quot;&quot;</span>
 
   <span class="nd">@staticmethod</span>
@@ -457,7 +455,7 @@
 <span class="c1"># This decorator makes it so that we only have to implement __eq__ and __lt__</span>
 <span class="c1"># to make the instances sortable.  These magic methods in turn depend on</span>
 <span class="c1"># _sortable_properties, which subclasses must implement.</span>
-<div class="viewcode-block" id="RuntimeMap"><a class="viewcode-back" href="../../module_api.html#streamer.configuration.RuntimeMap">[docs]</a><span class="nd">@functools</span><span class="o">.</span><span class="n">total_ordering</span>
+<div class="viewcode-block" id="RuntimeMap"><a class="viewcode-back" href="../../module_api.html#streamer.input_configuration.RuntimeMap">[docs]</a><span class="nd">@functools</span><span class="o">.</span><span class="n">total_ordering</span>
 <span class="k">class</span> <span class="nc">RuntimeMap</span><span class="p">(</span><span class="n">Generic</span><span class="p">[</span><span class="n">RuntimeMapSubclass</span><span class="p">],</span> <span class="n">Base</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;Maintains a map of keys to specific instances from the config file.</span>
 
@@ -497,7 +495,7 @@
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sortable_properties</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">other</span><span class="o">.</span><span class="n">_sortable_properties</span><span class="p">()</span>
 
 
-<div class="viewcode-block" id="RuntimeMap.set_map"><a class="viewcode-back" href="../../module_api.html#streamer.configuration.RuntimeMap.set_map">[docs]</a>  <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="RuntimeMap.set_map"><a class="viewcode-back" href="../../module_api.html#streamer.input_configuration.RuntimeMap.set_map">[docs]</a>  <span class="nd">@classmethod</span>
   <span class="k">def</span> <span class="nf">set_map</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span>
               <span class="nb">map</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">RuntimeMapSubclass</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Set the map of valid values for this class.&quot;&quot;&quot;</span>
@@ -513,7 +511,7 @@
     <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="nb">map</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
       <span class="nb">setattr</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="s1">&#39;get_key&#39;</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">bound_key</span><span class="o">=</span><span class="n">key</span><span class="p">:</span> <span class="n">bound_key</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="RuntimeMap.get_value"><a class="viewcode-back" href="../../module_api.html#streamer.configuration.RuntimeMap.get_value">[docs]</a>  <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="RuntimeMap.get_value"><a class="viewcode-back" href="../../module_api.html#streamer.input_configuration.RuntimeMap.get_value">[docs]</a>  <span class="nd">@classmethod</span>
   <span class="k">def</span> <span class="nf">get_value</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RuntimeMapSubclass</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Get a valid value by its key.&quot;&quot;&quot;</span>
 
@@ -524,17 +522,17 @@
       <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
           <span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> is not a valid </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="p">))</span> <span class="kn">from</span> <span class="nn">None</span></div>
 
-<div class="viewcode-block" id="RuntimeMap.keys"><a class="viewcode-back" href="../../module_api.html#streamer.configuration.RuntimeMap.keys">[docs]</a>  <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="RuntimeMap.keys"><a class="viewcode-back" href="../../module_api.html#streamer.input_configuration.RuntimeMap.keys">[docs]</a>  <span class="nd">@classmethod</span>
   <span class="k">def</span> <span class="nf">keys</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;This allows the config system to print the list of allowed strings.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_map</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="RuntimeMap.sorted_values"><a class="viewcode-back" href="../../module_api.html#streamer.configuration.RuntimeMap.sorted_values">[docs]</a>  <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="RuntimeMap.sorted_values"><a class="viewcode-back" href="../../module_api.html#streamer.input_configuration.RuntimeMap.sorted_values">[docs]</a>  <span class="nd">@classmethod</span>
   <span class="k">def</span> <span class="nf">sorted_values</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">RuntimeMapSubclass</span><span class="p">]:</span>
     <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">_map</span><span class="o">.</span><span class="n">values</span><span class="p">())</span></div></div>
 
 
-<div class="viewcode-block" id="RuntimeMapKeyValidator"><a class="viewcode-back" href="../../module_api.html#streamer.configuration.RuntimeMapKeyValidator">[docs]</a><span class="k">class</span> <span class="nc">RuntimeMapKeyValidator</span><span class="p">(</span><span class="n">ValidatingType</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+<div class="viewcode-block" id="RuntimeMapKeyValidator"><a class="viewcode-back" href="../../module_api.html#streamer.input_configuration.RuntimeMapKeyValidator">[docs]</a><span class="k">class</span> <span class="nc">RuntimeMapKeyValidator</span><span class="p">(</span><span class="n">ValidatingType</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;A validator that only allows the valid keys for a certain RuntimeMap</span>
 <span class="sd">  subclass.</span>
 
@@ -546,13 +544,13 @@
 <span class="sd">  subclass.&quot;&quot;&quot;</span>
   <span class="n">map_class</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">RuntimeMap</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># type: ignore</span>
 
-<div class="viewcode-block" id="RuntimeMapKeyValidator.name"><a class="viewcode-back" href="../../module_api.html#streamer.configuration.RuntimeMapKeyValidator.name">[docs]</a>  <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="RuntimeMapKeyValidator.name"><a class="viewcode-back" href="../../module_api.html#streamer.input_configuration.RuntimeMapKeyValidator.name">[docs]</a>  <span class="nd">@classmethod</span>
   <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
     <span class="n">options</span> <span class="o">=</span> <span class="p">[</span><span class="nb">repr</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">key</span><span class="p">))</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="n">map_class</span><span class="o">.</span><span class="n">keys</span><span class="p">()]</span>
     <span class="k">return</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> name (one of </span><span class="si">{}</span><span class="s1">)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
         <span class="bp">cls</span><span class="o">.</span><span class="n">map_class</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">options</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="RuntimeMapKeyValidator.validate"><a class="viewcode-back" href="../../module_api.html#streamer.configuration.RuntimeMapKeyValidator.validate">[docs]</a>  <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="RuntimeMapKeyValidator.validate"><a class="viewcode-back" href="../../module_api.html#streamer.input_configuration.RuntimeMapKeyValidator.validate">[docs]</a>  <span class="nd">@classmethod</span>
   <span class="k">def</span> <span class="nf">validate</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
     <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">key</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">str</span><span class="p">:</span>
       <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">()</span>
@@ -597,17 +595,15 @@
 </ul>
 </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../../search.html" method="get">
-      <input type="text" name="q" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
       <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -616,7 +612,7 @@
       &copy;2019, Google.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.5</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.4.3</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
       
     </div>
