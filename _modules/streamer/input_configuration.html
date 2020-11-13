@@ -4,6 +4,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>streamer.input_configuration &#8212; Shaka Streamer 0.3.0 documentation</title>
     <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -51,7 +52,7 @@
 <span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
 
 
-<div class="viewcode-block" id="InputType"><a class="viewcode-back" href="../../configuration_fields.html#streamer.input_configuration.InputType">[docs]</a><span class="k">class</span> <span class="nc">InputType</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">InputType</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">):</span>
   <span class="n">FILE</span> <span class="o">=</span> <span class="s1">&#39;file&#39;</span>
   <span class="sd">&quot;&quot;&quot;A track from a file.  Usable only with VOD.&quot;&quot;&quot;</span>
 
@@ -82,12 +83,12 @@
 <span class="sd">  framerate.</span>
 
 <span class="sd">  Does not support media_type of &#39;text&#39;.</span>
-<span class="sd">  &quot;&quot;&quot;</span></div>
+<span class="sd">  &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="MediaType"><a class="viewcode-back" href="../../configuration_fields.html#streamer.input_configuration.MediaType">[docs]</a><span class="k">class</span> <span class="nc">MediaType</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">MediaType</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">):</span>
   <span class="n">AUDIO</span> <span class="o">=</span> <span class="s1">&#39;audio&#39;</span>
   <span class="n">VIDEO</span> <span class="o">=</span> <span class="s1">&#39;video&#39;</span>
-  <span class="n">TEXT</span> <span class="o">=</span> <span class="s1">&#39;text&#39;</span></div>
+  <span class="n">TEXT</span> <span class="o">=</span> <span class="s1">&#39;text&#39;</span>
 
 
 <div class="viewcode-block" id="Input"><a class="viewcode-back" href="../../configuration_fields.html#streamer.input_configuration.Input">[docs]</a><span class="k">class</span> <span class="nc">Input</span><span class="p">(</span><span class="n">configuration</span><span class="o">.</span><span class="n">Base</span><span class="p">):</span>
@@ -191,6 +192,16 @@
 
 <span class="sd">  Not supported with media_type of &#39;text&#39;.</span>
 <span class="sd">  &quot;&quot;&quot;</span>
+
+  <span class="n">drm_label</span> <span class="o">=</span> <span class="n">configuration</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span><span class="o">.</span><span class="n">cast</span><span class="p">()</span>
+  <span class="sd">&quot;&quot;&quot;Optional value for a custom DRM label, which defines the encryption key</span>
+<span class="sd">  applied to the stream. If not provided, the DRM label is derived from stream</span>
+<span class="sd">  type (video, audio), resolutions, etc. Note that it is case sensitive.</span>
+<span class="sd">  </span>
+<span class="sd">  Applies to &#39;raw&#39; encryption_mode only.&quot;&quot;&quot;</span>
+
+  <span class="n">skip_encryption</span> <span class="o">=</span> <span class="n">configuration</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">cast</span><span class="p">()</span>
+  <span class="sd">&quot;&quot;&quot;If set, no encryption of the stream will be made&quot;&quot;&quot;</span>
 
   <span class="c1"># TODO: Figure out why mypy 0.720 and Python 3.7.5 don&#39;t correctly deduce the</span>
   <span class="c1"># type parameter here if we don&#39;t specify it explicitly with brackets after</span>
@@ -395,7 +406,7 @@
       &copy;2019, Google.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.4.3</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.2.1</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
       
     </div>

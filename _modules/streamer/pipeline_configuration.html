@@ -4,6 +4,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>streamer.pipeline_configuration &#8212; Shaka Streamer 0.3.0 documentation</title>
     <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -74,26 +75,53 @@
   <span class="n">DEFAULT_HWACCEL_API</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
 
 
-<div class="viewcode-block" id="StreamingMode"><a class="viewcode-back" href="../../configuration_fields.html#streamer.pipeline_configuration.StreamingMode">[docs]</a><span class="k">class</span> <span class="nc">StreamingMode</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">StreamingMode</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">):</span>
   <span class="n">LIVE</span> <span class="o">=</span> <span class="s1">&#39;live&#39;</span>
   <span class="sd">&quot;&quot;&quot;Indicates a live stream, which has no end.&quot;&quot;&quot;</span>
 
   <span class="n">VOD</span> <span class="o">=</span> <span class="s1">&#39;vod&#39;</span>
-  <span class="sd">&quot;&quot;&quot;Indicates a video-on-demand (VOD) stream, which is finite.&quot;&quot;&quot;</span></div>
+  <span class="sd">&quot;&quot;&quot;Indicates a video-on-demand (VOD) stream, which is finite.&quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="ManifestFormat"><a class="viewcode-back" href="../../configuration_fields.html#streamer.pipeline_configuration.ManifestFormat">[docs]</a><span class="k">class</span> <span class="nc">ManifestFormat</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">ManifestFormat</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">):</span>
   <span class="n">DASH</span> <span class="o">=</span> <span class="s1">&#39;dash&#39;</span>
-  <span class="n">HLS</span> <span class="o">=</span> <span class="s1">&#39;hls&#39;</span></div>
+  <span class="n">HLS</span> <span class="o">=</span> <span class="s1">&#39;hls&#39;</span>
 
-<div class="viewcode-block" id="ProtectionScheme"><a class="viewcode-back" href="../../configuration_fields.html#streamer.pipeline_configuration.ProtectionScheme">[docs]</a><span class="k">class</span> <span class="nc">ProtectionScheme</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">ProtectionScheme</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">):</span>
   <span class="n">CENC</span> <span class="o">=</span> <span class="s1">&#39;cenc&#39;</span>
   <span class="sd">&quot;&quot;&quot;AES-128-CTR mode.&quot;&quot;&quot;</span>
 
   <span class="n">CBCS</span> <span class="o">=</span> <span class="s1">&#39;cbcs&#39;</span>
-  <span class="sd">&quot;&quot;&quot;AES-128-CBC mode with pattern encryption.&quot;&quot;&quot;</span></div>
+  <span class="sd">&quot;&quot;&quot;AES-128-CBC mode with pattern encryption.&quot;&quot;&quot;</span>
+
+<span class="k">class</span> <span class="nc">ProtectionSystem</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">):</span>
+  <span class="n">WIDEVINE</span> <span class="o">=</span> <span class="s1">&#39;Widevine&#39;</span>
+  <span class="n">FAIRPLAY</span> <span class="o">=</span> <span class="s1">&#39;FairPlay&#39;</span>
+  <span class="n">PLAYREADY</span> <span class="o">=</span> <span class="s1">&#39;PlayReady&#39;</span>
+  <span class="n">MARLIN</span> <span class="o">=</span> <span class="s1">&#39;Marlin&#39;</span>
+  <span class="n">COMMON</span> <span class="o">=</span> <span class="s1">&#39;CommonSystem&#39;</span>
+
+<span class="k">class</span> <span class="nc">EncryptionMode</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">):</span>
+  <span class="n">WIDEVINE</span> <span class="o">=</span> <span class="s1">&#39;widevine&#39;</span>
+  <span class="sd">&quot;&quot;&quot;Widevine key server mode&quot;&quot;&quot;</span>
+
+  <span class="n">RAW</span> <span class="o">=</span> <span class="s1">&#39;raw&#39;</span>
+  <span class="sd">&quot;&quot;&quot;Raw key mode&quot;&quot;&quot;</span>
+
+<span class="k">class</span> <span class="nc">RawKeyConfig</span><span class="p">(</span><span class="n">configuration</span><span class="o">.</span><span class="n">Base</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;An object representing a list of keys for Raw key encryption&quot;&quot;&quot;</span>
+
+  <span class="n">label</span> <span class="o">=</span> <span class="n">configuration</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span><span class="o">.</span><span class="n">cast</span><span class="p">()</span>
+  <span class="sd">&quot;&quot;&quot;An arbitary string or a predefined DRM label like AUDIO, SD, HD, etc.</span>
+<span class="sd">  If not specified, indicates the default key and key_id.&quot;&quot;&quot;</span>
+
+  <span class="n">key_id</span> <span class="o">=</span> <span class="n">configuration</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">configuration</span><span class="o">.</span><span class="n">HexString</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">cast</span><span class="p">()</span>
+  <span class="sd">&quot;&quot;&quot;A key identifier as a 32-digit hex string&quot;&quot;&quot;</span>
+
+  <span class="n">key</span> <span class="o">=</span> <span class="n">configuration</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">configuration</span><span class="o">.</span><span class="n">HexString</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">cast</span><span class="p">()</span>
+  <span class="sd">&quot;&quot;&quot;The encryption key to use as a 32-digit hex string&quot;&quot;&quot;</span>
 
 
-<div class="viewcode-block" id="EncryptionConfig"><a class="viewcode-back" href="../../configuration_fields.html#streamer.pipeline_configuration.EncryptionConfig">[docs]</a><span class="k">class</span> <span class="nc">EncryptionConfig</span><span class="p">(</span><span class="n">configuration</span><span class="o">.</span><span class="n">Base</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">EncryptionConfig</span><span class="p">(</span><span class="n">configuration</span><span class="o">.</span><span class="n">Base</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;An object representing the encryption config for Shaka Streamer.&quot;&quot;&quot;</span>
 
   <span class="n">enable</span> <span class="o">=</span> <span class="n">configuration</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="nb">bool</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">cast</span><span class="p">()</span>
@@ -102,11 +130,43 @@
 <span class="sd">  Otherwise, all other encryption settings are ignored.</span>
 <span class="sd">  &quot;&quot;&quot;</span>
 
+  <span class="n">encryption_mode</span> <span class="o">=</span> <span class="n">configuration</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span>
+    <span class="n">EncryptionMode</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">EncryptionMode</span><span class="o">.</span><span class="n">WIDEVINE</span><span class="p">)</span><span class="o">.</span><span class="n">cast</span><span class="p">()</span>
+  <span class="sd">&quot;&quot;&quot;Encryption mode to use. By default it is widevine but can be changed</span>
+<span class="sd">  to raw.&quot;&quot;&quot;</span>
+
+  <span class="n">protection_systems</span> <span class="o">=</span> <span class="n">configuration</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">List</span><span class="p">[</span><span class="n">ProtectionSystem</span><span class="p">])</span><span class="o">.</span><span class="n">cast</span><span class="p">()</span>
+  <span class="sd">&quot;&quot;&quot;Protection Systems to be generated. Supported protection systems include</span>
+<span class="sd">  Widevine, PlayReady, FairPlay, Marin and CommonSystem.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+
+  <span class="n">pssh</span> <span class="o">=</span> <span class="n">configuration</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">configuration</span><span class="o">.</span><span class="n">HexString</span><span class="p">)</span><span class="o">.</span><span class="n">cast</span><span class="p">()</span>
+  <span class="sd">&quot;&quot;&quot;One or more concatenated PSSH boxes in hex string format. If this and</span>
+<span class="sd">  `protection_systems` is not specified, a v1 common PSSH box will be</span>
+<span class="sd">  generated.</span>
+<span class="sd">  </span>
+<span class="sd">  Applies to &#39;raw&#39; encryption_mode only.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+
+  <span class="n">iv</span> <span class="o">=</span> <span class="n">configuration</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">configuration</span><span class="o">.</span><span class="n">HexString</span><span class="p">)</span><span class="o">.</span><span class="n">cast</span><span class="p">()</span>
+  <span class="sd">&quot;&quot;&quot;IV in hex string format. If not specified, a random IV will be</span>
+<span class="sd">  generated.</span>
+<span class="sd">  </span>
+<span class="sd">  Applies to &#39;raw&#39; encryption_mode only.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+
+  <span class="n">keys</span> <span class="o">=</span> <span class="n">configuration</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">List</span><span class="p">[</span><span class="n">RawKeyConfig</span><span class="p">])</span><span class="o">.</span><span class="n">cast</span><span class="p">()</span>
+  <span class="sd">&quot;&quot;&quot;A list of encryption keys to use.</span>
+<span class="sd">  </span>
+<span class="sd">  Applies to &#39;raw&#39; encryption_mode only.&quot;&quot;&quot;</span>
+
   <span class="n">content_id</span> <span class="o">=</span> <span class="n">configuration</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span>
       <span class="n">configuration</span><span class="o">.</span><span class="n">HexString</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">RANDOM_CONTENT_ID</span><span class="p">)</span><span class="o">.</span><span class="n">cast</span><span class="p">()</span>
   <span class="sd">&quot;&quot;&quot;The content ID, in hex.</span>
 
 <span class="sd">  If omitted, a random content ID will be chosen for you.</span>
+<span class="sd">  </span>
+<span class="sd">  Applies to &#39;widevine&#39; encryption_mode only.</span>
 <span class="sd">  &quot;&quot;&quot;</span>
 
   <span class="n">key_server_url</span> <span class="o">=</span> <span class="n">configuration</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">UAT_SERVER</span><span class="p">)</span><span class="o">.</span><span class="n">cast</span><span class="p">()</span>
@@ -114,10 +174,14 @@
 
 <span class="sd">  This is used to generate an encryption key.  By default, it is Widevine&#39;s UAT</span>
 <span class="sd">  server.</span>
+<span class="sd">  </span>
+<span class="sd">  Applies to &#39;widevine&#39; encryption_mode only.</span>
 <span class="sd">  &quot;&quot;&quot;</span>
 
   <span class="n">signer</span> <span class="o">=</span> <span class="n">configuration</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">WIDEVINE_TEST_ACCOUNT</span><span class="p">)</span><span class="o">.</span><span class="n">cast</span><span class="p">()</span>
   <span class="sd">&quot;&quot;&quot;The name of the signer when authenticating to the key server.</span>
+
+<span class="sd">  Applies to &#39;widevine&#39; encryption_mode only.</span>
 
 <span class="sd">  Defaults to the Widevine test account.</span>
 <span class="sd">  &quot;&quot;&quot;</span>
@@ -126,12 +190,16 @@
       <span class="n">configuration</span><span class="o">.</span><span class="n">HexString</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">WIDEVINE_TEST_SIGNING_KEY</span><span class="p">)</span><span class="o">.</span><span class="n">cast</span><span class="p">()</span>
   <span class="sd">&quot;&quot;&quot;The signing key, in hex, when authenticating to the key server.</span>
 
+<span class="sd">  Applies to &#39;widevine&#39; encryption_mode only.</span>
+
 <span class="sd">  Defaults to the Widevine test account&#39;s key.</span>
 <span class="sd">  &quot;&quot;&quot;</span>
 
   <span class="n">signing_iv</span> <span class="o">=</span> <span class="n">configuration</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span>
       <span class="n">configuration</span><span class="o">.</span><span class="n">HexString</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">WIDEVINE_TEST_SIGNING_IV</span><span class="p">)</span><span class="o">.</span><span class="n">cast</span><span class="p">()</span>
   <span class="sd">&quot;&quot;&quot;The signing IV, in hex, when authenticating to the key server.</span>
+
+<span class="sd">  Applies to &#39;widevine&#39; encryption_mode only.</span>
 
 <span class="sd">  Defaults to the Widevine test account&#39;s IV.</span>
 <span class="sd">  &quot;&quot;&quot;</span>
@@ -141,8 +209,31 @@
   <span class="sd">&quot;&quot;&quot;The protection scheme (cenc or cbcs) to use when encrypting.&quot;&quot;&quot;</span>
 
   <span class="n">clear_lead</span> <span class="o">=</span> <span class="n">configuration</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">cast</span><span class="p">()</span>
-  <span class="sd">&quot;&quot;&quot;The seconds of unencrypted media at the beginning of the stream.&quot;&quot;&quot;</span></div>
+  <span class="sd">&quot;&quot;&quot;The seconds of unencrypted media at the beginning of the stream.&quot;&quot;&quot;</span>
 
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+
+    <span class="c1"># Don&#39;t do any further checks if encryption is disabled</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">enable</span><span class="p">:</span>
+      <span class="k">return</span>
+
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">encryption_mode</span> <span class="o">==</span> <span class="n">EncryptionMode</span><span class="o">.</span><span class="n">WIDEVINE</span><span class="p">:</span>
+      <span class="n">field_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;keys&#39;</span><span class="p">,</span> <span class="s1">&#39;pssh&#39;</span><span class="p">,</span> <span class="s1">&#39;iv&#39;</span><span class="p">]</span>
+      <span class="k">for</span> <span class="n">field_name</span> <span class="ow">in</span> <span class="n">field_names</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field_name</span><span class="p">):</span>
+          <span class="n">field</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="n">field_name</span><span class="p">)</span>
+          <span class="n">reason</span> <span class="o">=</span> <span class="s1">&#39;cannot be set when encryption_mode is &quot;</span><span class="si">%s</span><span class="s1">&quot;&#39;</span> <span class="o">%</span> \
+                   <span class="bp">self</span><span class="o">.</span><span class="n">encryption_mode</span>
+          <span class="k">raise</span> <span class="n">configuration</span><span class="o">.</span><span class="n">MalformedField</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="n">field_name</span><span class="p">,</span> <span class="n">field</span><span class="p">,</span> <span class="n">reason</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">encryption_mode</span> <span class="o">==</span> <span class="n">EncryptionMode</span><span class="o">.</span><span class="n">RAW</span><span class="p">:</span>
+      <span class="c1"># Check at least one key has been specified</span>
+      <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="p">:</span>
+        <span class="n">field</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">keys</span>
+        <span class="n">reason</span> <span class="o">=</span> <span class="s1">&#39;at least one key must be specified&#39;</span>
+        <span class="k">raise</span> <span class="n">configuration</span><span class="o">.</span><span class="n">MalformedField</span><span class="p">(</span>
+          <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="s1">&#39;keys&#39;</span><span class="p">,</span> <span class="n">field</span><span class="p">,</span> <span class="n">reason</span><span class="p">)</span>
 
 <div class="viewcode-block" id="PipelineConfig"><a class="viewcode-back" href="../../configuration_fields.html#streamer.pipeline_configuration.PipelineConfig">[docs]</a><span class="k">class</span> <span class="nc">PipelineConfig</span><span class="p">(</span><span class="n">configuration</span><span class="o">.</span><span class="n">Base</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;An object representing the entire pipeline config for Shaka Streamer.&quot;&quot;&quot;</span>
@@ -307,7 +398,7 @@
       &copy;2019, Google.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.4.3</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.2.1</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
       
     </div>
