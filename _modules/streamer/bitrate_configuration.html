@@ -69,6 +69,8 @@
 
   <span class="n">AAC</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;aac&#39;</span>
   <span class="n">OPUS</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;opus&#39;</span>
+  <span class="n">AC3</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;ac3&#39;</span>
+  <span class="n">EAC3</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;eac3&#39;</span>
 
   <span class="k">def</span> <span class="nf">is_hardware_accelerated</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Returns True if this codec is hardware accelerated.&quot;&quot;&quot;</span>
@@ -91,7 +93,7 @@
     <span class="c1"># TODO(#31): add support for configurable output format per-codec</span>
     <span class="k">if</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">AudioCodec</span><span class="o">.</span><span class="n">OPUS</span><span class="p">:</span>
       <span class="k">return</span> <span class="s1">&#39;webm&#39;</span>
-    <span class="k">elif</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">AudioCodec</span><span class="o">.</span><span class="n">AAC</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="p">(</span><span class="bp">self</span> <span class="o">==</span> <span class="n">AudioCodec</span><span class="o">.</span><span class="n">AAC</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="bp">self</span> <span class="o">==</span> <span class="n">AudioCodec</span><span class="o">.</span><span class="n">AC3</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="bp">self</span> <span class="o">==</span> <span class="n">AudioCodec</span><span class="o">.</span><span class="n">EAC3</span><span class="p">):</span>
       <span class="k">return</span> <span class="s1">&#39;mp4&#39;</span>
     <span class="k">else</span><span class="p">:</span>
       <span class="k">assert</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;No mapping for output format for codec </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
@@ -182,13 +184,17 @@
     <span class="s1">&#39;bitrates&#39;</span><span class="p">:</span> <span class="p">{</span>
       <span class="s1">&#39;aac&#39;</span><span class="p">:</span> <span class="s1">&#39;128k&#39;</span><span class="p">,</span>
       <span class="s1">&#39;opus&#39;</span><span class="p">:</span> <span class="s1">&#39;64k&#39;</span><span class="p">,</span>
+      <span class="s1">&#39;ac3&#39;</span><span class="p">:</span> <span class="s1">&#39;192k&#39;</span><span class="p">,</span>
+      <span class="s1">&#39;eac3&#39;</span><span class="p">:</span> <span class="s1">&#39;96k&#39;</span><span class="p">,</span>
     <span class="p">},</span>
   <span class="p">}),</span>
   <span class="s1">&#39;surround&#39;</span><span class="p">:</span> <span class="n">AudioChannelLayout</span><span class="p">({</span>
     <span class="s1">&#39;max_channels&#39;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span>
     <span class="s1">&#39;bitrates&#39;</span><span class="p">:</span> <span class="p">{</span>
-      <span class="s1">&#39;aac&#39;</span><span class="p">:</span> <span class="s1">&#39;192k&#39;</span><span class="p">,</span>
-      <span class="s1">&#39;opus&#39;</span><span class="p">:</span> <span class="s1">&#39;96k&#39;</span><span class="p">,</span>
+      <span class="s1">&#39;aac&#39;</span><span class="p">:</span> <span class="s1">&#39;256k&#39;</span><span class="p">,</span>
+      <span class="s1">&#39;opus&#39;</span><span class="p">:</span> <span class="s1">&#39;128k&#39;</span><span class="p">,</span>
+      <span class="s1">&#39;ac3&#39;</span><span class="p">:</span> <span class="s1">&#39;384k&#39;</span><span class="p">,</span>
+      <span class="s1">&#39;eac3&#39;</span><span class="p">:</span> <span class="s1">&#39;192k&#39;</span><span class="p">,</span>
     <span class="p">},</span>
   <span class="p">}),</span>
 <span class="p">}</span>
