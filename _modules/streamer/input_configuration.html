@@ -48,7 +48,7 @@
 <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">bitrate_configuration</span>
 <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">configuration</span>
 
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Optional</span>
 
 
 <span class="k">class</span> <span class="nc">InputType</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">):</span>
@@ -345,12 +345,44 @@
   <span class="k">def</span> <span class="nf">get_resolution</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">bitrate_configuration</span><span class="o">.</span><span class="n">VideoResolution</span><span class="p">:</span>
     <span class="k">return</span> <span class="n">bitrate_configuration</span><span class="o">.</span><span class="n">VideoResolution</span><span class="o">.</span><span class="n">get_value</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">resolution</span><span class="p">)</span></div>
 
+<span class="k">class</span> <span class="nc">SinglePeriod</span><span class="p">(</span><span class="n">configuration</span><span class="o">.</span><span class="n">Base</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;An object repersenting one optional video stream and multiple audio and text streams&quot;&quot;&quot;</span>
+
+  <span class="n">inputs</span> <span class="o">=</span> <span class="n">configuration</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">List</span><span class="p">[</span><span class="n">Input</span><span class="p">],</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">cast</span><span class="p">()</span>
 
 <div class="viewcode-block" id="InputConfig"><a class="viewcode-back" href="../../configuration_fields.html#streamer.input_configuration.InputConfig">[docs]</a><span class="k">class</span> <span class="nc">InputConfig</span><span class="p">(</span><span class="n">configuration</span><span class="o">.</span><span class="n">Base</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;An object representing the entire input config to Shaka Streamer.&quot;&quot;&quot;</span>
 
-  <span class="n">inputs</span> <span class="o">=</span> <span class="n">configuration</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">List</span><span class="p">[</span><span class="n">Input</span><span class="p">],</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">cast</span><span class="p">()</span>
-  <span class="sd">&quot;&quot;&quot;A list of Input objects, one per input stream.&quot;&quot;&quot;</span></div>
+  <span class="n">multiperiod_inputs_list</span> <span class="o">=</span> <span class="n">configuration</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">List</span><span class="p">[</span><span class="n">SinglePeriod</span><span class="p">])</span><span class="o">.</span><span class="n">cast</span><span class="p">()</span>
+  <span class="sd">&quot;&quot;&quot;A list of SinglePeriod objects&quot;&quot;&quot;</span>
+
+  <span class="n">inputs</span> <span class="o">=</span> <span class="n">configuration</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">List</span><span class="p">[</span><span class="n">Input</span><span class="p">])</span><span class="o">.</span><span class="n">cast</span><span class="p">()</span>
+  <span class="sd">&quot;&quot;&quot;A list of Input objects&quot;&quot;&quot;</span>
+
+  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dictionary</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]):</span>
+    <span class="sd">&quot;&quot;&quot;A constructor to check that either inputs or mutliperiod_inputs_list is provided,</span>
+<span class="sd">    and produce a helpful error message in case both or none are provided.</span>
+<span class="sd">    </span>
+<span class="sd">    We need these checks before passing the input dictionary to the configuration.Base constructor,</span>
+<span class="sd">    because it does not check for this &#39;exclusive or-ing&#39; relationship between fields.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dictionary</span><span class="p">,</span> <span class="nb">dict</span><span class="p">),</span> <span class="s2">&quot;&quot;&quot;Malformed Input Config File,</span>
+<span class="s2">    See some examples at https://github.com/google/shaka-streamer/tree/master/config_files.</span>
+<span class="s2">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">dictionary</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;inputs&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> 
+        <span class="ow">and</span> <span class="n">dictionary</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;multiperiod_inputs_list&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
+      <span class="k">raise</span> <span class="n">configuration</span><span class="o">.</span><span class="n">ConflictingFields</span><span class="p">(</span>
+        <span class="n">InputConfig</span><span class="p">,</span> <span class="s1">&#39;inputs&#39;</span><span class="p">,</span> <span class="s1">&#39;multiperiod_inputs_list&#39;</span><span class="p">)</span>
+    
+    <span class="c1"># Because these fields are not marked as required at the class level</span>
+    <span class="c1"># , we need to check ourselves that one of them is provided.</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">dictionary</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;inputs&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">dictionary</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;multiperiod_inputs_list&#39;</span><span class="p">):</span>
+      <span class="k">raise</span> <span class="n">configuration</span><span class="o">.</span><span class="n">MissingRequiredExclusiveFields</span><span class="p">(</span>
+        <span class="n">InputConfig</span><span class="p">,</span> <span class="s1">&#39;inputs&#39;</span><span class="p">,</span> <span class="s1">&#39;multiperiod_inputs_list&#39;</span><span class="p">)</span>
+      
+    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">dictionary</span><span class="p">)</span></div>
 
 </pre></div>
 
