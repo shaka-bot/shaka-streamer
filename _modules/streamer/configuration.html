@@ -4,23 +4,31 @@
 <html>
   <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>streamer.configuration &#8212; Shaka Streamer 0.3.0 documentation</title>
-    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/nature.css" type="text/css" />
     <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
     <script src="../../_static/jquery.js"></script>
     <script src="../../_static/underscore.js"></script>
     <script src="../../_static/doctools.js"></script>
-    <script src="../../_static/language_data.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
-    <link rel="search" title="Search" href="../../search.html" />
-   
-  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
-  
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
-
+    <link rel="search" title="Search" href="../../search.html" /> 
   </head><body>
-  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Shaka Streamer 0.3.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">streamer.configuration</a></li> 
+      </ul>
+    </div>  
 
     <div class="document">
       <div class="documentwrapper">
@@ -48,8 +56,8 @@
 <span class="kn">import</span> <span class="nn">re</span>
 
 <span class="kn">import</span> <span class="nn">typing</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Type</span><span class="p">,</span> <span class="n">Union</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Generic</span><span class="p">,</span> <span class="n">TypeVar</span><span class="p">,</span> <span class="n">cast</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Type</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Generic</span><span class="p">,</span> <span class="n">TypeVar</span><span class="p">,</span> <span class="n">cast</span>
 
 
 <div class="viewcode-block" id="ConfigError"><a class="viewcode-back" href="../../module_api.html#streamer.input_configuration.ConfigError">[docs]</a><span class="k">class</span> <span class="nc">ConfigError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
@@ -59,7 +67,7 @@
 <span class="sd">  English.</span>
 <span class="sd">  &quot;&quot;&quot;</span>
 
-  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">class_ref</span><span class="p">,</span> <span class="n">field_name</span><span class="p">,</span> <span class="n">field</span><span class="p">):</span>
+  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">class_ref</span><span class="p">,</span> <span class="n">field_name</span><span class="p">,</span> <span class="n">field</span><span class="p">):</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">class_ref</span> <span class="o">=</span> <span class="n">class_ref</span>
     <span class="sd">&quot;&quot;&quot;A reference to the config class that the error refers to.&quot;&quot;&quot;</span>
 
@@ -76,35 +84,69 @@
 <div class="viewcode-block" id="UnrecognizedField"><a class="viewcode-back" href="../../module_api.html#streamer.input_configuration.UnrecognizedField">[docs]</a><span class="k">class</span> <span class="nc">UnrecognizedField</span><span class="p">(</span><span class="n">ConfigError</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;An error raised when an unrecognized field is encountered in the input.&quot;&quot;&quot;</span>
 
-  <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+  <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="k">return</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> contains unrecognized field: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">class_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">field_name</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="WrongType"><a class="viewcode-back" href="../../module_api.html#streamer.input_configuration.WrongType">[docs]</a><span class="k">class</span> <span class="nc">WrongType</span><span class="p">(</span><span class="n">ConfigError</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;An error raised when a field in the input has the wrong type.&quot;&quot;&quot;</span>
 
-  <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+  <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="k">return</span> <span class="s1">&#39;In </span><span class="si">{}</span><span class="s1">, </span><span class="si">{}</span><span class="s1"> field requires a </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">class_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">field_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">field</span><span class="o">.</span><span class="n">get_type_name</span><span class="p">())</span></div>
 
 <div class="viewcode-block" id="MissingRequiredField"><a class="viewcode-back" href="../../module_api.html#streamer.input_configuration.MissingRequiredField">[docs]</a><span class="k">class</span> <span class="nc">MissingRequiredField</span><span class="p">(</span><span class="n">ConfigError</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;An error raised when a required field is missing from the input.&quot;&quot;&quot;</span>
 
-  <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+  <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="k">return</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> is missing a required field: </span><span class="si">{}</span><span class="s1">, a </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">class_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">field_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">field</span><span class="o">.</span><span class="n">get_type_name</span><span class="p">())</span></div>
 
 <div class="viewcode-block" id="MalformedField"><a class="viewcode-back" href="../../module_api.html#streamer.input_configuration.MalformedField">[docs]</a><span class="k">class</span> <span class="nc">MalformedField</span><span class="p">(</span><span class="n">ConfigError</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;An error raised when a field is malformed.&quot;&quot;&quot;</span>
 
-  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">class_ref</span><span class="p">,</span> <span class="n">field_name</span><span class="p">,</span> <span class="n">field</span><span class="p">,</span> <span class="n">reason</span><span class="p">):</span>
+  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">class_ref</span><span class="p">,</span> <span class="n">field_name</span><span class="p">,</span> <span class="n">field</span><span class="p">,</span> <span class="n">reason</span><span class="p">):</span>
     <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">class_ref</span><span class="p">,</span> <span class="n">field_name</span><span class="p">,</span> <span class="n">field</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">reason</span> <span class="o">=</span> <span class="n">reason</span>
 
-  <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+  <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="k">return</span> <span class="s1">&#39;In </span><span class="si">{}</span><span class="s1">, </span><span class="si">{}</span><span class="s1"> field is malformed: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">class_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">field_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">reason</span><span class="p">)</span></div>
 
+<div class="viewcode-block" id="ConflictingFields"><a class="viewcode-back" href="../../module_api.html#streamer.input_configuration.ConflictingFields">[docs]</a><span class="k">class</span> <span class="nc">ConflictingFields</span><span class="p">(</span><span class="n">ConfigError</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;An error raised when multiple fields are given and only one of them is allowed at a time.&quot;&quot;&quot;</span>
+  
+  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">class_ref</span><span class="p">,</span> <span class="n">field1_name</span><span class="p">,</span> <span class="n">field2_name</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">field1_name</span> <span class="o">=</span> <span class="n">field1_name</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">field1_type</span> <span class="o">=</span> <span class="n">class_ref</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="n">field1_name</span><span class="p">]</span><span class="o">.</span><span class="n">get_type_name</span><span class="p">()</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">field2_name</span> <span class="o">=</span> <span class="n">field2_name</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">field2_type</span> <span class="o">=</span> <span class="n">class_ref</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="n">field2_name</span><span class="p">]</span><span class="o">.</span><span class="n">get_type_name</span><span class="p">()</span>
+    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">class_ref</span><span class="p">,</span> <span class="n">field1_name</span><span class="p">,</span> <span class="n">class_ref</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="n">field1_name</span><span class="p">])</span>
+  
+  <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="s2">&quot;&quot;&quot;In </span><span class="si">{}</span><span class="s2">, these fields are conflicting:</span>
+<span class="s2">    </span><span class="si">{}</span><span class="s2"> a </span><span class="si">{}</span><span class="s2"></span>
+<span class="s2">    and</span>
+<span class="s2">    </span><span class="si">{}</span><span class="s2"> a </span><span class="si">{}</span><span class="se">\n</span><span class="s2">  consider using only one of them.&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">class_name</span><span class="p">,</span>
+                      <span class="bp">self</span><span class="o">.</span><span class="n">field1_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">field1_type</span><span class="p">,</span>
+                      <span class="bp">self</span><span class="o">.</span><span class="n">field2_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">field2_type</span><span class="p">)</span></div>
+    
+<div class="viewcode-block" id="MissingRequiredExclusiveFields"><a class="viewcode-back" href="../../module_api.html#streamer.input_configuration.MissingRequiredExclusiveFields">[docs]</a><span class="k">class</span> <span class="nc">MissingRequiredExclusiveFields</span><span class="p">(</span><span class="n">ConfigError</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;An error raised when one of an exclusively required fields is missing.&quot;&quot;&quot;</span>
+  
+  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">class_ref</span><span class="p">,</span> <span class="n">field1_name</span><span class="p">,</span> <span class="n">field2_name</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">field1_name</span> <span class="o">=</span> <span class="n">field1_name</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">field1_type</span> <span class="o">=</span> <span class="n">class_ref</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="n">field1_name</span><span class="p">]</span><span class="o">.</span><span class="n">get_type_name</span><span class="p">()</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">field2_name</span> <span class="o">=</span> <span class="n">field2_name</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">field2_type</span> <span class="o">=</span> <span class="n">class_ref</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="n">field2_name</span><span class="p">]</span><span class="o">.</span><span class="n">get_type_name</span><span class="p">()</span>
+    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">class_ref</span><span class="p">,</span> <span class="n">field1_name</span><span class="p">,</span> <span class="n">class_ref</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="n">field1_name</span><span class="p">])</span>
+  
+  <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="s2">&quot;&quot;&quot;</span><span class="si">{}</span><span class="s2"> is missing a required field. Use exactly one of these fields:</span>
+<span class="s2">    </span><span class="si">{}</span><span class="s2"> a </span><span class="si">{}</span><span class="s2"></span>
+<span class="s2">    or</span>
+<span class="s2">    </span><span class="si">{}</span><span class="s2"> a </span><span class="si">{}</span><span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">class_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">field1_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">field1_type</span><span class="p">,</span>
+                      <span class="bp">self</span><span class="o">.</span><span class="n">field2_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">field2_type</span><span class="p">)</span></div>
 
 <span class="k">class</span> <span class="nc">ValidatingType</span><span class="p">(</span><span class="n">metaclass</span><span class="o">=</span><span class="n">abc</span><span class="o">.</span><span class="n">ABCMeta</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;A base wrapper type that validates the input against a limited range.</span>
@@ -158,7 +200,7 @@
 
   <span class="sd">&quot;&quot;&quot;A container for metadata about individual config fields.&quot;&quot;&quot;</span>
 
-  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                <span class="nb">type</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Type</span><span class="p">[</span><span class="n">FieldType</span><span class="p">]],</span>
                <span class="n">required</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
                <span class="n">default</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">FieldType</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -301,7 +343,7 @@
 <span class="sd">  The base class does the rest.</span>
 <span class="sd">  &quot;&quot;&quot;</span>
 
-  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dictionary</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dictionary</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Ingests, type-checks, and validates the input dictionary.&quot;&quot;&quot;</span>
 
     <span class="c1"># Collect all the config fields for this type.</span>
@@ -379,7 +421,7 @@
         <span class="c1"># If conversion raises WrongType on the subfield, raise a WrongType</span>
         <span class="c1"># error on this field instead, so that the printed error makes sense.</span>
         <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">field</span> <span class="o">==</span> <span class="n">subfield</span><span class="p">:</span>
-          <span class="k">raise</span> <span class="n">WrongType</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">field</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">None</span>
+          <span class="k">raise</span> <span class="n">WrongType</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">field</span><span class="p">)</span> <span class="kn">from</span> <span class="bp">None</span>
         <span class="k">else</span><span class="p">:</span>
           <span class="k">raise</span>
 
@@ -403,7 +445,7 @@
         <span class="c1"># WrongType error on this field instead, so that the printed error</span>
         <span class="c1"># makes sense.</span>
         <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">field</span> <span class="o">==</span> <span class="n">keyfield</span> <span class="ow">or</span> <span class="n">e</span><span class="o">.</span><span class="n">field</span> <span class="o">==</span> <span class="n">subfield</span><span class="p">:</span>
-          <span class="k">raise</span> <span class="n">WrongType</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">field</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">None</span>
+          <span class="k">raise</span> <span class="n">WrongType</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">field</span><span class="p">)</span> <span class="kn">from</span> <span class="bp">None</span>
         <span class="k">else</span><span class="p">:</span>
           <span class="k">raise</span>
 
@@ -413,7 +455,7 @@
       <span class="k">try</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">field</span><span class="o">.</span><span class="n">type</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
       <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">WrongType</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">field</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">None</span>
+        <span class="k">raise</span> <span class="n">WrongType</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">field</span><span class="p">)</span> <span class="kn">from</span> <span class="bp">None</span>
 
     <span class="c1"># A float should be permissive and accept an int, as well.</span>
     <span class="k">if</span> <span class="n">field</span><span class="o">.</span><span class="n">type</span> <span class="ow">is</span> <span class="nb">float</span><span class="p">:</span>
@@ -436,9 +478,9 @@
       <span class="k">try</span><span class="p">:</span>
         <span class="n">field</span><span class="o">.</span><span class="n">type</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
       <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">WrongType</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">field</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">None</span>
+        <span class="k">raise</span> <span class="n">WrongType</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">field</span><span class="p">)</span> <span class="kn">from</span> <span class="bp">None</span>
       <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">MalformedField</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">field</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span> <span class="kn">from</span> <span class="nn">None</span>
+        <span class="k">raise</span> <span class="n">MalformedField</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">field</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span> <span class="kn">from</span> <span class="bp">None</span>
       <span class="k">return</span> <span class="n">value</span>
 
     <span class="c1"># For all other types, just do a basic type check and return the original</span>
@@ -488,10 +530,10 @@
     <span class="sd">&quot;&quot;&quot;Return a tuple of sortable properties.  Implemented by subclasses.&quot;&quot;&quot;</span>
     <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;_sortable_properties missing on RuntimeMapSubclass!&#39;</span><span class="p">)</span>
 
-  <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+  <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sortable_properties</span><span class="p">()</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">_sortable_properties</span><span class="p">()</span>
 
-  <span class="k">def</span> <span class="nf">__lt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+  <span class="k">def</span> <span class="fm">__lt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sortable_properties</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">other</span><span class="o">.</span><span class="n">_sortable_properties</span><span class="p">()</span>
 
 
@@ -520,7 +562,7 @@
       <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_map</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
     <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
       <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-          <span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> is not a valid </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="p">))</span> <span class="kn">from</span> <span class="nn">None</span></div>
+          <span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> is not a valid </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="p">))</span> <span class="kn">from</span> <span class="bp">None</span></div>
 
 <div class="viewcode-block" id="RuntimeMap.keys"><a class="viewcode-back" href="../../module_api.html#streamer.input_configuration.RuntimeMap.keys">[docs]</a>  <span class="nd">@classmethod</span>
   <span class="k">def</span> <span class="nf">keys</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
@@ -561,39 +603,12 @@
 
 </pre></div>
 
+            <div class="clearer"></div>
           </div>
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-<h1 class="logo"><a href="../../index.html">Shaka Streamer</a></h1>
-
-
-
-
-
-
-
-
-<h3>Navigation</h3>
-<p class="caption"><span class="caption-text">Contents:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../../overview.html">Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../prerequisites.html">Installing Prerequisites</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../hardware_encoding.html">Hardware Encoding</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../configuration_fields.html">Configuration Field Reference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_api.html">Module API</a></li>
-</ul>
-
-<div class="relations">
-<h3>Related Topics</h3>
-<ul>
-  <li><a href="../../index.html">Documentation overview</a><ul>
-  <li><a href="../index.html">Module code</a><ul>
-  </ul></li>
-  </ul></li>
-</ul>
-</div>
 <div id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
@@ -608,17 +623,23 @@
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="footer">
-      &copy;2019, Google.
-      
-      |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.4.3</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
-      
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Shaka Streamer 0.3.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">streamer.configuration</a></li> 
+      </ul>
     </div>
-
-    
-
-    
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2019, Google.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.3.
+    </div>
   </body>
 </html>

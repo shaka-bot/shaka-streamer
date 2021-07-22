@@ -7,20 +7,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>streamer.bitrate_configuration &#8212; Shaka Streamer 0.3.0 documentation</title>
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/nature.css" type="text/css" />
     <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
     <script src="../../_static/jquery.js"></script>
     <script src="../../_static/underscore.js"></script>
     <script src="../../_static/doctools.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
-    <link rel="search" title="Search" href="../../search.html" />
-   
-  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
-  
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
-
+    <link rel="search" title="Search" href="../../search.html" /> 
   </head><body>
-  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Shaka Streamer 0.3.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">streamer.bitrate_configuration</a></li> 
+      </ul>
+    </div>  
 
     <div class="document">
       <div class="documentwrapper">
@@ -65,7 +73,7 @@
       <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;not a bitrate string (e.g. 500k or 7.5M)&#39;</span><span class="p">)</span>
 
 
-<span class="k">class</span> <span class="nc">AudioCodec</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">):</span>
+<div class="viewcode-block" id="AudioCodec"><a class="viewcode-back" href="../../configuration_fields.html#streamer.bitrate_configuration.AudioCodec">[docs]</a><span class="k">class</span> <span class="nc">AudioCodec</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">):</span>
 
   <span class="n">AAC</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;aac&#39;</span>
   <span class="n">OPUS</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;opus&#39;</span>
@@ -97,11 +105,11 @@
       <span class="k">return</span> <span class="s1">&#39;mp4&#39;</span>
     <span class="k">else</span><span class="p">:</span>
       <span class="k">assert</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;No mapping for output format for codec </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-          <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+          <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span></div>
 
 
 <span class="c1"># TODO: ideally, we wouldn&#39;t have to explicitly list hw: variants</span>
-<span class="k">class</span> <span class="nc">VideoCodec</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">):</span>
+<div class="viewcode-block" id="VideoCodec"><a class="viewcode-back" href="../../configuration_fields.html#streamer.bitrate_configuration.VideoCodec">[docs]</a><span class="k">class</span> <span class="nc">VideoCodec</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">):</span>
 
   <span class="n">H264</span> <span class="o">=</span> <span class="s1">&#39;h264&#39;</span>
   <span class="sd">&quot;&quot;&quot;H264, also known as AVC.&quot;&quot;&quot;</span>
@@ -156,10 +164,10 @@
       <span class="k">return</span> <span class="s1">&#39;mp4&#39;</span>
     <span class="k">else</span><span class="p">:</span>
       <span class="k">assert</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;No mapping for output format for codec </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-          <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+          <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span></div>
 
 
-<span class="k">class</span> <span class="nc">AudioChannelLayout</span><span class="p">(</span><span class="n">configuration</span><span class="o">.</span><span class="n">RuntimeMap</span><span class="p">):</span>
+<div class="viewcode-block" id="AudioChannelLayout"><a class="viewcode-back" href="../../configuration_fields.html#streamer.bitrate_configuration.AudioChannelLayout">[docs]</a><span class="k">class</span> <span class="nc">AudioChannelLayout</span><span class="p">(</span><span class="n">configuration</span><span class="o">.</span><span class="n">RuntimeMap</span><span class="p">):</span>
 
   <span class="n">max_channels</span> <span class="o">=</span> <span class="n">configuration</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">cast</span><span class="p">()</span>
   <span class="sd">&quot;&quot;&quot;The maximum number of channels in this layout.</span>
@@ -181,7 +189,7 @@
 
   <span class="k">def</span> <span class="nf">_sortable_properties</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot;Return a tuple of properties we can sort on.&quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">max_channels</span><span class="p">,)</span>
+    <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">max_channels</span><span class="p">,)</span></div>
 
 
 <span class="n">DEFAULT_AUDIO_CHANNEL_LAYOUTS</span> <span class="o">=</span> <span class="p">{</span>
@@ -206,7 +214,7 @@
 <span class="p">}</span>
 
 
-<span class="k">class</span> <span class="nc">VideoResolution</span><span class="p">(</span><span class="n">configuration</span><span class="o">.</span><span class="n">RuntimeMap</span><span class="p">):</span>
+<div class="viewcode-block" id="VideoResolution"><a class="viewcode-back" href="../../configuration_fields.html#streamer.bitrate_configuration.VideoResolution">[docs]</a><span class="k">class</span> <span class="nc">VideoResolution</span><span class="p">(</span><span class="n">configuration</span><span class="o">.</span><span class="n">RuntimeMap</span><span class="p">):</span>
 
   <span class="n">max_width</span> <span class="o">=</span> <span class="n">configuration</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">cast</span><span class="p">()</span>
   <span class="sd">&quot;&quot;&quot;The maximum width in pixels for this named resolution.&quot;&quot;&quot;</span>
@@ -234,7 +242,7 @@
 
   <span class="k">def</span> <span class="nf">_sortable_properties</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot;Return a tuple of properties we can sort on.&quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">max_width</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_height</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_frame_rate</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">max_width</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_height</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_frame_rate</span><span class="p">)</span></div>
 
 
 <span class="k">class</span> <span class="nc">VideoResolutionName</span><span class="p">(</span><span class="n">configuration</span><span class="o">.</span><span class="n">RuntimeMapKeyValidator</span><span class="p">):</span>
@@ -433,39 +441,12 @@
 <span class="sd">  &quot;&quot;&quot;</span></div>
 </pre></div>
 
+            <div class="clearer"></div>
           </div>
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-<h1 class="logo"><a href="../../index.html">Shaka Streamer</a></h1>
-
-
-
-
-
-
-
-
-<h3>Navigation</h3>
-<p class="caption"><span class="caption-text">Contents:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../../overview.html">Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../prerequisites.html">Installing Prerequisites</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../hardware_encoding.html">Hardware Encoding</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../configuration_fields.html">Configuration Field Reference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_api.html">Module API</a></li>
-</ul>
-
-<div class="relations">
-<h3>Related Topics</h3>
-<ul>
-  <li><a href="../../index.html">Documentation overview</a><ul>
-  <li><a href="../index.html">Module code</a><ul>
-  </ul></li>
-  </ul></li>
-</ul>
-</div>
 <div id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
@@ -480,17 +461,23 @@
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="footer">
-      &copy;2019, Google.
-      
-      |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.4.3</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
-      
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Shaka Streamer 0.3.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">streamer.bitrate_configuration</a></li> 
+      </ul>
     </div>
-
-    
-
-    
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2019, Google.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.3.
+    </div>
   </body>
 </html>

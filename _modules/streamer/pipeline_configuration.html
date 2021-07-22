@@ -7,20 +7,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>streamer.pipeline_configuration &#8212; Shaka Streamer 0.3.0 documentation</title>
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/nature.css" type="text/css" />
     <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
     <script src="../../_static/jquery.js"></script>
     <script src="../../_static/underscore.js"></script>
     <script src="../../_static/doctools.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
-    <link rel="search" title="Search" href="../../search.html" />
-   
-  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
-  
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
-
+    <link rel="search" title="Search" href="../../search.html" /> 
   </head><body>
-  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Shaka Streamer 0.3.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">streamer.pipeline_configuration</a></li> 
+      </ul>
+    </div>  
 
     <div class="document">
       <div class="documentwrapper">
@@ -74,39 +82,39 @@
   <span class="n">DEFAULT_HWACCEL_API</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
 
 
-<span class="k">class</span> <span class="nc">StreamingMode</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">):</span>
+<div class="viewcode-block" id="StreamingMode"><a class="viewcode-back" href="../../configuration_fields.html#streamer.pipeline_configuration.StreamingMode">[docs]</a><span class="k">class</span> <span class="nc">StreamingMode</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">):</span>
   <span class="n">LIVE</span> <span class="o">=</span> <span class="s1">&#39;live&#39;</span>
   <span class="sd">&quot;&quot;&quot;Indicates a live stream, which has no end.&quot;&quot;&quot;</span>
 
   <span class="n">VOD</span> <span class="o">=</span> <span class="s1">&#39;vod&#39;</span>
-  <span class="sd">&quot;&quot;&quot;Indicates a video-on-demand (VOD) stream, which is finite.&quot;&quot;&quot;</span>
+  <span class="sd">&quot;&quot;&quot;Indicates a video-on-demand (VOD) stream, which is finite.&quot;&quot;&quot;</span></div>
 
-<span class="k">class</span> <span class="nc">ManifestFormat</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">):</span>
+<div class="viewcode-block" id="ManifestFormat"><a class="viewcode-back" href="../../configuration_fields.html#streamer.pipeline_configuration.ManifestFormat">[docs]</a><span class="k">class</span> <span class="nc">ManifestFormat</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">):</span>
   <span class="n">DASH</span> <span class="o">=</span> <span class="s1">&#39;dash&#39;</span>
-  <span class="n">HLS</span> <span class="o">=</span> <span class="s1">&#39;hls&#39;</span>
+  <span class="n">HLS</span> <span class="o">=</span> <span class="s1">&#39;hls&#39;</span></div>
 
-<span class="k">class</span> <span class="nc">ProtectionScheme</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">):</span>
+<div class="viewcode-block" id="ProtectionScheme"><a class="viewcode-back" href="../../configuration_fields.html#streamer.pipeline_configuration.ProtectionScheme">[docs]</a><span class="k">class</span> <span class="nc">ProtectionScheme</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">):</span>
   <span class="n">CENC</span> <span class="o">=</span> <span class="s1">&#39;cenc&#39;</span>
   <span class="sd">&quot;&quot;&quot;AES-128-CTR mode.&quot;&quot;&quot;</span>
 
   <span class="n">CBCS</span> <span class="o">=</span> <span class="s1">&#39;cbcs&#39;</span>
-  <span class="sd">&quot;&quot;&quot;AES-128-CBC mode with pattern encryption.&quot;&quot;&quot;</span>
+  <span class="sd">&quot;&quot;&quot;AES-128-CBC mode with pattern encryption.&quot;&quot;&quot;</span></div>
 
-<span class="k">class</span> <span class="nc">ProtectionSystem</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">):</span>
+<div class="viewcode-block" id="ProtectionSystem"><a class="viewcode-back" href="../../configuration_fields.html#streamer.pipeline_configuration.ProtectionSystem">[docs]</a><span class="k">class</span> <span class="nc">ProtectionSystem</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">):</span>
   <span class="n">WIDEVINE</span> <span class="o">=</span> <span class="s1">&#39;Widevine&#39;</span>
   <span class="n">FAIRPLAY</span> <span class="o">=</span> <span class="s1">&#39;FairPlay&#39;</span>
   <span class="n">PLAYREADY</span> <span class="o">=</span> <span class="s1">&#39;PlayReady&#39;</span>
   <span class="n">MARLIN</span> <span class="o">=</span> <span class="s1">&#39;Marlin&#39;</span>
-  <span class="n">COMMON</span> <span class="o">=</span> <span class="s1">&#39;CommonSystem&#39;</span>
+  <span class="n">COMMON</span> <span class="o">=</span> <span class="s1">&#39;CommonSystem&#39;</span></div>
 
-<span class="k">class</span> <span class="nc">EncryptionMode</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">):</span>
+<div class="viewcode-block" id="EncryptionMode"><a class="viewcode-back" href="../../configuration_fields.html#streamer.pipeline_configuration.EncryptionMode">[docs]</a><span class="k">class</span> <span class="nc">EncryptionMode</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">):</span>
   <span class="n">WIDEVINE</span> <span class="o">=</span> <span class="s1">&#39;widevine&#39;</span>
   <span class="sd">&quot;&quot;&quot;Widevine key server mode&quot;&quot;&quot;</span>
 
   <span class="n">RAW</span> <span class="o">=</span> <span class="s1">&#39;raw&#39;</span>
-  <span class="sd">&quot;&quot;&quot;Raw key mode&quot;&quot;&quot;</span>
+  <span class="sd">&quot;&quot;&quot;Raw key mode&quot;&quot;&quot;</span></div>
 
-<span class="k">class</span> <span class="nc">RawKeyConfig</span><span class="p">(</span><span class="n">configuration</span><span class="o">.</span><span class="n">Base</span><span class="p">):</span>
+<div class="viewcode-block" id="RawKeyConfig"><a class="viewcode-back" href="../../configuration_fields.html#streamer.pipeline_configuration.RawKeyConfig">[docs]</a><span class="k">class</span> <span class="nc">RawKeyConfig</span><span class="p">(</span><span class="n">configuration</span><span class="o">.</span><span class="n">Base</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;An object representing a list of keys for Raw key encryption&quot;&quot;&quot;</span>
 
   <span class="n">label</span> <span class="o">=</span> <span class="n">configuration</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span><span class="o">.</span><span class="n">cast</span><span class="p">()</span>
@@ -117,10 +125,10 @@
   <span class="sd">&quot;&quot;&quot;A key identifier as a 32-digit hex string&quot;&quot;&quot;</span>
 
   <span class="n">key</span> <span class="o">=</span> <span class="n">configuration</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">configuration</span><span class="o">.</span><span class="n">HexString</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">cast</span><span class="p">()</span>
-  <span class="sd">&quot;&quot;&quot;The encryption key to use as a 32-digit hex string&quot;&quot;&quot;</span>
+  <span class="sd">&quot;&quot;&quot;The encryption key to use as a 32-digit hex string&quot;&quot;&quot;</span></div>
 
 
-<span class="k">class</span> <span class="nc">EncryptionConfig</span><span class="p">(</span><span class="n">configuration</span><span class="o">.</span><span class="n">Base</span><span class="p">):</span>
+<div class="viewcode-block" id="EncryptionConfig"><a class="viewcode-back" href="../../configuration_fields.html#streamer.pipeline_configuration.EncryptionConfig">[docs]</a><span class="k">class</span> <span class="nc">EncryptionConfig</span><span class="p">(</span><span class="n">configuration</span><span class="o">.</span><span class="n">Base</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;An object representing the encryption config for Shaka Streamer.&quot;&quot;&quot;</span>
 
   <span class="n">enable</span> <span class="o">=</span> <span class="n">configuration</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="nb">bool</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">cast</span><span class="p">()</span>
@@ -232,7 +240,7 @@
         <span class="n">field</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">keys</span>
         <span class="n">reason</span> <span class="o">=</span> <span class="s1">&#39;at least one key must be specified&#39;</span>
         <span class="k">raise</span> <span class="n">configuration</span><span class="o">.</span><span class="n">MalformedField</span><span class="p">(</span>
-          <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="s1">&#39;keys&#39;</span><span class="p">,</span> <span class="n">field</span><span class="p">,</span> <span class="n">reason</span><span class="p">)</span>
+          <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="s1">&#39;keys&#39;</span><span class="p">,</span> <span class="n">field</span><span class="p">,</span> <span class="n">reason</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="PipelineConfig"><a class="viewcode-back" href="../../configuration_fields.html#streamer.pipeline_configuration.PipelineConfig">[docs]</a><span class="k">class</span> <span class="nc">PipelineConfig</span><span class="p">(</span><span class="n">configuration</span><span class="o">.</span><span class="n">Base</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;An object representing the entire pipeline config for Shaka Streamer.&quot;&quot;&quot;</span>
@@ -346,39 +354,12 @@
     <span class="k">return</span> <span class="p">[</span><span class="n">VideoResolution</span><span class="o">.</span><span class="n">get_value</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">resolutions</span><span class="p">]</span></div>
 </pre></div>
 
+            <div class="clearer"></div>
           </div>
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-<h1 class="logo"><a href="../../index.html">Shaka Streamer</a></h1>
-
-
-
-
-
-
-
-
-<h3>Navigation</h3>
-<p class="caption"><span class="caption-text">Contents:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../../overview.html">Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../prerequisites.html">Installing Prerequisites</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../hardware_encoding.html">Hardware Encoding</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../configuration_fields.html">Configuration Field Reference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_api.html">Module API</a></li>
-</ul>
-
-<div class="relations">
-<h3>Related Topics</h3>
-<ul>
-  <li><a href="../../index.html">Documentation overview</a><ul>
-  <li><a href="../index.html">Module code</a><ul>
-  </ul></li>
-  </ul></li>
-</ul>
-</div>
 <div id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
@@ -393,17 +374,23 @@
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="footer">
-      &copy;2019, Google.
-      
-      |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.4.3</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
-      
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Shaka Streamer 0.3.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">streamer.pipeline_configuration</a></li> 
+      </ul>
     </div>
-
-    
-
-    
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2019, Google.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.3.
+    </div>
   </body>
 </html>
