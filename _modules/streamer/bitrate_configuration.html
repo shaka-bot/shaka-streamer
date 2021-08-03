@@ -56,7 +56,7 @@
 <span class="kn">import</span> <span class="nn">re</span>
 
 <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">configuration</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Tuple</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Tuple</span>
 
 
 <span class="k">class</span> <span class="nc">BitrateString</span><span class="p">(</span><span class="n">configuration</span><span class="o">.</span><span class="n">ValidatingType</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
@@ -115,14 +115,8 @@
   <span class="n">H264</span> <span class="o">=</span> <span class="s1">&#39;h264&#39;</span>
   <span class="sd">&quot;&quot;&quot;H264, also known as AVC.&quot;&quot;&quot;</span>
 
-  <span class="n">HARDWARE_H264</span> <span class="o">=</span> <span class="s1">&#39;hw:h264&#39;</span>
-  <span class="sd">&quot;&quot;&quot;H264 with hardware encoding.&quot;&quot;&quot;</span>
-
   <span class="n">VP9</span> <span class="o">=</span> <span class="s1">&#39;vp9&#39;</span>
   <span class="sd">&quot;&quot;&quot;VP9.&quot;&quot;&quot;</span>
-
-  <span class="n">HARDWARE_VP9</span> <span class="o">=</span> <span class="s1">&#39;hw:vp9&#39;</span>
-  <span class="sd">&quot;&quot;&quot;VP9 with hardware encoding.&quot;&quot;&quot;</span>
 
   <span class="n">AV1</span> <span class="o">=</span> <span class="s1">&#39;av1&#39;</span>
   <span class="sd">&quot;&quot;&quot;AV1.&quot;&quot;&quot;</span>
@@ -130,26 +124,28 @@
   <span class="n">HEVC</span> <span class="o">=</span> <span class="s1">&#39;hevc&#39;</span>
   <span class="sd">&quot;&quot;&quot;HEVC, also known as h.265&quot;&quot;&quot;</span>
 
-  <span class="n">HARDWARE_HEVC</span> <span class="o">=</span> <span class="s1">&#39;hw:hevc&#39;</span>
-  <span class="sd">&quot;&quot;&quot;HEVC, with hardware encoding&quot;&quot;&quot;</span>
+  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+    <span class="c1"># Set all the codecs not to be hardware accelerated at the begining.</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_hw_acc</span> <span class="o">=</span> <span class="kc">False</span>
+
+  <span class="nd">@classmethod</span>
+  <span class="k">def</span> <span class="nf">_missing_</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;VideoCodec&#39;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">value</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;hw:&#39;</span><span class="p">):</span>
+      <span class="n">obj</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span><span class="n">value</span><span class="p">[</span><span class="mi">3</span><span class="p">:])</span>
+      <span class="c1"># Overwrite the _hw_acc variable for this codec.</span>
+      <span class="n">obj</span><span class="o">.</span><span class="n">_hw_acc</span> <span class="o">=</span> <span class="kc">True</span>
+      <span class="k">return</span> <span class="n">obj</span>
+    <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">_missing_</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
 
   <span class="k">def</span> <span class="nf">is_hardware_accelerated</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Returns True if this codec is hardware accelerated.&quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;hw:&#39;</span><span class="p">)</span>
-
-  <span class="k">def</span> <span class="nf">get_base_codec</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;VideoCodec&#39;</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Returns an instance of the same codec without hardware acceleration.&quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_hardware_accelerated</span><span class="p">():</span>
-      <span class="n">value_without_prefix</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
-      <span class="k">return</span> <span class="n">VideoCodec</span><span class="p">(</span><span class="n">value_without_prefix</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="bp">self</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_hw_acc</span>
 
   <span class="k">def</span> <span class="nf">get_ffmpeg_codec_string</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hwaccel_api</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Returns a codec string accepted by FFmpeg for this codec.&quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_hardware_accelerated</span><span class="p">():</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_hw_acc</span><span class="p">:</span>
       <span class="k">assert</span> <span class="n">hwaccel_api</span><span class="p">,</span> <span class="s1">&#39;No hardware encoding support on this platform!&#39;</span>
-      <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_base_codec</span><span class="p">()</span><span class="o">.</span><span class="n">value</span> <span class="o">+</span> <span class="s1">&#39;_&#39;</span> <span class="o">+</span> <span class="n">hwaccel_api</span>
+      <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">+</span> <span class="s1">&#39;_&#39;</span> <span class="o">+</span> <span class="n">hwaccel_api</span>
 
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span>
 
@@ -157,11 +153,11 @@
     <span class="sd">&quot;&quot;&quot;Returns an FFmpeg output format suitable for this codec.&quot;&quot;&quot;</span>
     <span class="c1"># TODO: consider VP9 in mp4 by default</span>
     <span class="c1"># TODO(#31): add support for configurable output format per-codec</span>
-    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_base_codec</span><span class="p">()</span> <span class="o">==</span> <span class="n">VideoCodec</span><span class="o">.</span><span class="n">VP9</span><span class="p">:</span>
+    <span class="k">if</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">VideoCodec</span><span class="o">.</span><span class="n">VP9</span><span class="p">:</span>
       <span class="k">return</span> <span class="s1">&#39;webm&#39;</span>
-    <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_base_codec</span><span class="p">()</span> <span class="ow">in</span> <span class="p">{</span><span class="n">VideoCodec</span><span class="o">.</span><span class="n">H264</span><span class="p">,</span> <span class="n">VideoCodec</span><span class="o">.</span><span class="n">HEVC</span><span class="p">}:</span>
+    <span class="k">elif</span> <span class="bp">self</span> <span class="ow">in</span> <span class="p">{</span><span class="n">VideoCodec</span><span class="o">.</span><span class="n">H264</span><span class="p">,</span> <span class="n">VideoCodec</span><span class="o">.</span><span class="n">HEVC</span><span class="p">}:</span>
       <span class="k">return</span> <span class="s1">&#39;mp4&#39;</span>
-    <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_base_codec</span><span class="p">()</span> <span class="o">==</span> <span class="n">VideoCodec</span><span class="o">.</span><span class="n">AV1</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">VideoCodec</span><span class="o">.</span><span class="n">AV1</span><span class="p">:</span>
       <span class="k">return</span> <span class="s1">&#39;mp4&#39;</span>
     <span class="k">else</span><span class="p">:</span>
       <span class="k">assert</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;No mapping for output format for codec </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>

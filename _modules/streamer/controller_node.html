@@ -80,6 +80,7 @@
 <span class="kn">from</span> <span class="nn">streamer.pipeline_configuration</span> <span class="kn">import</span> <span class="n">PipelineConfig</span><span class="p">,</span> <span class="n">StreamingMode</span>
 <span class="kn">from</span> <span class="nn">streamer.transcoder_node</span> <span class="kn">import</span> <span class="n">TranscoderNode</span>
 <span class="kn">from</span> <span class="nn">streamer.periodconcat_node</span> <span class="kn">import</span> <span class="n">PeriodConcatNode</span>
+<span class="kn">from</span> <span class="nn">streamer.util</span> <span class="kn">import</span> <span class="n">is_url</span>
 
 
 <div class="viewcode-block" id="ControllerNode"><a class="viewcode-back" href="../../module_api.html#streamer.controller_node.ControllerNode">[docs]</a><span class="k">class</span> <span class="nc">ControllerNode</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -135,7 +136,7 @@
 
     <span class="k">return</span> <span class="n">path</span>
 
-<div class="viewcode-block" id="ControllerNode.start"><a class="viewcode-back" href="../../module_api.html#streamer.controller_node.ControllerNode.start">[docs]</a>  <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output_dir</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+<div class="viewcode-block" id="ControllerNode.start"><a class="viewcode-back" href="../../module_api.html#streamer.controller_node.ControllerNode.start">[docs]</a>  <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output_location</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
             <span class="n">input_config_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
             <span class="n">pipeline_config_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
             <span class="n">bitrate_config_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{},</span>
@@ -176,14 +177,6 @@
       <span class="c1"># the destination, independent of the version check above.</span>
       <span class="n">CloudNode</span><span class="o">.</span><span class="n">check_access</span><span class="p">(</span><span class="n">bucket_url</span><span class="p">)</span>
 
-
-    <span class="bp">self</span><span class="o">.</span><span class="n">_output_dir</span> <span class="o">=</span> <span class="n">output_dir</span>
-    <span class="c1"># Check if the directory for outputted Packager files exists, and if it</span>
-    <span class="c1"># does, delete it and remake a new one.</span>
-    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_output_dir</span><span class="p">):</span>
-      <span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_output_dir</span><span class="p">)</span>
-    <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_output_dir</span><span class="p">)</span>
-
     <span class="c1"># Define resolutions and bitrates before parsing other configs.</span>
     <span class="n">bitrate_config</span> <span class="o">=</span> <span class="n">BitrateConfig</span><span class="p">(</span><span class="n">bitrate_config_dict</span><span class="p">)</span>
 
@@ -196,29 +189,55 @@
     <span class="bp">self</span><span class="o">.</span><span class="n">_input_config</span> <span class="o">=</span> <span class="n">InputConfig</span><span class="p">(</span><span class="n">input_config_dict</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_pipeline_config</span> <span class="o">=</span> <span class="n">PipelineConfig</span><span class="p">(</span><span class="n">pipeline_config_dict</span><span class="p">)</span>
 
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">is_url</span><span class="p">(</span><span class="n">output_location</span><span class="p">):</span>
+      <span class="c1"># Check if the directory for outputted Packager files exists, and if it</span>
+      <span class="c1"># does, delete it and remake a new one.</span>
+      <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">output_location</span><span class="p">):</span>
+        <span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="n">output_location</span><span class="p">)</span>
+      <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">output_location</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="c1"># Check some restrictions and other details on HTTP output.</span>
+      <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pipeline_config</span><span class="o">.</span><span class="n">segment_per_file</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+            <span class="s1">&#39;For HTTP PUT uploads, the pipeline segment_per_file setting &#39;</span> <span class="o">+</span>
+            <span class="s1">&#39;must be set to True!&#39;</span><span class="p">)</span>
+
+      <span class="k">if</span> <span class="n">bucket_url</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+            <span class="s1">&#39;Cloud bucket upload is incompatible with HTTP PUT support.&#39;</span><span class="p">)</span>
+      
+      <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_input_config</span><span class="o">.</span><span class="n">multiperiod_inputs_list</span><span class="p">:</span>
+        <span class="c1"># TODO: Edit Multiperiod input list implementation to support HTTP outputs</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+            <span class="s1">&#39;Multiperiod input list support is incompatible with HTTP outputs.&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Note that we remove the trailing slash from the output location, because</span>
+    <span class="c1"># otherwise GCS would create a subdirectory whose name is &quot;&quot;.</span>
+    <span class="n">output_location</span> <span class="o">=</span> <span class="n">output_location</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
+
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_input_config</span><span class="o">.</span><span class="n">inputs</span><span class="p">:</span>
       <span class="c1"># InputConfig contains inputs only.</span>
-      <span class="bp">self</span><span class="o">.</span><span class="n">_append_nodes_for_inputs_list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_input_config</span><span class="o">.</span><span class="n">inputs</span><span class="p">)</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">_append_nodes_for_inputs_list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_input_config</span><span class="o">.</span><span class="n">inputs</span><span class="p">,</span> <span class="n">output_location</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
       <span class="c1"># InputConfig contains multiperiod_inputs_list only.</span>
       <span class="c1"># Create one Transcoder node and one Packager node for each period.</span>
       <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">singleperiod</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_input_config</span><span class="o">.</span><span class="n">multiperiod_inputs_list</span><span class="p">):</span>
         <span class="n">sub_dir_name</span> <span class="o">=</span> <span class="s1">&#39;period_&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_append_nodes_for_inputs_list</span><span class="p">(</span><span class="n">singleperiod</span><span class="o">.</span><span class="n">inputs</span><span class="p">,</span> <span class="n">sub_dir_name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_append_nodes_for_inputs_list</span><span class="p">(</span><span class="n">singleperiod</span><span class="o">.</span><span class="n">inputs</span><span class="p">,</span> <span class="n">output_location</span><span class="p">,</span> <span class="n">sub_dir_name</span><span class="p">)</span>
 
       <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pipeline_config</span><span class="o">.</span><span class="n">streaming_mode</span> <span class="o">==</span> <span class="n">StreamingMode</span><span class="o">.</span><span class="n">VOD</span><span class="p">:</span>
         <span class="n">packager_nodes</span> <span class="o">=</span> <span class="p">[</span><span class="n">node</span> <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nodes</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">PackagerNode</span><span class="p">)]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">PeriodConcatNode</span><span class="p">(</span>
           <span class="bp">self</span><span class="o">.</span><span class="n">_pipeline_config</span><span class="p">,</span>
           <span class="n">packager_nodes</span><span class="p">,</span>
-          <span class="bp">self</span><span class="o">.</span><span class="n">_output_dir</span><span class="p">))</span>
+          <span class="n">output_location</span><span class="p">))</span>
 
     <span class="k">if</span> <span class="n">bucket_url</span><span class="p">:</span>
       <span class="n">cloud_temp_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_temp_dir</span><span class="p">,</span> <span class="s1">&#39;cloud&#39;</span><span class="p">)</span>
       <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">cloud_temp_dir</span><span class="p">)</span>
 
       <span class="n">packager_nodes</span> <span class="o">=</span> <span class="p">[</span><span class="n">node</span> <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nodes</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">PackagerNode</span><span class="p">)]</span>
-      <span class="bp">self</span><span class="o">.</span><span class="n">_nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">CloudNode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_output_dir</span><span class="p">,</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">_nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">CloudNode</span><span class="p">(</span><span class="n">output_location</span><span class="p">,</span>
                                    <span class="n">bucket_url</span><span class="p">,</span>
                                    <span class="n">cloud_temp_dir</span><span class="p">,</span>
                                    <span class="n">packager_nodes</span><span class="p">,</span>
@@ -229,7 +248,7 @@
       
     <span class="k">return</span> <span class="bp">self</span></div>
 
-  <span class="k">def</span> <span class="nf">_append_nodes_for_inputs_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Input</span><span class="p">],</span>
+  <span class="k">def</span> <span class="nf">_append_nodes_for_inputs_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Input</span><span class="p">],</span> <span class="n">output_location</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
                <span class="n">period_dir</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;A common method that creates Transcoder and Packager nodes for a list of Inputs passed to it.</span>
 <span class="sd">    </span>
@@ -289,17 +308,15 @@
     <span class="bp">self</span><span class="o">.</span><span class="n">_nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">TranscoderNode</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span>
                                       <span class="bp">self</span><span class="o">.</span><span class="n">_pipeline_config</span><span class="p">,</span>
                                       <span class="n">outputs</span><span class="p">))</span>
-
-    <span class="n">output_dir</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_output_dir</span>
     
     <span class="c1"># If the inputs list was a period in multiperiod_inputs_list, create a nested directory</span>
     <span class="c1"># and put that period in it.</span>
     <span class="k">if</span> <span class="n">period_dir</span><span class="p">:</span>
-      <span class="n">output_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span> <span class="n">period_dir</span><span class="p">)</span>
-      <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">output_dir</span><span class="p">)</span>
+      <span class="n">output_location</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">output_location</span><span class="p">,</span> <span class="n">period_dir</span><span class="p">)</span>
+      <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">output_location</span><span class="p">)</span>
 
     <span class="bp">self</span><span class="o">.</span><span class="n">_nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">PackagerNode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pipeline_config</span><span class="p">,</span>
-                                    <span class="n">output_dir</span><span class="p">,</span>
+                                    <span class="n">output_location</span><span class="p">,</span>
                                     <span class="n">outputs</span><span class="p">))</span>
 
 <div class="viewcode-block" id="ControllerNode.check_status"><a class="viewcode-back" href="../../module_api.html#streamer.controller_node.ControllerNode.check_status">[docs]</a>  <span class="k">def</span> <span class="nf">check_status</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ProcessStatus</span><span class="p">:</span>
