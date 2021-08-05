@@ -63,11 +63,9 @@
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">import</span> <span class="nn">shutil</span>
-<span class="kn">import</span> <span class="nn">string</span>
 <span class="kn">import</span> <span class="nn">subprocess</span>
 <span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">import</span> <span class="nn">tempfile</span>
-<span class="kn">import</span> <span class="nn">uuid</span>
 
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
 <span class="kn">from</span> <span class="nn">streamer.cloud_node</span> <span class="kn">import</span> <span class="n">CloudNode</span>
@@ -81,6 +79,7 @@
 <span class="kn">from</span> <span class="nn">streamer.transcoder_node</span> <span class="kn">import</span> <span class="n">TranscoderNode</span>
 <span class="kn">from</span> <span class="nn">streamer.periodconcat_node</span> <span class="kn">import</span> <span class="n">PeriodConcatNode</span>
 <span class="kn">from</span> <span class="nn">streamer.util</span> <span class="kn">import</span> <span class="n">is_url</span>
+<span class="kn">from</span> <span class="nn">streamer.pipe</span> <span class="kn">import</span> <span class="n">Pipe</span>
 
 
 <div class="viewcode-block" id="ControllerNode"><a class="viewcode-back" href="../../module_api.html#streamer.controller_node.ControllerNode">[docs]</a><span class="k">class</span> <span class="nc">ControllerNode</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -106,35 +105,6 @@
 
   <span class="k">def</span> <span class="fm">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">unused_args</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
-
-  <span class="k">def</span> <span class="nf">_create_pipe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">suffix</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Create a uniquely-named named pipe in the node&#39;s temp directory.</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">      suffix (str): An optional suffix added to the pipe&#39;s name.  Used to</span>
-<span class="sd">                    indicate to the packager when it&#39;s getting a certain text</span>
-<span class="sd">                    format in a pipe.</span>
-<span class="sd">    Raises:</span>
-<span class="sd">      RuntimeError: If the platform doesn&#39;t have mkfifo.</span>
-<span class="sd">    Returns:</span>
-<span class="sd">      The path to the named pipe, as a string.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="c1"># TODO(#8): mkfifo only works on Unix.  We would need a special case for a</span>
-    <span class="c1"># Windows port some day.</span>
-
-    <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">os</span><span class="p">,</span> <span class="s1">&#39;mkfifo&#39;</span><span class="p">):</span>
-      <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;Platform not supported due to lack of mkfifo&#39;</span><span class="p">)</span>
-
-    <span class="c1"># Since the tempfile module creates actual files, use uuid to generate a</span>
-    <span class="c1"># filename, then call mkfifo to create the named pipe.</span>
-    <span class="n">unique_name</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">())</span> <span class="o">+</span> <span class="n">suffix</span>
-    <span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_temp_dir</span><span class="p">,</span> <span class="n">unique_name</span><span class="p">)</span>
-
-    <span class="n">readable_by_owner_only</span> <span class="o">=</span> <span class="mo">0o600</span>  <span class="c1"># Unix permission bits</span>
-    <span class="n">os</span><span class="o">.</span><span class="n">mkfifo</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="n">readable_by_owner_only</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">path</span>
 
 <div class="viewcode-block" id="ControllerNode.start"><a class="viewcode-back" href="../../module_api.html#streamer.controller_node.ControllerNode.start">[docs]</a>  <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output_location</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
             <span class="n">input_config_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
@@ -266,15 +236,17 @@
       <span class="c1"># that node to write to.  TranscoderNode will then instruct FFmpeg to</span>
       <span class="c1"># read from that pipe for this input.</span>
       <span class="k">if</span> <span class="nb">input</span><span class="o">.</span><span class="n">input_type</span> <span class="o">==</span> <span class="n">InputType</span><span class="o">.</span><span class="n">EXTERNAL_COMMAND</span><span class="p">:</span>
-        <span class="n">command_output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_pipe</span><span class="p">()</span>
+        <span class="n">command_output</span> <span class="o">=</span> <span class="n">Pipe</span><span class="o">.</span><span class="n">create_ipc_pipe</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_temp_dir</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ExternalCommandNode</span><span class="p">(</span>
-            <span class="nb">input</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">command_output</span><span class="p">))</span>
-        <span class="nb">input</span><span class="o">.</span><span class="n">set_pipe</span><span class="p">(</span><span class="n">command_output</span><span class="p">)</span>
+            <span class="nb">input</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">command_output</span><span class="o">.</span><span class="n">write_end</span><span class="p">()))</span>
+        <span class="c1"># reset the name of the input to be the output pipe path - which the </span>
+        <span class="c1"># transcoder node will read from - instead of a shell command.</span>
+        <span class="nb">input</span><span class="o">.</span><span class="n">reset_name</span><span class="p">(</span><span class="n">command_output</span><span class="o">.</span><span class="n">read_end</span><span class="p">())</span>
 
       <span class="k">if</span> <span class="nb">input</span><span class="o">.</span><span class="n">media_type</span> <span class="o">==</span> <span class="n">MediaType</span><span class="o">.</span><span class="n">AUDIO</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">audio_codec</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pipeline_config</span><span class="o">.</span><span class="n">audio_codecs</span><span class="p">:</span>
-          <span class="n">outputs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">AudioOutputStream</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_create_pipe</span><span class="p">(),</span>
-                                           <span class="nb">input</span><span class="p">,</span>
+          <span class="n">outputs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">AudioOutputStream</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span>
+                                           <span class="bp">self</span><span class="o">.</span><span class="n">_temp_dir</span><span class="p">,</span>
                                            <span class="n">audio_codec</span><span class="p">,</span>
                                            <span class="bp">self</span><span class="o">.</span><span class="n">_pipeline_config</span><span class="o">.</span><span class="n">channels</span><span class="p">))</span>
 
@@ -286,8 +258,8 @@
             <span class="k">if</span> <span class="nb">input</span><span class="o">.</span><span class="n">get_resolution</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">output_resolution</span><span class="p">:</span>
               <span class="k">continue</span>
 
-            <span class="n">outputs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">VideoOutputStream</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_create_pipe</span><span class="p">(),</span>
-                                             <span class="nb">input</span><span class="p">,</span>
+            <span class="n">outputs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">VideoOutputStream</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span>
+                                             <span class="bp">self</span><span class="o">.</span><span class="n">_temp_dir</span><span class="p">,</span>
                                              <span class="n">video_codec</span><span class="p">,</span>
                                              <span class="n">output_resolution</span><span class="p">))</span>
 
@@ -296,14 +268,16 @@
           <span class="c1"># If the input is a VTT or TTML file, pass it directly to the packager</span>
           <span class="c1"># without any intermediate processing or any named pipe.</span>
           <span class="c1"># TODO: Test TTML inputs</span>
-          <span class="n">text_pipe</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># Bypass transcoder</span>
+          <span class="n">skip_transcoding</span> <span class="o">=</span> <span class="kc">True</span>  <span class="c1"># Bypass transcoder</span>
         <span class="k">else</span><span class="p">:</span>
           <span class="c1"># Otherwise, the input is something like an mkv file with text tracks</span>
           <span class="c1"># in it.  These will be extracted by the transcoder and passed in a</span>
           <span class="c1"># pipe to the packager.</span>
-          <span class="n">text_pipe</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_pipe</span><span class="p">(</span><span class="s1">&#39;.vtt&#39;</span><span class="p">)</span>
+          <span class="n">skip_transcoding</span> <span class="o">=</span> <span class="kc">False</span>
 
-        <span class="n">outputs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">TextOutputStream</span><span class="p">(</span><span class="n">text_pipe</span><span class="p">,</span> <span class="nb">input</span><span class="p">))</span>
+        <span class="n">outputs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">TextOutputStream</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span>
+                                        <span class="bp">self</span><span class="o">.</span><span class="n">_temp_dir</span><span class="p">,</span>
+                                        <span class="n">skip_transcoding</span><span class="p">))</span>
 
     <span class="bp">self</span><span class="o">.</span><span class="n">_nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">TranscoderNode</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span>
                                       <span class="bp">self</span><span class="o">.</span><span class="n">_pipeline_config</span><span class="p">,</span>
