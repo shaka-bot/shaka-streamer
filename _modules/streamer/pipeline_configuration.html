@@ -272,18 +272,26 @@
 <span class="sd">  &quot;&quot;&quot;</span>
 
   <span class="n">resolutions</span> <span class="o">=</span> <span class="n">configuration</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span>
-      <span class="n">List</span><span class="p">[</span><span class="n">bitrate_configuration</span><span class="o">.</span><span class="n">VideoResolutionName</span><span class="p">],</span>
-      <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">cast</span><span class="p">()</span>
+      <span class="n">List</span><span class="p">[</span><span class="n">bitrate_configuration</span><span class="o">.</span><span class="n">VideoResolutionName</span><span class="p">])</span><span class="o">.</span><span class="n">cast</span><span class="p">()</span>
   <span class="sd">&quot;&quot;&quot;A list of resolution names to encode.</span>
 
 <span class="sd">  Any resolution greater than the input resolution will be ignored, to avoid</span>
 <span class="sd">  upscaling the content.  This also allows you to reuse a pipeline config for</span>
 <span class="sd">  multiple inputs.</span>
+
+<span class="sd">  If not set, it will default to a list of all the (VideoResolutionName)s</span>
+<span class="sd">  defined in the bitrate configuration.</span>
 <span class="sd">  &quot;&quot;&quot;</span>
 
-  <span class="c1"># TODO(joeyparrish): Default to whatever is in the input.</span>
-  <span class="n">channels</span> <span class="o">=</span> <span class="n">configuration</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">cast</span><span class="p">()</span>
-  <span class="sd">&quot;&quot;&quot;The number of audio channels to encode.&quot;&quot;&quot;</span>
+  <span class="n">channel_layouts</span> <span class="o">=</span> <span class="n">configuration</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span>
+      <span class="n">List</span><span class="p">[</span><span class="n">bitrate_configuration</span><span class="o">.</span><span class="n">AudioChannelLayoutName</span><span class="p">])</span><span class="o">.</span><span class="n">cast</span><span class="p">()</span>
+  <span class="sd">&quot;&quot;&quot;A list of channel layouts to encode.</span>
+
+<span class="sd">  Any channel count greater than the input channel count will be ignored.</span>
+
+<span class="sd">  If not set, it will default to a list of all the (AudioChannelLayoutName)s</span>
+<span class="sd">  defined in the bitrate configuration.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
 
   <span class="n">audio_codecs</span> <span class="o">=</span> <span class="n">configuration</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span>
       <span class="n">List</span><span class="p">[</span><span class="n">bitrate_configuration</span><span class="o">.</span><span class="n">AudioCodec</span><span class="p">],</span>
@@ -342,6 +350,16 @@
 
 
   <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+
+    <span class="c1"># Set the default values of the resolutions and channel_layouts</span>
+    <span class="c1"># to the values we have in the bitrate configuration.</span>
+    <span class="c1"># We need the &#39;type: ignore&#39; here because mypy thinks these variables are lists</span>
+    <span class="c1"># of VideoResolutionName and AudioChannelLayoutName and not Field variables.</span>
+    <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">resolutions</span><span class="o">.</span><span class="n">default</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span>  <span class="c1"># type: ignore</span>
+      <span class="n">bitrate_configuration</span><span class="o">.</span><span class="n">VideoResolution</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+    <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">channel_layouts</span><span class="o">.</span><span class="n">default</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span>  <span class="c1"># type: ignore</span>
+      <span class="n">bitrate_configuration</span><span class="o">.</span><span class="n">AudioChannelLayout</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+
     <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">streaming_mode</span> <span class="o">==</span> <span class="n">StreamingMode</span><span class="o">.</span><span class="n">LIVE</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">segment_per_file</span><span class="p">:</span>
@@ -352,7 +370,11 @@
 
   <span class="k">def</span> <span class="nf">get_resolutions</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">bitrate_configuration</span><span class="o">.</span><span class="n">VideoResolution</span><span class="p">]:</span>
     <span class="n">VideoResolution</span> <span class="o">=</span> <span class="n">bitrate_configuration</span><span class="o">.</span><span class="n">VideoResolution</span>  <span class="c1"># alias</span>
-    <span class="k">return</span> <span class="p">[</span><span class="n">VideoResolution</span><span class="o">.</span><span class="n">get_value</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">resolutions</span><span class="p">]</span></div>
+    <span class="k">return</span> <span class="p">[</span><span class="n">VideoResolution</span><span class="o">.</span><span class="n">get_value</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">resolutions</span><span class="p">]</span>
+
+  <span class="k">def</span> <span class="nf">get_channel_layouts</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">bitrate_configuration</span><span class="o">.</span><span class="n">AudioChannelLayout</span><span class="p">]:</span>
+    <span class="n">AudioChannelLayout</span> <span class="o">=</span> <span class="n">bitrate_configuration</span><span class="o">.</span><span class="n">AudioChannelLayout</span> <span class="c1"># alias</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">AudioChannelLayout</span><span class="o">.</span><span class="n">get_value</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">channel_layouts</span><span class="p">]</span></div>
 </pre></div>
 
             <div class="clearer"></div>

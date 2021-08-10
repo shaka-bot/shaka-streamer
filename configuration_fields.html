@@ -205,6 +205,12 @@ For example, required for input_type of ‘external_command’.</p>
 </dd></dl>
 
 <dl class="py attribute">
+<dt id="streamer.input_configuration.Input.channel_layout">
+<code class="sig-name descname">channel_layout</code><em class="property">: AudioChannelLayout name (one of 'stereo', 'surround')</em><a class="headerlink" href="#streamer.input_configuration.Input.channel_layout" title="Permalink to this definition">¶</a></dt>
+<dd><p>The name of the input channel layout (stereo, surround, etc).</p>
+</dd></dl>
+
+<dl class="py attribute">
 <dt id="streamer.input_configuration.Input.language">
 <code class="sig-name descname">language</code><em class="property">: string</em><a class="headerlink" href="#streamer.input_configuration.Input.language" title="Permalink to this definition">¶</a></dt>
 <dd><p>The language of an audio or text stream.</p>
@@ -339,12 +345,17 @@ for debugging.</p>
 <p>Any resolution greater than the input resolution will be ignored, to avoid
 upscaling the content.  This also allows you to reuse a pipeline config for
 multiple inputs.</p>
+<p>If not set, it will default to a list of all the (VideoResolutionName)s
+defined in the bitrate configuration.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt id="streamer.pipeline_configuration.PipelineConfig.channels">
-<code class="sig-name descname">channels</code><em class="property">: int</em><a class="headerlink" href="#streamer.pipeline_configuration.PipelineConfig.channels" title="Permalink to this definition">¶</a></dt>
-<dd><p>The number of audio channels to encode.</p>
+<dt id="streamer.pipeline_configuration.PipelineConfig.channel_layouts">
+<code class="sig-name descname">channel_layouts</code><em class="property">: list of AudioChannelLayout name (one of 'stereo', 'surround')</em><a class="headerlink" href="#streamer.pipeline_configuration.PipelineConfig.channel_layouts" title="Permalink to this definition">¶</a></dt>
+<dd><p>A list of channel layouts to encode.</p>
+<p>Any channel count greater than the input channel count will be ignored.</p>
+<p>If not set, it will default to a list of all the (AudioChannelLayoutName)s
+defined in the bitrate configuration.</p>
 </dd></dl>
 
 <dl class="py attribute">
@@ -768,6 +779,446 @@ bitrates, etc.)</p>
 <p>This value is a string in bits per second, with the suffix ‘k’ or ‘M’ for
 kilobits per second or megabits per second.</p>
 <p>For example, this could be ‘500k’ or ‘7.5M’.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="streamer.bitrate_configuration.AudioChannelLayoutName">
+<em class="property">class </em><code class="sig-prename descclassname">streamer.bitrate_configuration.</code><code class="sig-name descname">AudioChannelLayoutName</code><a class="reference internal" href="_modules/streamer/bitrate_configuration.html#AudioChannelLayoutName"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#streamer.bitrate_configuration.AudioChannelLayoutName" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="module_api.html#streamer.configuration.RuntimeMapKeyValidator" title="streamer.configuration.RuntimeMapKeyValidator"><code class="xref py py-class docutils literal notranslate"><span class="pre">streamer.configuration.RuntimeMapKeyValidator</span></code></a></p>
+<p>A type which will only allow valid AudioChannelLayout names at runtime.</p>
+<dl class="py attribute">
+<dt id="streamer.bitrate_configuration.AudioChannelLayoutName.map_class">
+<code class="sig-name descname">map_class</code><a class="headerlink" href="#streamer.bitrate_configuration.AudioChannelLayoutName.map_class" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="#streamer.bitrate_configuration.AudioChannelLayout" title="streamer.bitrate_configuration.AudioChannelLayout"><code class="xref py py-class docutils literal notranslate"><span class="pre">streamer.bitrate_configuration.AudioChannelLayout</span></code></a></p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="streamer.bitrate_configuration.AudioChannelLayoutName.capitalize">
+<code class="sig-name descname">capitalize</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#streamer.bitrate_configuration.AudioChannelLayoutName.capitalize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a capitalized version of the string.</p>
+<p>More specifically, make the first character have upper case and the rest lower
+case.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="streamer.bitrate_configuration.AudioChannelLayoutName.casefold">
+<code class="sig-name descname">casefold</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#streamer.bitrate_configuration.AudioChannelLayoutName.casefold" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a version of the string suitable for caseless comparisons.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="streamer.bitrate_configuration.AudioChannelLayoutName.center">
+<code class="sig-name descname">center</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">width</span></em>, <em class="sig-param"><span class="n">fillchar</span><span class="o">=</span><span class="default_value">' '</span></em>, <em class="sig-param"><span class="o">/</span></em><span class="sig-paren">)</span><a class="headerlink" href="#streamer.bitrate_configuration.AudioChannelLayoutName.center" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a centered string of length width.</p>
+<p>Padding is done using the specified fill character (default is a space).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="streamer.bitrate_configuration.AudioChannelLayoutName.count">
+<code class="sig-name descname">count</code><span class="sig-paren">(</span><em class="sig-param">sub</em><span class="optional">[</span>, <em class="sig-param">start</em><span class="optional">[</span>, <em class="sig-param">end</em><span class="optional">]</span><span class="optional">]</span><span class="sig-paren">)</span> &#x2192; int<a class="headerlink" href="#streamer.bitrate_configuration.AudioChannelLayoutName.count" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the number of non-overlapping occurrences of substring sub in
+string S[start:end].  Optional arguments start and end are
+interpreted as in slice notation.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="streamer.bitrate_configuration.AudioChannelLayoutName.encode">
+<code class="sig-name descname">encode</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">encoding</span><span class="o">=</span><span class="default_value">'utf-8'</span></em>, <em class="sig-param"><span class="n">errors</span><span class="o">=</span><span class="default_value">'strict'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#streamer.bitrate_configuration.AudioChannelLayoutName.encode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Encode the string using the codec registered for encoding.</p>
+<dl class="simple">
+<dt>encoding</dt><dd><p>The encoding in which to encode the string.</p>
+</dd>
+<dt>errors</dt><dd><p>The error handling scheme to use for encoding errors.
+The default is ‘strict’ meaning that encoding errors raise a
+UnicodeEncodeError.  Other possible values are ‘ignore’, ‘replace’ and
+‘xmlcharrefreplace’ as well as any other name registered with
+codecs.register_error that can handle UnicodeEncodeErrors.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="streamer.bitrate_configuration.AudioChannelLayoutName.endswith">
+<code class="sig-name descname">endswith</code><span class="sig-paren">(</span><em class="sig-param">suffix</em><span class="optional">[</span>, <em class="sig-param">start</em><span class="optional">[</span>, <em class="sig-param">end</em><span class="optional">]</span><span class="optional">]</span><span class="sig-paren">)</span> &#x2192; bool<a class="headerlink" href="#streamer.bitrate_configuration.AudioChannelLayoutName.endswith" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return True if S ends with the specified suffix, False otherwise.
+With optional start, test S beginning at that position.
+With optional end, stop comparing S at that position.
+suffix can also be a tuple of strings to try.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="streamer.bitrate_configuration.AudioChannelLayoutName.expandtabs">
+<code class="sig-name descname">expandtabs</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">tabsize</span><span class="o">=</span><span class="default_value">8</span></em><span class="sig-paren">)</span><a class="headerlink" href="#streamer.bitrate_configuration.AudioChannelLayoutName.expandtabs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a copy where all tab characters are expanded using spaces.</p>
+<p>If tabsize is not given, a tab size of 8 characters is assumed.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="streamer.bitrate_configuration.AudioChannelLayoutName.find">
+<code class="sig-name descname">find</code><span class="sig-paren">(</span><em class="sig-param">sub</em><span class="optional">[</span>, <em class="sig-param">start</em><span class="optional">[</span>, <em class="sig-param">end</em><span class="optional">]</span><span class="optional">]</span><span class="sig-paren">)</span> &#x2192; int<a class="headerlink" href="#streamer.bitrate_configuration.AudioChannelLayoutName.find" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the lowest index in S where substring sub is found,
+such that sub is contained within S[start:end].  Optional
+arguments start and end are interpreted as in slice notation.</p>
+<p>Return -1 on failure.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="streamer.bitrate_configuration.AudioChannelLayoutName.format">
+<code class="sig-name descname">format</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; str<a class="headerlink" href="#streamer.bitrate_configuration.AudioChannelLayoutName.format" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a formatted version of S, using substitutions from args and kwargs.
+The substitutions are identified by braces (‘{‘ and ‘}’).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="streamer.bitrate_configuration.AudioChannelLayoutName.format_map">
+<code class="sig-name descname">format_map</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">mapping</span></em><span class="sig-paren">)</span> &#x2192; str<a class="headerlink" href="#streamer.bitrate_configuration.AudioChannelLayoutName.format_map" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a formatted version of S, using substitutions from mapping.
+The substitutions are identified by braces (‘{‘ and ‘}’).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="streamer.bitrate_configuration.AudioChannelLayoutName.index">
+<code class="sig-name descname">index</code><span class="sig-paren">(</span><em class="sig-param">sub</em><span class="optional">[</span>, <em class="sig-param">start</em><span class="optional">[</span>, <em class="sig-param">end</em><span class="optional">]</span><span class="optional">]</span><span class="sig-paren">)</span> &#x2192; int<a class="headerlink" href="#streamer.bitrate_configuration.AudioChannelLayoutName.index" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the lowest index in S where substring sub is found,
+such that sub is contained within S[start:end].  Optional
+arguments start and end are interpreted as in slice notation.</p>
+<p>Raises ValueError when the substring is not found.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="streamer.bitrate_configuration.AudioChannelLayoutName.isalnum">
+<code class="sig-name descname">isalnum</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#streamer.bitrate_configuration.AudioChannelLayoutName.isalnum" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return True if the string is an alpha-numeric string, False otherwise.</p>
+<p>A string is alpha-numeric if all characters in the string are alpha-numeric and
+there is at least one character in the string.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="streamer.bitrate_configuration.AudioChannelLayoutName.isalpha">
+<code class="sig-name descname">isalpha</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#streamer.bitrate_configuration.AudioChannelLayoutName.isalpha" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return True if the string is an alphabetic string, False otherwise.</p>
+<p>A string is alphabetic if all characters in the string are alphabetic and there
+is at least one character in the string.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="streamer.bitrate_configuration.AudioChannelLayoutName.isascii">
+<code class="sig-name descname">isascii</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#streamer.bitrate_configuration.AudioChannelLayoutName.isascii" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return True if all characters in the string are ASCII, False otherwise.</p>
+<p>ASCII characters have code points in the range U+0000-U+007F.
+Empty string is ASCII too.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="streamer.bitrate_configuration.AudioChannelLayoutName.isdecimal">
+<code class="sig-name descname">isdecimal</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#streamer.bitrate_configuration.AudioChannelLayoutName.isdecimal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return True if the string is a decimal string, False otherwise.</p>
+<p>A string is a decimal string if all characters in the string are decimal and
+there is at least one character in the string.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="streamer.bitrate_configuration.AudioChannelLayoutName.isdigit">
+<code class="sig-name descname">isdigit</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#streamer.bitrate_configuration.AudioChannelLayoutName.isdigit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return True if the string is a digit string, False otherwise.</p>
+<p>A string is a digit string if all characters in the string are digits and there
+is at least one character in the string.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="streamer.bitrate_configuration.AudioChannelLayoutName.isidentifier">
+<code class="sig-name descname">isidentifier</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#streamer.bitrate_configuration.AudioChannelLayoutName.isidentifier" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return True if the string is a valid Python identifier, False otherwise.</p>
+<p>Call keyword.iskeyword(s) to test whether string s is a reserved identifier,
+such as “def” or “class”.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="streamer.bitrate_configuration.AudioChannelLayoutName.islower">
+<code class="sig-name descname">islower</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#streamer.bitrate_configuration.AudioChannelLayoutName.islower" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return True if the string is a lowercase string, False otherwise.</p>
+<p>A string is lowercase if all cased characters in the string are lowercase and
+there is at least one cased character in the string.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="streamer.bitrate_configuration.AudioChannelLayoutName.isnumeric">
+<code class="sig-name descname">isnumeric</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#streamer.bitrate_configuration.AudioChannelLayoutName.isnumeric" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return True if the string is a numeric string, False otherwise.</p>
+<p>A string is numeric if all characters in the string are numeric and there is at
+least one character in the string.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="streamer.bitrate_configuration.AudioChannelLayoutName.isprintable">
+<code class="sig-name descname">isprintable</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#streamer.bitrate_configuration.AudioChannelLayoutName.isprintable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return True if the string is printable, False otherwise.</p>
+<p>A string is printable if all of its characters are considered printable in
+repr() or if it is empty.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="streamer.bitrate_configuration.AudioChannelLayoutName.isspace">
+<code class="sig-name descname">isspace</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#streamer.bitrate_configuration.AudioChannelLayoutName.isspace" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return True if the string is a whitespace string, False otherwise.</p>
+<p>A string is whitespace if all characters in the string are whitespace and there
+is at least one character in the string.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="streamer.bitrate_configuration.AudioChannelLayoutName.istitle">
+<code class="sig-name descname">istitle</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#streamer.bitrate_configuration.AudioChannelLayoutName.istitle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return True if the string is a title-cased string, False otherwise.</p>
+<p>In a title-cased string, upper- and title-case characters may only
+follow uncased characters and lowercase characters only cased ones.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="streamer.bitrate_configuration.AudioChannelLayoutName.isupper">
+<code class="sig-name descname">isupper</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#streamer.bitrate_configuration.AudioChannelLayoutName.isupper" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return True if the string is an uppercase string, False otherwise.</p>
+<p>A string is uppercase if all cased characters in the string are uppercase and
+there is at least one cased character in the string.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="streamer.bitrate_configuration.AudioChannelLayoutName.join">
+<code class="sig-name descname">join</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">iterable</span></em>, <em class="sig-param"><span class="o">/</span></em><span class="sig-paren">)</span><a class="headerlink" href="#streamer.bitrate_configuration.AudioChannelLayoutName.join" title="Permalink to this definition">¶</a></dt>
+<dd><p>Concatenate any number of strings.</p>
+<p>The string whose method is called is inserted in between each given string.
+The result is returned as a new string.</p>
+<p>Example: ‘.’.join([‘ab’, ‘pq’, ‘rs’]) -&gt; ‘ab.pq.rs’</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="streamer.bitrate_configuration.AudioChannelLayoutName.ljust">
+<code class="sig-name descname">ljust</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">width</span></em>, <em class="sig-param"><span class="n">fillchar</span><span class="o">=</span><span class="default_value">' '</span></em>, <em class="sig-param"><span class="o">/</span></em><span class="sig-paren">)</span><a class="headerlink" href="#streamer.bitrate_configuration.AudioChannelLayoutName.ljust" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a left-justified string of length width.</p>
+<p>Padding is done using the specified fill character (default is a space).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="streamer.bitrate_configuration.AudioChannelLayoutName.lower">
+<code class="sig-name descname">lower</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#streamer.bitrate_configuration.AudioChannelLayoutName.lower" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a copy of the string converted to lowercase.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="streamer.bitrate_configuration.AudioChannelLayoutName.lstrip">
+<code class="sig-name descname">lstrip</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">chars</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">/</span></em><span class="sig-paren">)</span><a class="headerlink" href="#streamer.bitrate_configuration.AudioChannelLayoutName.lstrip" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a copy of the string with leading whitespace removed.</p>
+<p>If chars is given and not None, remove characters in chars instead.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="streamer.bitrate_configuration.AudioChannelLayoutName.maketrans">
+<em class="property">static </em><code class="sig-name descname">maketrans</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#streamer.bitrate_configuration.AudioChannelLayoutName.maketrans" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a translation table usable for str.translate().</p>
+<p>If there is only one argument, it must be a dictionary mapping Unicode
+ordinals (integers) or characters to Unicode ordinals, strings or None.
+Character keys will be then converted to ordinals.
+If there are two arguments, they must be strings of equal length, and
+in the resulting dictionary, each character in x will be mapped to the
+character at the same position in y. If there is a third argument, it
+must be a string, whose characters will be mapped to None in the result.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="streamer.bitrate_configuration.AudioChannelLayoutName.name">
+<em class="property">classmethod </em><code class="sig-name descname">name</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; str<a class="headerlink" href="#streamer.bitrate_configuration.AudioChannelLayoutName.name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="streamer.bitrate_configuration.AudioChannelLayoutName.partition">
+<code class="sig-name descname">partition</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sep</span></em>, <em class="sig-param"><span class="o">/</span></em><span class="sig-paren">)</span><a class="headerlink" href="#streamer.bitrate_configuration.AudioChannelLayoutName.partition" title="Permalink to this definition">¶</a></dt>
+<dd><p>Partition the string into three parts using the given separator.</p>
+<p>This will search for the separator in the string.  If the separator is found,
+returns a 3-tuple containing the part before the separator, the separator
+itself, and the part after it.</p>
+<p>If the separator is not found, returns a 3-tuple containing the original string
+and two empty strings.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="streamer.bitrate_configuration.AudioChannelLayoutName.removeprefix">
+<code class="sig-name descname">removeprefix</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">prefix</span></em>, <em class="sig-param"><span class="o">/</span></em><span class="sig-paren">)</span><a class="headerlink" href="#streamer.bitrate_configuration.AudioChannelLayoutName.removeprefix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a str with the given prefix string removed if present.</p>
+<p>If the string starts with the prefix string, return string[len(prefix):].
+Otherwise, return a copy of the original string.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="streamer.bitrate_configuration.AudioChannelLayoutName.removesuffix">
+<code class="sig-name descname">removesuffix</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">suffix</span></em>, <em class="sig-param"><span class="o">/</span></em><span class="sig-paren">)</span><a class="headerlink" href="#streamer.bitrate_configuration.AudioChannelLayoutName.removesuffix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a str with the given suffix string removed if present.</p>
+<p>If the string ends with the suffix string and that suffix is not empty,
+return string[:-len(suffix)]. Otherwise, return a copy of the original
+string.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="streamer.bitrate_configuration.AudioChannelLayoutName.replace">
+<code class="sig-name descname">replace</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">old</span></em>, <em class="sig-param"><span class="n">new</span></em>, <em class="sig-param"><span class="n">count</span><span class="o">=</span><span class="default_value">- 1</span></em>, <em class="sig-param"><span class="o">/</span></em><span class="sig-paren">)</span><a class="headerlink" href="#streamer.bitrate_configuration.AudioChannelLayoutName.replace" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a copy with all occurrences of substring old replaced by new.</p>
+<blockquote>
+<div><dl class="simple">
+<dt>count</dt><dd><p>Maximum number of occurrences to replace.
+-1 (the default value) means replace all occurrences.</p>
+</dd>
+</dl>
+</div></blockquote>
+<p>If the optional argument count is given, only the first count occurrences are
+replaced.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="streamer.bitrate_configuration.AudioChannelLayoutName.rfind">
+<code class="sig-name descname">rfind</code><span class="sig-paren">(</span><em class="sig-param">sub</em><span class="optional">[</span>, <em class="sig-param">start</em><span class="optional">[</span>, <em class="sig-param">end</em><span class="optional">]</span><span class="optional">]</span><span class="sig-paren">)</span> &#x2192; int<a class="headerlink" href="#streamer.bitrate_configuration.AudioChannelLayoutName.rfind" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the highest index in S where substring sub is found,
+such that sub is contained within S[start:end].  Optional
+arguments start and end are interpreted as in slice notation.</p>
+<p>Return -1 on failure.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="streamer.bitrate_configuration.AudioChannelLayoutName.rindex">
+<code class="sig-name descname">rindex</code><span class="sig-paren">(</span><em class="sig-param">sub</em><span class="optional">[</span>, <em class="sig-param">start</em><span class="optional">[</span>, <em class="sig-param">end</em><span class="optional">]</span><span class="optional">]</span><span class="sig-paren">)</span> &#x2192; int<a class="headerlink" href="#streamer.bitrate_configuration.AudioChannelLayoutName.rindex" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the highest index in S where substring sub is found,
+such that sub is contained within S[start:end].  Optional
+arguments start and end are interpreted as in slice notation.</p>
+<p>Raises ValueError when the substring is not found.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="streamer.bitrate_configuration.AudioChannelLayoutName.rjust">
+<code class="sig-name descname">rjust</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">width</span></em>, <em class="sig-param"><span class="n">fillchar</span><span class="o">=</span><span class="default_value">' '</span></em>, <em class="sig-param"><span class="o">/</span></em><span class="sig-paren">)</span><a class="headerlink" href="#streamer.bitrate_configuration.AudioChannelLayoutName.rjust" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a right-justified string of length width.</p>
+<p>Padding is done using the specified fill character (default is a space).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="streamer.bitrate_configuration.AudioChannelLayoutName.rpartition">
+<code class="sig-name descname">rpartition</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sep</span></em>, <em class="sig-param"><span class="o">/</span></em><span class="sig-paren">)</span><a class="headerlink" href="#streamer.bitrate_configuration.AudioChannelLayoutName.rpartition" title="Permalink to this definition">¶</a></dt>
+<dd><p>Partition the string into three parts using the given separator.</p>
+<p>This will search for the separator in the string, starting at the end. If
+the separator is found, returns a 3-tuple containing the part before the
+separator, the separator itself, and the part after it.</p>
+<p>If the separator is not found, returns a 3-tuple containing two empty strings
+and the original string.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="streamer.bitrate_configuration.AudioChannelLayoutName.rsplit">
+<code class="sig-name descname">rsplit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sep</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">maxsplit</span><span class="o">=</span><span class="default_value">- 1</span></em><span class="sig-paren">)</span><a class="headerlink" href="#streamer.bitrate_configuration.AudioChannelLayoutName.rsplit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a list of the words in the string, using sep as the delimiter string.</p>
+<blockquote>
+<div><dl class="simple">
+<dt>sep</dt><dd><p>The delimiter according which to split the string.
+None (the default value) means split according to any whitespace,
+and discard empty strings from the result.</p>
+</dd>
+<dt>maxsplit</dt><dd><p>Maximum number of splits to do.
+-1 (the default value) means no limit.</p>
+</dd>
+</dl>
+</div></blockquote>
+<p>Splits are done starting at the end of the string and working to the front.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="streamer.bitrate_configuration.AudioChannelLayoutName.rstrip">
+<code class="sig-name descname">rstrip</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">chars</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">/</span></em><span class="sig-paren">)</span><a class="headerlink" href="#streamer.bitrate_configuration.AudioChannelLayoutName.rstrip" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a copy of the string with trailing whitespace removed.</p>
+<p>If chars is given and not None, remove characters in chars instead.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="streamer.bitrate_configuration.AudioChannelLayoutName.split">
+<code class="sig-name descname">split</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sep</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">maxsplit</span><span class="o">=</span><span class="default_value">- 1</span></em><span class="sig-paren">)</span><a class="headerlink" href="#streamer.bitrate_configuration.AudioChannelLayoutName.split" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a list of the words in the string, using sep as the delimiter string.</p>
+<dl class="simple">
+<dt>sep</dt><dd><p>The delimiter according which to split the string.
+None (the default value) means split according to any whitespace,
+and discard empty strings from the result.</p>
+</dd>
+<dt>maxsplit</dt><dd><p>Maximum number of splits to do.
+-1 (the default value) means no limit.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="streamer.bitrate_configuration.AudioChannelLayoutName.splitlines">
+<code class="sig-name descname">splitlines</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">keepends</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#streamer.bitrate_configuration.AudioChannelLayoutName.splitlines" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a list of the lines in the string, breaking at line boundaries.</p>
+<p>Line breaks are not included in the resulting list unless keepends is given and
+true.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="streamer.bitrate_configuration.AudioChannelLayoutName.startswith">
+<code class="sig-name descname">startswith</code><span class="sig-paren">(</span><em class="sig-param">prefix</em><span class="optional">[</span>, <em class="sig-param">start</em><span class="optional">[</span>, <em class="sig-param">end</em><span class="optional">]</span><span class="optional">]</span><span class="sig-paren">)</span> &#x2192; bool<a class="headerlink" href="#streamer.bitrate_configuration.AudioChannelLayoutName.startswith" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return True if S starts with the specified prefix, False otherwise.
+With optional start, test S beginning at that position.
+With optional end, stop comparing S at that position.
+prefix can also be a tuple of strings to try.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="streamer.bitrate_configuration.AudioChannelLayoutName.strip">
+<code class="sig-name descname">strip</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">chars</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">/</span></em><span class="sig-paren">)</span><a class="headerlink" href="#streamer.bitrate_configuration.AudioChannelLayoutName.strip" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a copy of the string with leading and trailing whitespace removed.</p>
+<p>If chars is given and not None, remove characters in chars instead.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="streamer.bitrate_configuration.AudioChannelLayoutName.swapcase">
+<code class="sig-name descname">swapcase</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#streamer.bitrate_configuration.AudioChannelLayoutName.swapcase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert uppercase characters to lowercase and lowercase characters to uppercase.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="streamer.bitrate_configuration.AudioChannelLayoutName.title">
+<code class="sig-name descname">title</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#streamer.bitrate_configuration.AudioChannelLayoutName.title" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a version of the string where each word is titlecased.</p>
+<p>More specifically, words start with uppercased characters and all remaining
+cased characters have lower case.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="streamer.bitrate_configuration.AudioChannelLayoutName.translate">
+<code class="sig-name descname">translate</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">table</span></em>, <em class="sig-param"><span class="o">/</span></em><span class="sig-paren">)</span><a class="headerlink" href="#streamer.bitrate_configuration.AudioChannelLayoutName.translate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Replace each character in the string using the given translation table.</p>
+<blockquote>
+<div><dl class="simple">
+<dt>table</dt><dd><p>Translation table, which must be a mapping of Unicode ordinals to
+Unicode ordinals, strings, or None.</p>
+</dd>
+</dl>
+</div></blockquote>
+<p>The table must implement lookup/indexing via __getitem__, for instance a
+dictionary or list.  If this operation raises LookupError, the character is
+left untouched.  Characters mapped to None are deleted.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="streamer.bitrate_configuration.AudioChannelLayoutName.upper">
+<code class="sig-name descname">upper</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#streamer.bitrate_configuration.AudioChannelLayoutName.upper" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a copy of the string converted to uppercase.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="streamer.bitrate_configuration.AudioChannelLayoutName.validate">
+<em class="property">classmethod </em><code class="sig-name descname">validate</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">key</span></em><span class="sig-paren">)</span><a class="headerlink" href="#streamer.bitrate_configuration.AudioChannelLayoutName.validate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="streamer.bitrate_configuration.AudioChannelLayoutName.zfill">
+<code class="sig-name descname">zfill</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">width</span></em>, <em class="sig-param"><span class="o">/</span></em><span class="sig-paren">)</span><a class="headerlink" href="#streamer.bitrate_configuration.AudioChannelLayoutName.zfill" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pad a numeric string with zeros on the left, to fill a field of the given width.</p>
+<p>The string is never truncated.</p>
 </dd></dl>
 
 </dd></dl>

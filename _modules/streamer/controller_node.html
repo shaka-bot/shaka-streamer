@@ -78,6 +78,7 @@
 <span class="kn">from</span> <span class="nn">streamer.pipeline_configuration</span> <span class="kn">import</span> <span class="n">PipelineConfig</span><span class="p">,</span> <span class="n">StreamingMode</span>
 <span class="kn">from</span> <span class="nn">streamer.transcoder_node</span> <span class="kn">import</span> <span class="n">TranscoderNode</span>
 <span class="kn">from</span> <span class="nn">streamer.periodconcat_node</span> <span class="kn">import</span> <span class="n">PeriodConcatNode</span>
+<span class="kn">import</span> <span class="nn">streamer.subprocessWindowsPatch</span>  <span class="c1"># side-effects only</span>
 <span class="kn">from</span> <span class="nn">streamer.util</span> <span class="kn">import</span> <span class="n">is_url</span>
 <span class="kn">from</span> <span class="nn">streamer.pipe</span> <span class="kn">import</span> <span class="n">Pipe</span>
 
@@ -245,10 +246,16 @@
 
       <span class="k">if</span> <span class="nb">input</span><span class="o">.</span><span class="n">media_type</span> <span class="o">==</span> <span class="n">MediaType</span><span class="o">.</span><span class="n">AUDIO</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">audio_codec</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pipeline_config</span><span class="o">.</span><span class="n">audio_codecs</span><span class="p">:</span>
-          <span class="n">outputs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">AudioOutputStream</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span>
-                                           <span class="bp">self</span><span class="o">.</span><span class="n">_temp_dir</span><span class="p">,</span>
-                                           <span class="n">audio_codec</span><span class="p">,</span>
-                                           <span class="bp">self</span><span class="o">.</span><span class="n">_pipeline_config</span><span class="o">.</span><span class="n">channels</span><span class="p">))</span>
+          <span class="k">for</span> <span class="n">output_channel_layout</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pipeline_config</span><span class="o">.</span><span class="n">get_channel_layouts</span><span class="p">():</span>
+            <span class="c1"># We won&#39;t upmix a lower channel count input to a higher one.</span>
+            <span class="c1"># Skip channel counts greater than the input channel count.</span>
+            <span class="k">if</span> <span class="nb">input</span><span class="o">.</span><span class="n">get_channel_layout</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">output_channel_layout</span><span class="p">:</span>
+              <span class="k">continue</span>
+
+            <span class="n">outputs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">AudioOutputStream</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span>
+                                             <span class="bp">self</span><span class="o">.</span><span class="n">_temp_dir</span><span class="p">,</span>
+                                             <span class="n">audio_codec</span><span class="p">,</span>
+                                             <span class="n">output_channel_layout</span><span class="p">))</span>
 
       <span class="k">elif</span> <span class="nb">input</span><span class="o">.</span><span class="n">media_type</span> <span class="o">==</span> <span class="n">MediaType</span><span class="o">.</span><span class="n">VIDEO</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">video_codec</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pipeline_config</span><span class="o">.</span><span class="n">video_codecs</span><span class="p">:</span>
