@@ -434,6 +434,21 @@ used.</p>
 <dd><p>Encryption settings.</p>
 </dd></dl>
 
+<dl class="py attribute">
+<dt id="streamer.pipeline_configuration.PipelineConfig.low_latency_dash_mode">
+<code class="sig-name descname">low_latency_dash_mode</code><em class="property">: bool</em><a class="headerlink" href="#streamer.pipeline_configuration.PipelineConfig.low_latency_dash_mode" title="Permalink to this definition">¶</a></dt>
+<dd><p>If true, stream in low latency mode for DASH.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="streamer.pipeline_configuration.PipelineConfig.utc_timings">
+<code class="sig-name descname">utc_timings</code><em class="property">: list of UtcTimingPair</em><a class="headerlink" href="#streamer.pipeline_configuration.PipelineConfig.utc_timings" title="Permalink to this definition">¶</a></dt>
+<dd><p>UTCTiming schemeIdUri and value pairs for the DASH MPD.</p>
+<p>If multiple UTCTiming pairs are provided for redundancy,
+list the pairs in the order of preference.</p>
+<p>Must be set for LL-DASH streaming.</p>
+</dd></dl>
+
 </dd></dl>
 
 <span class="target" id="module-streamer.pipeline_configuration"></span><dl class="py class">
@@ -538,6 +553,26 @@ used.</p>
 <dt id="streamer.pipeline_configuration.EncryptionMode.RAW">
 <code class="sig-name descname">RAW</code><em class="property"> = 'raw'</em><a class="headerlink" href="#streamer.pipeline_configuration.EncryptionMode.RAW" title="Permalink to this definition">¶</a></dt>
 <dd><p>Raw key mode</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="streamer.pipeline_configuration.UtcTimingPair">
+<em class="property">class </em><code class="sig-prename descclassname">streamer.pipeline_configuration.</code><code class="sig-name descname">UtcTimingPair</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dictionary</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/streamer/pipeline_configuration.html#UtcTimingPair"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#streamer.pipeline_configuration.UtcTimingPair" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">streamer.configuration.Base</span></code></p>
+<p>An object containing the attributes for a DASH MPD UTCTiming 
+element</p>
+<dl class="py attribute">
+<dt id="streamer.pipeline_configuration.UtcTimingPair.scheme_id_uri">
+<code class="sig-name descname">scheme_id_uri</code><em class="property">: string</em><a class="headerlink" href="#streamer.pipeline_configuration.UtcTimingPair.scheme_id_uri" title="Permalink to this definition">¶</a></dt>
+<dd><p>SchemeIdUri attribute to be used for the UTCTiming element</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="streamer.pipeline_configuration.UtcTimingPair.value">
+<code class="sig-name descname">value</code><em class="property">: string</em><a class="headerlink" href="#streamer.pipeline_configuration.UtcTimingPair.value" title="Permalink to this definition">¶</a></dt>
+<dd><p>Value attribute to be used for the UTCTiming element</p>
 </dd></dl>
 
 </dd></dl>

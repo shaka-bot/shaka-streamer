@@ -75,7 +75,7 @@
 <span class="kn">from</span> <span class="nn">streamer.node_base</span> <span class="kn">import</span> <span class="n">NodeBase</span><span class="p">,</span> <span class="n">ProcessStatus</span>
 <span class="kn">from</span> <span class="nn">streamer.output_stream</span> <span class="kn">import</span> <span class="n">AudioOutputStream</span><span class="p">,</span> <span class="n">OutputStream</span><span class="p">,</span> <span class="n">TextOutputStream</span><span class="p">,</span> <span class="n">VideoOutputStream</span>
 <span class="kn">from</span> <span class="nn">streamer.packager_node</span> <span class="kn">import</span> <span class="n">PackagerNode</span>
-<span class="kn">from</span> <span class="nn">streamer.pipeline_configuration</span> <span class="kn">import</span> <span class="n">PipelineConfig</span><span class="p">,</span> <span class="n">StreamingMode</span>
+<span class="kn">from</span> <span class="nn">streamer.pipeline_configuration</span> <span class="kn">import</span> <span class="n">ManifestFormat</span><span class="p">,</span> <span class="n">PipelineConfig</span><span class="p">,</span> <span class="n">StreamingMode</span>
 <span class="kn">from</span> <span class="nn">streamer.transcoder_node</span> <span class="kn">import</span> <span class="n">TranscoderNode</span>
 <span class="kn">from</span> <span class="nn">streamer.periodconcat_node</span> <span class="kn">import</span> <span class="n">PeriodConcatNode</span>
 <span class="kn">import</span> <span class="nn">streamer.subprocessWindowsPatch</span>  <span class="c1"># side-effects only</span>
@@ -181,6 +181,17 @@
         <span class="c1"># TODO: Edit Multiperiod input list implementation to support HTTP outputs</span>
         <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
             <span class="s1">&#39;Multiperiod input list support is incompatible with HTTP outputs.&#39;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pipeline_config</span><span class="o">.</span><span class="n">low_latency_dash_mode</span><span class="p">:</span>
+      <span class="c1"># Check some restrictions on LL-DASH packaging.</span>
+      <span class="k">if</span> <span class="n">ManifestFormat</span><span class="o">.</span><span class="n">DASH</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pipeline_config</span><span class="o">.</span><span class="n">manifest_format</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+            <span class="s1">&#39;low_latency_dash_mode is only compatible with DASH ouputs. &#39;</span> <span class="o">+</span>
+            <span class="s1">&#39;manifest_format must include DASH&#39;</span><span class="p">)</span>
+
+      <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pipeline_config</span><span class="o">.</span><span class="n">utc_timings</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+            <span class="s1">&#39;For low_latency_dash_mode, the utc_timings must be set.&#39;</span><span class="p">)</span>
 
     <span class="c1"># Note that we remove the trailing slash from the output location, because</span>
     <span class="c1"># otherwise GCS would create a subdirectory whose name is &quot;&quot;.</span>
@@ -326,7 +337,15 @@
 <span class="sd">    :rtype: bool</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pipeline_config</span><span class="o">.</span><span class="n">streaming_mode</span> <span class="o">==</span> <span class="n">StreamingMode</span><span class="o">.</span><span class="n">VOD</span></div></div>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pipeline_config</span><span class="o">.</span><span class="n">streaming_mode</span> <span class="o">==</span> <span class="n">StreamingMode</span><span class="o">.</span><span class="n">VOD</span></div>
+
+<div class="viewcode-block" id="ControllerNode.is_low_latency_dash_mode"><a class="viewcode-back" href="../../module_api.html#streamer.controller_node.ControllerNode.is_low_latency_dash_mode">[docs]</a>  <span class="k">def</span> <span class="nf">is_low_latency_dash_mode</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Returns True if the pipeline is running in LL-DASH mode.</span>
+
+<span class="sd">    :rtype: bool</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pipeline_config</span><span class="o">.</span><span class="n">low_latency_dash_mode</span></div></div>
 
 <div class="viewcode-block" id="VersionError"><a class="viewcode-back" href="../../module_api.html#streamer.controller_node.VersionError">[docs]</a><span class="k">class</span> <span class="nc">VersionError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;A version error for one of Shaka Streamer&#39;s external dependencies.</span>

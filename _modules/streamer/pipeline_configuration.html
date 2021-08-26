@@ -115,6 +115,17 @@
   <span class="n">RAW</span> <span class="o">=</span> <span class="s1">&#39;raw&#39;</span>
   <span class="sd">&quot;&quot;&quot;Raw key mode&quot;&quot;&quot;</span></div>
 
+<div class="viewcode-block" id="UtcTimingPair"><a class="viewcode-back" href="../../configuration_fields.html#streamer.pipeline_configuration.UtcTimingPair">[docs]</a><span class="k">class</span> <span class="nc">UtcTimingPair</span><span class="p">(</span><span class="n">configuration</span><span class="o">.</span><span class="n">Base</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;An object containing the attributes for a DASH MPD UTCTiming </span>
+<span class="sd">  element&quot;&quot;&quot;</span>
+
+  <span class="c1"># TODO: Use an enum for scheme_id_uri to simplify the config input</span>
+  <span class="n">scheme_id_uri</span> <span class="o">=</span> <span class="n">configuration</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span><span class="o">.</span><span class="n">cast</span><span class="p">()</span>
+  <span class="sd">&quot;&quot;&quot;SchemeIdUri attribute to be used for the UTCTiming element&quot;&quot;&quot;</span>
+
+  <span class="n">value</span> <span class="o">=</span> <span class="n">configuration</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span><span class="o">.</span><span class="n">cast</span><span class="p">()</span>
+  <span class="sd">&quot;&quot;&quot;Value attribute to be used for the UTCTiming element&quot;&quot;&quot;</span></div>
+
 <div class="viewcode-block" id="RawKeyConfig"><a class="viewcode-back" href="../../configuration_fields.html#streamer.pipeline_configuration.RawKeyConfig">[docs]</a><span class="k">class</span> <span class="nc">RawKeyConfig</span><span class="p">(</span><span class="n">configuration</span><span class="o">.</span><span class="n">Base</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;An object representing a list of keys for Raw key encryption&quot;&quot;&quot;</span>
 
@@ -347,6 +358,19 @@
   <span class="n">encryption</span> <span class="o">=</span> <span class="n">configuration</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">EncryptionConfig</span><span class="p">,</span>
                                    <span class="n">default</span><span class="o">=</span><span class="n">EncryptionConfig</span><span class="p">({}))</span><span class="o">.</span><span class="n">cast</span><span class="p">()</span>
   <span class="sd">&quot;&quot;&quot;Encryption settings.&quot;&quot;&quot;</span>
+
+  <span class="c1"># TODO: Generalize this to low_latency_mode once LL-HLS is supported by Packager</span>
+  <span class="n">low_latency_dash_mode</span> <span class="o">=</span> <span class="n">configuration</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="nb">bool</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">cast</span><span class="p">()</span>
+  <span class="sd">&quot;&quot;&quot;If true, stream in low latency mode for DASH.&quot;&quot;&quot;</span>
+
+  <span class="n">utc_timings</span> <span class="o">=</span> <span class="n">configuration</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">List</span><span class="p">[</span><span class="n">UtcTimingPair</span><span class="p">])</span><span class="o">.</span><span class="n">cast</span><span class="p">()</span>
+  <span class="sd">&quot;&quot;&quot;UTCTiming schemeIdUri and value pairs for the DASH MPD.</span>
+
+<span class="sd">  If multiple UTCTiming pairs are provided for redundancy,</span>
+<span class="sd">  list the pairs in the order of preference.</span>
+
+<span class="sd">  Must be set for LL-DASH streaming.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
 
 
   <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
