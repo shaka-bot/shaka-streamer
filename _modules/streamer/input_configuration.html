@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>streamer.input_configuration &#8212; Shaka Streamer 0.3.0 documentation</title>
+    <title>streamer.input_configuration &#8212; Shaka Streamer 0.4.0 documentation</title>
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/nature.css" type="text/css" />
     <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
@@ -25,7 +25,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">Shaka Streamer 0.3.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Shaka Streamer 0.4.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">streamer.input_configuration</a></li> 
       </ul>
@@ -209,7 +209,7 @@
   <span class="sd">&quot;&quot;&quot;Optional value for a custom DRM label, which defines the encryption key</span>
 <span class="sd">  applied to the stream. If not provided, the DRM label is derived from stream</span>
 <span class="sd">  type (video, audio), resolutions, etc. Note that it is case sensitive.</span>
-<span class="sd">  </span>
+
 <span class="sd">  Applies to &#39;raw&#39; encryption_mode only.&quot;&quot;&quot;</span>
 
   <span class="n">skip_encryption</span> <span class="o">=</span> <span class="n">configuration</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">cast</span><span class="p">()</span>
@@ -369,7 +369,7 @@
   <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dictionary</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]):</span>
     <span class="sd">&quot;&quot;&quot;A constructor to check that either inputs or mutliperiod_inputs_list is provided,</span>
 <span class="sd">    and produce a helpful error message in case both or none are provided.</span>
-<span class="sd">    </span>
+
 <span class="sd">    We need these checks before passing the input dictionary to the configuration.Base constructor,</span>
 <span class="sd">    because it does not check for this &#39;exclusive or-ing&#39; relationship between fields.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -378,17 +378,17 @@
 <span class="s2">    See some examples at https://github.com/google/shaka-streamer/tree/master/config_files.</span>
 <span class="s2">    &quot;&quot;&quot;</span>
 
-    <span class="k">if</span> <span class="p">(</span><span class="n">dictionary</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;inputs&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> 
+    <span class="k">if</span> <span class="p">(</span><span class="n">dictionary</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;inputs&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
         <span class="ow">and</span> <span class="n">dictionary</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;multiperiod_inputs_list&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
       <span class="k">raise</span> <span class="n">configuration</span><span class="o">.</span><span class="n">ConflictingFields</span><span class="p">(</span>
         <span class="n">InputConfig</span><span class="p">,</span> <span class="s1">&#39;inputs&#39;</span><span class="p">,</span> <span class="s1">&#39;multiperiod_inputs_list&#39;</span><span class="p">)</span>
-    
+
     <span class="c1"># Because these fields are not marked as required at the class level</span>
     <span class="c1"># , we need to check ourselves that one of them is provided.</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">dictionary</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;inputs&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">dictionary</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;multiperiod_inputs_list&#39;</span><span class="p">):</span>
       <span class="k">raise</span> <span class="n">configuration</span><span class="o">.</span><span class="n">MissingRequiredExclusiveFields</span><span class="p">(</span>
         <span class="n">InputConfig</span><span class="p">,</span> <span class="s1">&#39;inputs&#39;</span><span class="p">,</span> <span class="s1">&#39;multiperiod_inputs_list&#39;</span><span class="p">)</span>
-      
+
     <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">dictionary</span><span class="p">)</span></div>
 
 </pre></div>
@@ -422,7 +422,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">Shaka Streamer 0.3.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Shaka Streamer 0.4.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">streamer.input_configuration</a></li> 
       </ul>
