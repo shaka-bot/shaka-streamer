@@ -204,8 +204,10 @@
       <span class="c1"># InputConfig contains multiperiod_inputs_list only.</span>
       <span class="c1"># Create one Transcoder node and one Packager node for each period.</span>
       <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">singleperiod</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_input_config</span><span class="o">.</span><span class="n">multiperiod_inputs_list</span><span class="p">):</span>
-        <span class="n">sub_dir_name</span> <span class="o">=</span> <span class="s1">&#39;period_&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_append_nodes_for_inputs_list</span><span class="p">(</span><span class="n">singleperiod</span><span class="o">.</span><span class="n">inputs</span><span class="p">,</span> <span class="n">output_location</span><span class="p">,</span> <span class="n">sub_dir_name</span><span class="p">)</span>
+        <span class="n">sub_dir_name</span> <span class="o">=</span> <span class="s1">&#39;period_&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_append_nodes_for_inputs_list</span><span class="p">(</span><span class="n">singleperiod</span><span class="o">.</span><span class="n">inputs</span><span class="p">,</span>
+                                           <span class="n">output_location</span><span class="p">,</span>
+                                           <span class="n">sub_dir_name</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
 
       <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pipeline_config</span><span class="o">.</span><span class="n">streaming_mode</span> <span class="o">==</span> <span class="n">StreamingMode</span><span class="o">.</span><span class="n">VOD</span><span class="p">:</span>
         <span class="n">packager_nodes</span> <span class="o">=</span> <span class="p">[</span><span class="n">node</span> <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nodes</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">PackagerNode</span><span class="p">)]</span>
@@ -230,14 +232,18 @@
 
     <span class="k">return</span> <span class="bp">self</span></div>
 
-  <span class="k">def</span> <span class="nf">_append_nodes_for_inputs_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Input</span><span class="p">],</span> <span class="n">output_location</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-               <span class="n">period_dir</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+  <span class="k">def</span> <span class="nf">_append_nodes_for_inputs_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Input</span><span class="p">],</span>
+                                    <span class="n">output_location</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+                                    <span class="n">period_dir</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                                    <span class="n">index</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;A common method that creates Transcoder and Packager nodes for a list of Inputs passed to it.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">      inputs (List[Input]): A list of Input streams.</span>
+<span class="sd">      output_location (str): A path were the packager will write outputs in.</span>
 <span class="sd">      period_dir (Optional[str]): A subdirectory name where a single period will be outputted to.</span>
 <span class="sd">      If passed, this indicates that inputs argument is one period in a list of periods.</span>
+<span class="sd">      index (int): The index of the current Transcoder/Packager nodes.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">outputs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">OutputStream</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
@@ -299,8 +305,9 @@
 
     <span class="bp">self</span><span class="o">.</span><span class="n">_nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">TranscoderNode</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span>
                                       <span class="bp">self</span><span class="o">.</span><span class="n">_pipeline_config</span><span class="p">,</span>
-                                      <span class="n">outputs</span><span class="p">))</span>
-
+                                      <span class="n">outputs</span><span class="p">,</span>
+                                      <span class="n">index</span><span class="p">))</span>
+    
     <span class="c1"># If the inputs list was a period in multiperiod_inputs_list, create a nested directory</span>
     <span class="c1"># and put that period in it.</span>
     <span class="k">if</span> <span class="n">period_dir</span><span class="p">:</span>
@@ -309,7 +316,8 @@
 
     <span class="bp">self</span><span class="o">.</span><span class="n">_nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">PackagerNode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pipeline_config</span><span class="p">,</span>
                                     <span class="n">output_location</span><span class="p">,</span>
-                                    <span class="n">outputs</span><span class="p">))</span>
+                                    <span class="n">outputs</span><span class="p">,</span>
+                                    <span class="n">index</span><span class="p">))</span>
 
 <div class="viewcode-block" id="ControllerNode.check_status"><a class="viewcode-back" href="../../module_api.html#streamer.controller_node.ControllerNode.check_status">[docs]</a>  <span class="k">def</span> <span class="nf">check_status</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ProcessStatus</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Checks the status of all the nodes.</span>
