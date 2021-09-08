@@ -68,9 +68,11 @@
 <span class="kn">import</span> <span class="nn">tempfile</span>
 
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">streamer</span> <span class="kn">import</span> <span class="n">__version__</span>
 <span class="kn">from</span> <span class="nn">streamer.cloud_node</span> <span class="kn">import</span> <span class="n">CloudNode</span>
 <span class="kn">from</span> <span class="nn">streamer.bitrate_configuration</span> <span class="kn">import</span> <span class="n">BitrateConfig</span><span class="p">,</span> <span class="n">AudioChannelLayout</span><span class="p">,</span> <span class="n">VideoResolution</span>
 <span class="kn">from</span> <span class="nn">streamer.external_command_node</span> <span class="kn">import</span> <span class="n">ExternalCommandNode</span>
+<span class="kn">from</span> <span class="nn">streamer</span> <span class="kn">import</span> <span class="n">autodetect</span>
 <span class="kn">from</span> <span class="nn">streamer.input_configuration</span> <span class="kn">import</span> <span class="n">InputConfig</span><span class="p">,</span> <span class="n">InputType</span><span class="p">,</span> <span class="n">MediaType</span><span class="p">,</span> <span class="n">Input</span>
 <span class="kn">from</span> <span class="nn">streamer.node_base</span> <span class="kn">import</span> <span class="n">NodeBase</span><span class="p">,</span> <span class="n">ProcessStatus</span>
 <span class="kn">from</span> <span class="nn">streamer.output_stream</span> <span class="kn">import</span> <span class="n">AudioOutputStream</span><span class="p">,</span> <span class="n">OutputStream</span><span class="p">,</span> <span class="n">TextOutputStream</span><span class="p">,</span> <span class="n">VideoOutputStream</span>
@@ -112,7 +114,8 @@
             <span class="n">pipeline_config_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
             <span class="n">bitrate_config_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{},</span>
             <span class="n">bucket_url</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-            <span class="n">check_deps</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;ControllerNode&#39;</span><span class="p">:</span>
+            <span class="n">check_deps</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+            <span class="n">use_hermetic</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;ControllerNode&#39;</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Create and start all other nodes.</span>
 
 <span class="sd">    :raises: `RuntimeError` if the controller has already started.</span>
@@ -120,19 +123,48 @@
 <span class="sd">             invalid.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
+    <span class="k">if</span> <span class="n">use_hermetic</span><span class="p">:</span>
+      <span class="k">try</span><span class="p">:</span>
+        <span class="kn">import</span> <span class="nn">streamer_binaries</span> <span class="c1"># type: ignore</span>
+      <span class="k">except</span> <span class="p">(</span><span class="ne">ImportError</span><span class="p">,</span> <span class="ne">PermissionError</span><span class="p">)</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
+        <span class="c1"># If the package couldn&#39;t be imported.</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ex</span><span class="p">,</span> <span class="ne">ImportError</span><span class="p">):</span>
+          <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+              <span class="s1">&#39;shaka-streamer-binaries was not found.</span><span class="se">\n</span><span class="s1">&#39;</span>
+              <span class="s1">&#39;  Install it with `pip install shaka-streamer-binaries`.</span><span class="se">\n</span><span class="s1">&#39;</span>
+              <span class="s1">&#39;  Alternatively, use the `--use-system-binaries` option if you &#39;</span>
+              <span class="s1">&#39;want to use the system wide binaries of ffmpeg/ffprobe/packager.&#39;</span>
+            <span class="p">)</span> <span class="kn">from</span> <span class="bp">None</span>
+        <span class="c1"># If we can&#39;t set the permissions for the bundled executables,</span>
+        <span class="c1"># we may not be able to run it as a subprocess.</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ex</span><span class="p">,</span> <span class="ne">PermissionError</span><span class="p">):</span>
+          <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+              <span class="s1">&#39;Couldn</span><span class="se">\&#39;</span><span class="s1">t set the permissions for the bundled &#39;</span>
+              <span class="s1">&#39;`shaka-streamer-binaries` executables.&#39;</span>
+            <span class="p">)</span> <span class="kn">from</span> <span class="bp">None</span>
+
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nodes</span><span class="p">:</span>
       <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;Controller already started!&#39;</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">check_deps</span><span class="p">:</span>
-      <span class="c1"># Check that ffmpeg version is 4.1 or above.</span>
-      <span class="n">_check_version</span><span class="p">(</span><span class="s1">&#39;FFmpeg&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;ffmpeg&#39;</span><span class="p">,</span> <span class="s1">&#39;-version&#39;</span><span class="p">],</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+      <span class="c1"># If we are using the hermetic binaries, just check</span>
+      <span class="c1"># for the package&#39;s version.</span>
+      <span class="k">if</span> <span class="n">use_hermetic</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">streamer_binaries</span><span class="o">.</span><span class="n">__version__</span> <span class="o">&lt;</span> <span class="n">__version__</span><span class="p">:</span>
+          <span class="k">raise</span> <span class="n">VersionError</span><span class="p">(</span>
+              <span class="s1">&#39;An outdated `shaka-streamer-binaries` is installed.</span><span class="se">\n</span><span class="s1">&#39;</span>
+              <span class="s1">&#39;  Update it with `pip install --upgrade shaka-streamer-binaries`.&#39;</span>
+            <span class="p">)</span>
+      <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># Check that ffmpeg version is 4.1 or above.</span>
+        <span class="n">_check_version</span><span class="p">(</span><span class="s1">&#39;FFmpeg&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;ffmpeg&#39;</span><span class="p">,</span> <span class="s1">&#39;-version&#39;</span><span class="p">],</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
 
-      <span class="c1"># Check that ffprobe version (used for autodetect features) is 4.1 or</span>
-      <span class="c1"># above.</span>
-      <span class="n">_check_version</span><span class="p">(</span><span class="s1">&#39;ffprobe&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;ffprobe&#39;</span><span class="p">,</span> <span class="s1">&#39;-version&#39;</span><span class="p">],</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="c1"># Check that ffprobe version (used for autodetect features) is 4.1 or</span>
+        <span class="c1"># above.</span>
+        <span class="n">_check_version</span><span class="p">(</span><span class="s1">&#39;ffprobe&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;ffprobe&#39;</span><span class="p">,</span> <span class="s1">&#39;-version&#39;</span><span class="p">],</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
 
-      <span class="c1"># Check that Shaka Packager version is 2.4.2 or above.</span>
-      <span class="n">_check_version</span><span class="p">(</span><span class="s1">&#39;Shaka Packager&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;packager&#39;</span><span class="p">,</span> <span class="s1">&#39;-version&#39;</span><span class="p">],</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="c1"># Check that Shaka Packager version is 2.6.0 or above.</span>
+        <span class="n">_check_version</span><span class="p">(</span><span class="s1">&#39;Shaka Packager&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;packager&#39;</span><span class="p">,</span> <span class="s1">&#39;-version&#39;</span><span class="p">],</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
 
       <span class="k">if</span> <span class="n">bucket_url</span><span class="p">:</span>
         <span class="c1"># Check that the Google Cloud SDK is at least v212, which introduced</span>
@@ -147,6 +179,13 @@
       <span class="c1"># If using cloud storage, make sure the user is logged in and can access</span>
       <span class="c1"># the destination, independent of the version check above.</span>
       <span class="n">CloudNode</span><span class="o">.</span><span class="n">check_access</span><span class="p">(</span><span class="n">bucket_url</span><span class="p">)</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">hermetic_ffmpeg</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">hermetic_packager</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="n">use_hermetic</span><span class="p">:</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">hermetic_ffmpeg</span> <span class="o">=</span> <span class="n">streamer_binaries</span><span class="o">.</span><span class="n">ffmpeg</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">hermetic_packager</span> <span class="o">=</span> <span class="n">streamer_binaries</span><span class="o">.</span><span class="n">packager</span>
+      <span class="n">autodetect</span><span class="o">.</span><span class="n">hermetic_ffprobe</span> <span class="o">=</span> <span class="n">streamer_binaries</span><span class="o">.</span><span class="n">ffprobe</span>
 
     <span class="c1"># Define resolutions and bitrates before parsing other configs.</span>
     <span class="n">bitrate_config</span> <span class="o">=</span> <span class="n">BitrateConfig</span><span class="p">(</span><span class="n">bitrate_config_dict</span><span class="p">)</span>
@@ -199,7 +238,8 @@
 
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_input_config</span><span class="o">.</span><span class="n">inputs</span><span class="p">:</span>
       <span class="c1"># InputConfig contains inputs only.</span>
-      <span class="bp">self</span><span class="o">.</span><span class="n">_append_nodes_for_inputs_list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_input_config</span><span class="o">.</span><span class="n">inputs</span><span class="p">,</span> <span class="n">output_location</span><span class="p">)</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">_append_nodes_for_inputs_list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_input_config</span><span class="o">.</span><span class="n">inputs</span><span class="p">,</span>
+                                         <span class="n">output_location</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
       <span class="c1"># InputConfig contains multiperiod_inputs_list only.</span>
       <span class="c1"># Create one Transcoder node and one Packager node for each period.</span>
@@ -306,7 +346,8 @@
     <span class="bp">self</span><span class="o">.</span><span class="n">_nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">TranscoderNode</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span>
                                       <span class="bp">self</span><span class="o">.</span><span class="n">_pipeline_config</span><span class="p">,</span>
                                       <span class="n">outputs</span><span class="p">,</span>
-                                      <span class="n">index</span><span class="p">))</span>
+                                      <span class="n">index</span><span class="p">,</span>
+                                      <span class="bp">self</span><span class="o">.</span><span class="n">hermetic_ffmpeg</span><span class="p">))</span>
     
     <span class="c1"># If the inputs list was a period in multiperiod_inputs_list, create a nested directory</span>
     <span class="c1"># and put that period in it.</span>
@@ -317,7 +358,8 @@
     <span class="bp">self</span><span class="o">.</span><span class="n">_nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">PackagerNode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pipeline_config</span><span class="p">,</span>
                                     <span class="n">output_location</span><span class="p">,</span>
                                     <span class="n">outputs</span><span class="p">,</span>
-                                    <span class="n">index</span><span class="p">))</span>
+                                    <span class="n">index</span><span class="p">,</span>
+                                    <span class="bp">self</span><span class="o">.</span><span class="n">hermetic_packager</span><span class="p">))</span>
 
 <div class="viewcode-block" id="ControllerNode.check_status"><a class="viewcode-back" href="../../module_api.html#streamer.controller_node.ControllerNode.check_status">[docs]</a>  <span class="k">def</span> <span class="nf">check_status</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ProcessStatus</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Checks the status of all the nodes.</span>

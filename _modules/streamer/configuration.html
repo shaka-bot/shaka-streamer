@@ -285,7 +285,7 @@
     <span class="c1"># is something like &quot;str&quot; or &quot;int&quot; instead of &quot;typing.List&quot; or</span>
     <span class="c1"># &quot;typing.Dict&quot;.</span>
     <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">typing</span><span class="p">,</span> <span class="s1">&#39;get_args&#39;</span><span class="p">):</span>
-      <span class="n">args</span> <span class="o">=</span> <span class="n">typing</span><span class="o">.</span><span class="n">get_args</span><span class="p">(</span><span class="nb">type</span><span class="p">)</span>
+      <span class="n">args</span> <span class="o">=</span> <span class="n">typing</span><span class="o">.</span><span class="n">get_args</span><span class="p">(</span><span class="nb">type</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
     <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="nb">type</span><span class="p">,</span> <span class="s1">&#39;__args__&#39;</span><span class="p">):</span>
       <span class="c1"># Before Python 3.8, you can use this undocumented attribute to get the</span>
       <span class="c1"># type parameters.  If this doesn&#39;t exist, you are probably dealing with a</span>
@@ -295,9 +295,9 @@
       <span class="n">args</span> <span class="o">=</span> <span class="p">()</span>
 
     <span class="n">underlying</span> <span class="o">=</span> <span class="n">Field</span><span class="o">.</span><span class="n">get_underlying_type</span><span class="p">(</span><span class="nb">type</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">underlying</span> <span class="ow">is</span> <span class="nb">dict</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">underlying</span> <span class="ow">in</span> <span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="n">Dict</span><span class="p">]:</span>
       <span class="k">return</span> <span class="n">cast</span><span class="p">(</span><span class="n">Tuple</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">Type</span><span class="p">],</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Type</span><span class="p">]],</span> <span class="n">args</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">underlying</span> <span class="ow">is</span> <span class="nb">list</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">underlying</span> <span class="ow">in</span> <span class="p">[</span><span class="nb">list</span><span class="p">,</span> <span class="n">List</span><span class="p">]:</span>
       <span class="k">return</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
     <span class="k">return</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
 
@@ -311,11 +311,11 @@
     <span class="k">if</span> <span class="nb">type</span> <span class="ow">is</span> <span class="nb">str</span><span class="p">:</span>
       <span class="c1"># Call it a string, not a &quot;str&quot;.</span>
       <span class="k">return</span> <span class="s1">&#39;string&#39;</span>
-    <span class="k">elif</span> <span class="nb">type</span> <span class="ow">is</span> <span class="nb">list</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="nb">type</span> <span class="ow">in</span> <span class="p">[</span><span class="nb">list</span><span class="p">,</span> <span class="n">List</span><span class="p">]:</span>
       <span class="c1"># Mention the subtype.</span>
       <span class="k">return</span> <span class="s1">&#39;list of </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
           <span class="n">Field</span><span class="o">.</span><span class="n">get_type_name_static</span><span class="p">(</span><span class="n">subtype</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span>
-    <span class="k">elif</span> <span class="nb">type</span> <span class="ow">is</span> <span class="nb">dict</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="nb">type</span> <span class="ow">in</span> <span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="n">Dict</span><span class="p">]:</span>
       <span class="c1"># Mention the subtype.</span>
       <span class="k">return</span> <span class="s1">&#39;dictionary of </span><span class="si">{}</span><span class="s1"> to </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
           <span class="n">Field</span><span class="o">.</span><span class="n">get_type_name_static</span><span class="p">(</span><span class="n">keytype</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
@@ -411,7 +411,7 @@
 
     <span class="c1"># For lists, check the type of the value itself, then check the subtype of</span>
     <span class="c1"># the list items.</span>
-    <span class="k">if</span> <span class="n">field</span><span class="o">.</span><span class="n">type</span> <span class="ow">is</span> <span class="nb">list</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">field</span><span class="o">.</span><span class="n">type</span> <span class="ow">in</span> <span class="p">[</span><span class="nb">list</span><span class="p">,</span> <span class="n">List</span><span class="p">]:</span>
       <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
         <span class="k">raise</span> <span class="n">WrongType</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">field</span><span class="p">)</span>
 
@@ -428,7 +428,7 @@
 
     <span class="c1"># For dictionaries, check the type of the value itself, then check the</span>
     <span class="c1"># type of the dictionary keys, then the type of the dictionary values.</span>
-    <span class="k">if</span> <span class="n">field</span><span class="o">.</span><span class="n">type</span> <span class="ow">is</span> <span class="nb">dict</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">field</span><span class="o">.</span><span class="n">type</span> <span class="ow">in</span> <span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="n">Dict</span><span class="p">]:</span>
       <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
         <span class="k">raise</span> <span class="n">WrongType</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">field</span><span class="p">)</span>
 
