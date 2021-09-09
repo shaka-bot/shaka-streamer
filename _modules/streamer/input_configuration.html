@@ -353,7 +353,7 @@
     <span class="k">return</span> <span class="n">bitrate_configuration</span><span class="o">.</span><span class="n">AudioChannelLayout</span><span class="o">.</span><span class="n">get_value</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">channel_layout</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="SinglePeriod"><a class="viewcode-back" href="../../configuration_fields.html#streamer.input_configuration.SinglePeriod">[docs]</a><span class="k">class</span> <span class="nc">SinglePeriod</span><span class="p">(</span><span class="n">configuration</span><span class="o">.</span><span class="n">Base</span><span class="p">):</span>
-  <span class="sd">&quot;&quot;&quot;An object repersenting one optional video stream and multiple audio and text streams&quot;&quot;&quot;</span>
+  <span class="sd">&quot;&quot;&quot;An object representing a single period in a multiperiod inputs list.&quot;&quot;&quot;</span>
 
   <span class="n">inputs</span> <span class="o">=</span> <span class="n">configuration</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">List</span><span class="p">[</span><span class="n">Input</span><span class="p">],</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">cast</span><span class="p">()</span></div>
 
@@ -429,7 +429,7 @@
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2019, Google.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.3.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.4.
     </div>
   </body>
 </html>

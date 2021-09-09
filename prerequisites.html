@@ -45,12 +45,12 @@
             
   <div class="section" id="installing-prerequisites">
 <h1>Installing Prerequisites<a class="headerlink" href="#installing-prerequisites" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="yaml-module">
-<h2>Yaml Module<a class="headerlink" href="#yaml-module" title="Permalink to this headline">¶</a></h2>
-<p>We use the Python YAML module to parse config files.  If you install Shaka
+<div class="section" id="yaml-module-required-for-development-only">
+<h2>Yaml Module (required for development only)<a class="headerlink" href="#yaml-module-required-for-development-only" title="Permalink to this headline">¶</a></h2>
+<p>We use the <a class="reference external" href="https://pyyaml.org/">Python “yaml” module</a> to parse config files.  If you install Shaka
 Streamer via <code class="docutils literal notranslate"><span class="pre">pip3</span></code>, then this dependency will be installed for you
 automatically.  If you got Shaka Streamer source from GitHub, you will need to
-install the YAML module separately.</p>
+install the module separately.</p>
 <p>To install it on Ubuntu:</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>sudo apt -y install python3-yaml
 </pre></div>
@@ -64,8 +64,22 @@ pip3 install --user --upgrade pyyaml
 </pre></div>
 </div>
 </div>
-<div class="section" id="shaka-packager">
-<h2>Shaka Packager<a class="headerlink" href="#shaka-packager" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="shaka-streamer-binaries-package-recommended">
+<h2>Shaka Streamer Binaries package (recommended)<a class="headerlink" href="#shaka-streamer-binaries-package-recommended" title="Permalink to this headline">¶</a></h2>
+<p>Shaka Streamer requires <a class="reference external" href="https://github.com/google/shaka-packager">Shaka Packager</a> and <a class="reference external" href="https://ffmpeg.org/">FFmpeg</a> as it uses them
+internally.</p>
+<p>These binaries can be installed for your platform easily with the
+<code class="docutils literal notranslate"><span class="pre">shaka-streamer-binaries</span></code> package:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>pip3 install shaka-streamer-binaries
+</pre></div>
+</div>
+<p>The static FFmpeg builds are pulled from here:
+<a class="reference external" href="https://github.com/joeyparrish/static-ffmpeg-binaries">https://github.com/joeyparrish/static-ffmpeg-binaries</a></p>
+<p>The static Shaka Packager builds are pulled from here:
+<a class="reference external" href="https://github.com/google/shaka-packager">https://github.com/google/shaka-packager</a></p>
+</div>
+<div class="section" id="shaka-packager-manual-installation-not-recommended">
+<h2>Shaka Packager (manual installation, not recommended)<a class="headerlink" href="#shaka-packager-manual-installation-not-recommended" title="Permalink to this headline">¶</a></h2>
 <p>Pre-built Shaka Packager binaries can be downloaded from github here:
 <a class="reference external" href="https://github.com/google/shaka-packager/releases">https://github.com/google/shaka-packager/releases</a></p>
 <p>To install a Shaka Packager binary on Linux:</p>
@@ -76,8 +90,8 @@ pip3 install --user --upgrade pyyaml
 <p>To build Shaka Packager from source, follow instructions here:
 <a class="reference external" href="https://google.github.io/shaka-packager/html/build_instructions.html">https://google.github.io/shaka-packager/html/build_instructions.html</a></p>
 </div>
-<div class="section" id="ffmpeg">
-<h2>FFmpeg<a class="headerlink" href="#ffmpeg" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="ffmpeg-manual-installation-not-recommended">
+<h2>FFmpeg (manual installation, not recommended)<a class="headerlink" href="#ffmpeg-manual-installation-not-recommended" title="Permalink to this headline">¶</a></h2>
 <p>If your Linux distribution has FFmpeg v4.1+, you can just install the package.
 For example, this will work in Ubuntu 19.04+:</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>sudo apt -y install ffmpeg
@@ -163,17 +177,17 @@ pip3 install --user --upgrade flask
 <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="overview.html#features">Features</a></li>
-<li class="toctree-l2"><a class="reference internal" href="overview.html#platform-support">Platform support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#why-shaka-streamer">Why Shaka Streamer?</a></li>
 <li class="toctree-l2"><a class="reference internal" href="overview.html#getting-started">Getting started</a></li>
-<li class="toctree-l2"><a class="reference internal" href="overview.html#running-tests">Running tests</a></li>
-<li class="toctree-l2"><a class="reference internal" href="overview.html#technical-details">Technical details</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#features">Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#development">Development</a></li>
 </ul>
 </li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Installing Prerequisites</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#yaml-module">Yaml Module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#shaka-packager">Shaka Packager</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#ffmpeg">FFmpeg</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#yaml-module-required-for-development-only">Yaml Module (required for development only)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#shaka-streamer-binaries-package-recommended">Shaka Streamer Binaries package (recommended)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#shaka-packager-manual-installation-not-recommended">Shaka Packager (manual installation, not recommended)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#ffmpeg-manual-installation-not-recommended">FFmpeg (manual installation, not recommended)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#cloud-storage-optional">Cloud Storage (optional)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#test-dependencies-optional">Test Dependencies (optional)</a></li>
 </ul>
@@ -230,7 +244,7 @@ pip3 install --user --upgrade flask
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2019, Google.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.3.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.4.
     </div>
   </body>
 </html>

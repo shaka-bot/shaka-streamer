@@ -45,73 +45,39 @@
             
   <div class="section" id="overview">
 <h1>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="features">
-<h2>Features<a class="headerlink" href="#features" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="why-shaka-streamer">
+<h2>Why Shaka Streamer?<a class="headerlink" href="#why-shaka-streamer" title="Permalink to this headline">¶</a></h2>
+<p>Shaka Streamer is packaging and streaming made easy.</p>
 <ul class="simple">
 <li><p>Simple, config-file-based application</p>
 <ul>
 <li><p>No complicated command-lines</p></li>
-<li><p>Sane defaults provided</p></li>
-<li><p>You can re-use the same pipeline config across many inputs</p></li>
+<li><p>Sane defaults</p></li>
+<li><p>Reusable configs</p></li>
 </ul>
 </li>
-<li><p>Supports VOD and live content</p></li>
-<li><p>Supports DASH and HLS output</p></li>
-<li><p>Supports clear and encrypted output</p></li>
-<li><p>Supports hardware encoding (if available from the platform)</p></li>
+<li><p>Runs on Linux, macOS, and Windows</p></li>
 <li><p>Supports almost any input FFmpeg can ingest</p></li>
 <li><p>Can push output automatically to Google Cloud Storage or Amazon S3</p></li>
-<li><p>Lots of options for input</p>
-<ul>
-<li><p>Transcode and package static input for VOD</p></li>
-<li><p>Loop a file for simulated live streaming</p></li>
-<li><p>Grab video from a webcam</p></li>
-<li><p>Generate input from an arbitrary external command</p></li>
+<li><p>FFmpeg and Shaka Packager binaries provided</p></li>
 </ul>
-</li>
-<li><p>Gives you control over details if you want it</p>
-<ul>
-<li><p>Control DASH live stream attributes</p></li>
-<li><p>Control output folders and file names</p></li>
-<li><p>Add arbitrary FFmpeg filters for input or output</p></li>
-</ul>
-</li>
-</ul>
-<div class="section" id="caveat-text-processing">
-<h3>Caveat: text processing<a class="headerlink" href="#caveat-text-processing" title="Permalink to this headline">¶</a></h3>
-<p>We do support subtitles/captions (<code class="docutils literal notranslate"><span class="pre">media_type</span></code> set to <code class="docutils literal notranslate"><span class="pre">text</span></code>) for VOD
-content.  But please note that at this time, we have no way to pipeline text
-for live streams, loop a single text input with <code class="docutils literal notranslate"><span class="pre">input_type</span></code> of
-<code class="docutils literal notranslate"><span class="pre">looped_file</span></code>, transform text streams from one format to another, or cut a
-snippet of text using the <code class="docutils literal notranslate"><span class="pre">start_time</span></code> and <code class="docutils literal notranslate"><span class="pre">end_time</span></code> fields of the input
-config.</p>
-</div>
-</div>
-<div class="section" id="platform-support">
-<h2>Platform support<a class="headerlink" href="#platform-support" title="Permalink to this headline">¶</a></h2>
-<p>We support common Linux distributions, macOS, and Windows.</p>
-<p>Multiple VAAPI devices are not yet supported on Linux.  See <a class="reference external" href="https://github.com/google/shaka-streamer/issues/17">issue #17</a>.</p>
+<p>See also the more detailed list of <a class="reference internal" href="#features"><span class="std std-ref">Features</span></a> below.</p>
 </div>
 <div class="section" id="getting-started">
 <h2>Getting started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h2>
-<p>Release versions of Shaka Streamer can be installed or upgraded through <code class="docutils literal notranslate"><span class="pre">pip3</span></code>
-with:</p>
+<p>Shaka Streamer requires <a class="reference external" href="https://www.python.org/downloads/">Python 3.6+</a>.  Release versions of Shaka Streamer can
+be installed or upgraded through <code class="docutils literal notranslate"><span class="pre">pip3</span></code> with:</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="c1"># To install/upgrade globally (drop the &quot;sudo&quot; for Windows):</span>
-sudo pip3 install --upgrade shaka-streamer
+sudo pip3 install --upgrade shaka-streamer shaka-streamer-binaries
 
 <span class="c1"># To install/upgrade per-user:</span>
-pip3 install --user --upgrade shaka-streamer
+pip3 install --user --upgrade shaka-streamer shaka-streamer-binaries
 </pre></div>
 </div>
-<p>Shaka Streamer requires at a minimum:</p>
-<ul class="simple">
-<li><p><a class="reference external" href="https://www.python.org/downloads/">Python 3</a></p></li>
-<li><p><a class="reference external" href="https://pyyaml.org/">Python “yaml” module</a></p></li>
-<li><p><a class="reference external" href="https://github.com/google/shaka-packager">Shaka Packager</a></p></li>
-<li><p><a class="reference external" href="https://ffmpeg.org/">FFmpeg</a></p></li>
-</ul>
-<p>See <a class="reference internal" href="prerequisites.html"><span class="doc">Installing Prerequisites</span></a> for detailed instructions on installing prerequisites
-and optional dependencies.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">shaka-streamer-binaries</span></code> package contains <a class="reference external" href="https://github.com/google/shaka-packager">Shaka Packager</a> and <a class="reference external" href="https://ffmpeg.org/">FFmpeg</a>
+binaries, for your convenience.  You may also choose to install these
+dependencies separately and use <code class="docutils literal notranslate"><span class="pre">shaka-streamer</span> <span class="pre">--use-system-binaries</span></code> instead
+of the binary package.</p>
 <p>To use Shaka Streamer, you need two YAML config files: one to describe the
 input, and one to describe the encoding pipeline. Sample configs can be found
 in the <a class="reference external" href="https://github.com/google/shaka-streamer/tree/master/config_files">config_files/</a> folder. Sample inputs referenced there can be
@@ -138,8 +104,53 @@ downloaded individually over HTTPS or all at once through gsutil:</p>
 </div>
 </div>
 </div>
+<div class="section" id="features">
+<h2>Features<a class="headerlink" href="#features" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Supports:</p>
+<ul>
+<li><p>VOD or live content</p></li>
+<li><p>DASH and HLS output (or both at once)</p></li>
+<li><p>VOD multi-period DASH (and equivalent HLS output)</p></li>
+<li><p>Clear or encrypted output</p></li>
+<li><p>Hardware encoding (if available from the platform)</p></li>
+</ul>
+</li>
+<li><p>Lots of options for input</p>
+<ul>
+<li><p>Transcode and package static input for VOD</p></li>
+<li><p>Loop a file for simulated live streaming</p></li>
+<li><p>Grab video from a webcam</p></li>
+<li><p>Generate input from an arbitrary external command</p></li>
+</ul>
+</li>
+<li><p>Gives you control over details if you want it</p>
+<ul>
+<li><p>Control DASH live stream attributes</p></li>
+<li><p>Control output folders and file names</p></li>
+<li><p>Add arbitrary FFmpeg filters for input or output</p></li>
+</ul>
+</li>
+</ul>
+<div class="section" id="known-issues">
+<h3>Known issues<a class="headerlink" href="#known-issues" title="Permalink to this headline">¶</a></h3>
+<p>We do support subtitles/captions (<code class="docutils literal notranslate"><span class="pre">media_type</span></code> set to <code class="docutils literal notranslate"><span class="pre">text</span></code>) for VOD
+content.  But please note that at this time, we have no way to pipeline text
+for live streams, loop a single text input with <code class="docutils literal notranslate"><span class="pre">input_type</span></code> of
+<code class="docutils literal notranslate"><span class="pre">looped_file</span></code>, transform text streams from one format to another, or cut a
+snippet of text using the <code class="docutils literal notranslate"><span class="pre">start_time</span></code> and <code class="docutils literal notranslate"><span class="pre">end_time</span></code> fields of the input
+config.</p>
+<p>Multiple VAAPI devices are not yet supported on Linux.  See <a class="reference external" href="https://github.com/google/shaka-streamer/issues/17">issue #17</a>.</p>
+</div>
+</div>
+<div class="section" id="development">
+<h2>Development<a class="headerlink" href="#development" title="Permalink to this headline">¶</a></h2>
+<p>If you wish to make changes to Shaka Streamer, you will also need to install the
+<a class="reference external" href="https://pyyaml.org/">Python “yaml” module</a>.</p>
+<p>See <a class="reference internal" href="prerequisites.html"><span class="doc">Installing Prerequisites</span></a> for detailed instructions on installing prerequisites
+and optional dependencies.</p>
 <div class="section" id="running-tests">
-<h2>Running tests<a class="headerlink" href="#running-tests" title="Permalink to this headline">¶</a></h2>
+<h3>Running tests<a class="headerlink" href="#running-tests" title="Permalink to this headline">¶</a></h3>
 <p>We have end-to-end tests that will start streams and check them from a headless
 browser using Shaka Player. End-to-end tests can be run like so:</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>python3 run_end_to_end_tests.py
@@ -147,7 +158,7 @@ browser using Shaka Player. End-to-end tests can be run like so:</p>
 </div>
 </div>
 <div class="section" id="technical-details">
-<h2>Technical details<a class="headerlink" href="#technical-details" title="Permalink to this headline">¶</a></h2>
+<h3>Technical details<a class="headerlink" href="#technical-details" title="Permalink to this headline">¶</a></h3>
 <p>Shaka Streamer connects FFmpeg and Shaka Packager in a pipeline, such that
 output from FFmpeg is piped directly into the packager, and packaging and
 transcoding of all resolutions, bitrates, and languages occur in parallel.</p>
@@ -169,6 +180,7 @@ the <code class="docutils literal notranslate"><span class="pre">shaka-streamer<
 <a class="reference internal" href="module_api.html"><span class="doc">Module API</span></a>.</p>
 </div>
 </div>
+</div>
 
 
             <div class="clearer"></div>
@@ -181,17 +193,17 @@ the <code class="docutils literal notranslate"><span class="pre">shaka-streamer<
 <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Overview</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#features">Features</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#platform-support">Platform support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#why-shaka-streamer">Why Shaka Streamer?</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#getting-started">Getting started</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#running-tests">Running tests</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#technical-details">Technical details</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#features">Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#development">Development</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="prerequisites.html">Installing Prerequisites</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="prerequisites.html#yaml-module">Yaml Module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="prerequisites.html#shaka-packager">Shaka Packager</a></li>
-<li class="toctree-l2"><a class="reference internal" href="prerequisites.html#ffmpeg">FFmpeg</a></li>
+<li class="toctree-l2"><a class="reference internal" href="prerequisites.html#yaml-module-required-for-development-only">Yaml Module (required for development only)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="prerequisites.html#shaka-streamer-binaries-package-recommended">Shaka Streamer Binaries package (recommended)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="prerequisites.html#shaka-packager-manual-installation-not-recommended">Shaka Packager (manual installation, not recommended)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="prerequisites.html#ffmpeg-manual-installation-not-recommended">FFmpeg (manual installation, not recommended)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="prerequisites.html#cloud-storage-optional">Cloud Storage (optional)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="prerequisites.html#test-dependencies-optional">Test Dependencies (optional)</a></li>
 </ul>
@@ -248,7 +260,7 @@ the <code class="docutils literal notranslate"><span class="pre">shaka-streamer<
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2019, Google.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.3.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.4.
     </div>
   </body>
 </html>
