@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Configuration Field Reference &#8212; Shaka Streamer 0.4.0 documentation</title>
+    <title>Configuration Field Reference &#8212; Shaka Streamer 0.5.0 documentation</title>
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="_static/nature.css" type="text/css" />
     <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -33,7 +33,7 @@
         <li class="right" >
           <a href="hardware_encoding.html" title="Hardware Encoding"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Shaka Streamer 0.4.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Shaka Streamer 0.5.0 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Configuration Field Reference</a></li> 
       </ul>
     </div>  
@@ -89,7 +89,7 @@ files.</p>
 <p>An object representing a single input stream to Shaka Streamer.</p>
 <dl class="py attribute">
 <dt id="streamer.input_configuration.Input.input_type">
-<code class="sig-name descname"><span class="pre">input_type</span></code><em class="property"><span class="pre">:</span> <span class="pre">InputType</span> <span class="pre">(one</span> <span class="pre">of</span> <span class="pre">'file',</span> <span class="pre">'looped_file',</span> <span class="pre">'webcam',</span> <span class="pre">'external_command')</span></em><a class="headerlink" href="#streamer.input_configuration.Input.input_type" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">input_type</span></code><em class="property"><span class="pre">:</span> <span class="pre">InputType</span> <span class="pre">(one</span> <span class="pre">of</span> <span class="pre">'file',</span> <span class="pre">'looped_file',</span> <span class="pre">'webcam',</span> <span class="pre">'microphone',</span> <span class="pre">'external_command')</span></em><a class="headerlink" href="#streamer.input_configuration.Input.input_type" title="Permalink to this definition">¶</a></dt>
 <dd><p>The type of the input.</p>
 </dd></dl>
 
@@ -220,7 +220,50 @@ Otherwise, it will default to ‘und’ (undetermined).</p>
 
 </dd></dl>
 
-<span class="target" id="module-streamer.input_configuration"></span><dl class="py class">
+<span class="target" id="module-streamer.input_configuration"></span><dl class="py exception">
+<dt id="streamer.input_configuration.InputNotFound">
+<em class="property"><span class="pre">exception</span> </em><code class="sig-prename descclassname"><span class="pre">streamer.input_configuration.</span></code><code class="sig-name descname"><span class="pre">InputNotFound</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/streamer/input_configuration.html#InputNotFound"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamer.input_configuration.InputNotFound" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="module_api.html#streamer.configuration.ConfigError" title="streamer.configuration.ConfigError"><code class="xref py py-class docutils literal notranslate"><span class="pre">streamer.configuration.ConfigError</span></code></a></p>
+<p>An error raised when an input stream is not found.</p>
+<dl class="py attribute">
+<dt id="streamer.input_configuration.InputNotFound.args">
+<code class="sig-name descname"><span class="pre">args</span></code><a class="headerlink" href="#streamer.input_configuration.InputNotFound.args" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="streamer.input_configuration.InputNotFound.with_traceback">
+<code class="sig-name descname"><span class="pre">with_traceback</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#streamer.input_configuration.InputNotFound.with_traceback" title="Permalink to this definition">¶</a></dt>
+<dd><p>Exception.with_traceback(tb) –
+set self.__traceback__ to tb and return self.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="streamer.input_configuration.InputNotFound.class_ref">
+<code class="sig-name descname"><span class="pre">class_ref</span></code><a class="headerlink" href="#streamer.input_configuration.InputNotFound.class_ref" title="Permalink to this definition">¶</a></dt>
+<dd><p>A reference to the config class that the error refers to.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="streamer.input_configuration.InputNotFound.class_name">
+<code class="sig-name descname"><span class="pre">class_name</span></code><a class="headerlink" href="#streamer.input_configuration.InputNotFound.class_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>The name of the config class that the error refers to.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="streamer.input_configuration.InputNotFound.field_name">
+<code class="sig-name descname"><span class="pre">field_name</span></code><a class="headerlink" href="#streamer.input_configuration.InputNotFound.field_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>The name of the field that the error refers to.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="streamer.input_configuration.InputNotFound.field">
+<code class="sig-name descname"><span class="pre">field</span></code><a class="headerlink" href="#streamer.input_configuration.InputNotFound.field" title="Permalink to this definition">¶</a></dt>
+<dd><p>The Field metadata object that the error refers to.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
 <dt id="streamer.input_configuration.InputType">
 <em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">streamer.input_configuration.</span></code><code class="sig-name descname"><span class="pre">InputType</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/streamer/input_configuration.html#InputType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamer.input_configuration.InputType" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
@@ -244,7 +287,16 @@ Otherwise, it will default to ‘und’ (undetermined).</p>
 <dd><p>A webcam device.  Usable only with live.</p>
 <p>The device path should be given in the name field.  For example, on Linux,
 this might be /dev/video0.</p>
-<p>Does not support media_type of ‘text’.</p>
+<p>Only supports media_type of ‘video’.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="streamer.input_configuration.InputType.MICROPHONE">
+<code class="sig-name descname"><span class="pre">MICROPHONE</span></code><em class="property"> <span class="pre">=</span> <span class="pre">'microphone'</span></em><a class="headerlink" href="#streamer.input_configuration.InputType.MICROPHONE" title="Permalink to this definition">¶</a></dt>
+<dd><p>A microphone device.  Usable only with live.</p>
+<p>The device path should given in the name field.  For example, on Linux, this
+might be “default”.</p>
+<p>Only supports media_type of ‘audio’.</p>
 </dd></dl>
 
 <dl class="py attribute">
@@ -1368,7 +1420,7 @@ kilobits per second or megabits per second.</p>
         <li class="right" >
           <a href="hardware_encoding.html" title="Hardware Encoding"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Shaka Streamer 0.4.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Shaka Streamer 0.5.0 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Configuration Field Reference</a></li> 
       </ul>
     </div>

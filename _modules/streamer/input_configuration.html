@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>streamer.input_configuration &#8212; Shaka Streamer 0.4.0 documentation</title>
+    <title>streamer.input_configuration &#8212; Shaka Streamer 0.5.0 documentation</title>
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/nature.css" type="text/css" />
     <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
@@ -25,7 +25,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">Shaka Streamer 0.4.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Shaka Streamer 0.5.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">streamer.input_configuration</a></li> 
       </ul>
@@ -60,6 +60,21 @@
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Optional</span>
 
 
+<div class="viewcode-block" id="InputNotFound"><a class="viewcode-back" href="../../configuration_fields.html#streamer.input_configuration.InputNotFound">[docs]</a><span class="k">class</span> <span class="nc">InputNotFound</span><span class="p">(</span><span class="n">configuration</span><span class="o">.</span><span class="n">ConfigError</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;An error raised when an input stream is not found.&quot;&quot;&quot;</span>
+
+  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">input</span><span class="p">):</span>
+    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="nb">input</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="s1">&#39;track_num&#39;</span><span class="p">,</span>
+                     <span class="nb">getattr</span><span class="p">(</span><span class="nb">input</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="s1">&#39;track_num&#39;</span><span class="p">))</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">input</span> <span class="o">=</span> <span class="nb">input</span>
+
+  <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">(</span><span class="s1">&#39;In </span><span class="si">{}</span><span class="s1">, </span><span class="si">{}</span><span class="s1"> track #</span><span class="si">{}</span><span class="s1"> was&#39;</span>
+            <span class="s1">&#39; not found in &quot;</span><span class="si">{}</span><span class="s1">&quot;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">class_name</span><span class="p">,</span>
+                                         <span class="bp">self</span><span class="o">.</span><span class="n">input</span><span class="o">.</span><span class="n">media_type</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                                         <span class="bp">self</span><span class="o">.</span><span class="n">input</span><span class="o">.</span><span class="n">track_num</span><span class="p">,</span>
+                                         <span class="bp">self</span><span class="o">.</span><span class="n">input</span><span class="o">.</span><span class="n">name</span><span class="p">)</span></div>
+
 <div class="viewcode-block" id="InputType"><a class="viewcode-back" href="../../configuration_fields.html#streamer.input_configuration.InputType">[docs]</a><span class="k">class</span> <span class="nc">InputType</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">):</span>
   <span class="n">FILE</span> <span class="o">=</span> <span class="s1">&#39;file&#39;</span>
   <span class="sd">&quot;&quot;&quot;A track from a file.  Usable only with VOD.&quot;&quot;&quot;</span>
@@ -76,7 +91,16 @@
 <span class="sd">  The device path should be given in the name field.  For example, on Linux,</span>
 <span class="sd">  this might be /dev/video0.</span>
 
-<span class="sd">  Does not support media_type of &#39;text&#39;.</span>
+<span class="sd">  Only supports media_type of &#39;video&#39;.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+
+  <span class="n">MICROPHONE</span> <span class="o">=</span> <span class="s1">&#39;microphone&#39;</span>
+  <span class="sd">&quot;&quot;&quot;A microphone device.  Usable only with live.</span>
+
+<span class="sd">  The device path should given in the name field.  For example, on Linux, this</span>
+<span class="sd">  might be &quot;default&quot;.</span>
+
+<span class="sd">  Only supports media_type of &#39;audio&#39;.</span>
 <span class="sd">  &quot;&quot;&quot;</span>
 
   <span class="n">EXTERNAL_COMMAND</span> <span class="o">=</span> <span class="s1">&#39;external_command&#39;</span>
@@ -234,6 +258,9 @@
     <span class="c1"># modules.</span>
     <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">autodetect</span>
 
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">autodetect</span><span class="o">.</span><span class="n">is_present</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+      <span class="k">raise</span> <span class="n">InputNotFound</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
     <span class="k">def</span> <span class="nf">require_field</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
       <span class="sd">&quot;&quot;&quot;Raise MissingRequiredField if the named field is still missing.&quot;&quot;&quot;</span>
       <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -327,24 +354,49 @@
 <span class="sd">    Note that for types which support autodetect, these arguments must be</span>
 <span class="sd">    understood by ffprobe as well as ffmpeg.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_type</span> <span class="o">==</span> <span class="n">InputType</span><span class="o">.</span><span class="n">WEBCAM</span><span class="p">:</span>
-      <span class="k">if</span> <span class="n">platform</span><span class="o">.</span><span class="n">system</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;Linux&#39;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="p">[</span>
-            <span class="c1"># Treat the input as a video4linux device, which is how webcams show</span>
-            <span class="c1"># up on Linux.</span>
-            <span class="s1">&#39;-f&#39;</span><span class="p">,</span> <span class="s1">&#39;video4linux2&#39;</span><span class="p">,</span>
-        <span class="p">]</span>
-      <span class="k">elif</span> <span class="n">platform</span><span class="o">.</span><span class="n">system</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;Darwin&#39;</span><span class="p">:</span>  <span class="c1"># AKA macOS</span>
-        <span class="k">return</span> <span class="p">[</span>
-            <span class="c1"># Webcams on macOS use FFmpeg&#39;s avfoundation input format.  With</span>
-            <span class="c1"># this, you also have to specify an input framerate, unfortunately.</span>
-            <span class="s1">&#39;-f&#39;</span><span class="p">,</span> <span class="s1">&#39;avfoundation&#39;</span><span class="p">,</span>
-            <span class="s1">&#39;-framerate&#39;</span><span class="p">,</span> <span class="s1">&#39;30&#39;</span><span class="p">,</span>
-        <span class="p">]</span>
-      <span class="k">else</span><span class="p">:</span>
-        <span class="k">assert</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;Webcams not supported on this platform!&#39;</span>
+    <span class="n">args_matrix</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">InputType</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]]</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">InputType</span><span class="o">.</span><span class="n">WEBCAM</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;Linux&#39;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="c1"># Treat the input as a video4linux device, which is how</span>
+                <span class="c1"># webcams show up on Linux.</span>
+                <span class="s1">&#39;-f&#39;</span><span class="p">,</span> <span class="s1">&#39;video4linux2&#39;</span><span class="p">,</span>
+            <span class="p">],</span>
+            <span class="s1">&#39;Darwin&#39;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="c1"># Webcams on macOS use FFmpeg&#39;s avfoundation input format.  With</span>
+                <span class="c1"># this, you also have to specify an input framerate, unfortunately.</span>
+                <span class="s1">&#39;-f&#39;</span><span class="p">,</span> <span class="s1">&#39;avfoundation&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;-framerate&#39;</span><span class="p">,</span> <span class="s1">&#39;30&#39;</span><span class="p">,</span>
+            <span class="p">],</span>
+            <span class="s1">&#39;Windows&#39;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="c1"># Treat the input as a directshow input device.</span>
+                <span class="s1">&#39;-f&#39;</span><span class="p">,</span> <span class="s1">&#39;dshow&#39;</span><span class="p">,</span>
+            <span class="p">],</span>
+        <span class="p">},</span>
+        <span class="n">InputType</span><span class="o">.</span><span class="n">MICROPHONE</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;Linux&#39;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="c1"># PulseAudio input device.</span>
+                <span class="s1">&#39;-f&#39;</span><span class="p">,</span> <span class="s1">&#39;pulse&#39;</span><span class="p">,</span>
+            <span class="p">],</span>
+            <span class="s1">&#39;Darwin&#39;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="c1"># AVFoundation also works as an audio input device.</span>
+                <span class="s1">&#39;-f&#39;</span><span class="p">,</span> <span class="s1">&#39;avfoundation&#39;</span><span class="p">,</span>
+            <span class="p">],</span>
+            <span class="s1">&#39;Windows&#39;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="c1"># Directshow also works as an audio input device.</span>
+                <span class="s1">&#39;-f&#39;</span><span class="p">,</span> <span class="s1">&#39;dshow&#39;</span><span class="p">,</span>
+            <span class="p">],</span>
+        <span class="p">},</span>
+    <span class="p">}</span>
 
-    <span class="k">return</span> <span class="p">[]</span>
+    <span class="n">args_for_input_type</span> <span class="o">=</span> <span class="n">args_matrix</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input_type</span><span class="p">)</span>
+    <span class="c1"># If the input&#39;s type wasn&#39;t of what interests us.</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">args_for_input_type</span><span class="p">:</span>
+      <span class="k">return</span> <span class="p">[]</span>
+
+    <span class="n">args</span> <span class="o">=</span> <span class="n">args_for_input_type</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">platform</span><span class="o">.</span><span class="n">system</span><span class="p">())</span>
+    <span class="k">assert</span> <span class="n">args</span><span class="p">,</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> is not supported on this platform!&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input_type</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">args</span>
 
   <span class="k">def</span> <span class="nf">get_resolution</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">bitrate_configuration</span><span class="o">.</span><span class="n">VideoResolution</span><span class="p">:</span>
     <span class="k">return</span> <span class="n">bitrate_configuration</span><span class="o">.</span><span class="n">VideoResolution</span><span class="o">.</span><span class="n">get_value</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">resolution</span><span class="p">)</span>
@@ -422,7 +474,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">Shaka Streamer 0.4.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Shaka Streamer 0.5.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">streamer.input_configuration</a></li> 
       </ul>
