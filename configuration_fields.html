@@ -206,7 +206,7 @@ For example, required for input_type of ‘external_command’.</p>
 
 <dl class="py attribute">
 <dt id="streamer.input_configuration.Input.channel_layout">
-<code class="sig-name descname"><span class="pre">channel_layout</span></code><em class="property"><span class="pre">:</span> <span class="pre">AudioChannelLayout</span> <span class="pre">name</span> <span class="pre">(one</span> <span class="pre">of</span> <span class="pre">'stereo',</span> <span class="pre">'surround')</span></em><a class="headerlink" href="#streamer.input_configuration.Input.channel_layout" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">channel_layout</span></code><em class="property"><span class="pre">:</span> <span class="pre">AudioChannelLayout</span> <span class="pre">name</span> <span class="pre">(one</span> <span class="pre">of</span> <span class="pre">'mono',</span> <span class="pre">'stereo',</span> <span class="pre">'surround')</span></em><a class="headerlink" href="#streamer.input_configuration.Input.channel_layout" title="Permalink to this definition">¶</a></dt>
 <dd><p>The name of the input channel layout (stereo, surround, etc).</p>
 </dd></dl>
 
@@ -403,7 +403,7 @@ defined in the bitrate configuration.</p>
 
 <dl class="py attribute">
 <dt id="streamer.pipeline_configuration.PipelineConfig.channel_layouts">
-<code class="sig-name descname"><span class="pre">channel_layouts</span></code><em class="property"><span class="pre">:</span> <span class="pre">list</span> <span class="pre">of</span> <span class="pre">AudioChannelLayout</span> <span class="pre">name</span> <span class="pre">(one</span> <span class="pre">of</span> <span class="pre">'stereo',</span> <span class="pre">'surround')</span></em><a class="headerlink" href="#streamer.pipeline_configuration.PipelineConfig.channel_layouts" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">channel_layouts</span></code><em class="property"><span class="pre">:</span> <span class="pre">list</span> <span class="pre">of</span> <span class="pre">AudioChannelLayout</span> <span class="pre">name</span> <span class="pre">(one</span> <span class="pre">of</span> <span class="pre">'mono',</span> <span class="pre">'stereo',</span> <span class="pre">'surround')</span></em><a class="headerlink" href="#streamer.pipeline_configuration.PipelineConfig.channel_layouts" title="Permalink to this definition">¶</a></dt>
 <dd><p>A list of channel layouts to encode.</p>
 <p>Any channel count greater than the input channel count will be ignored.</p>
 <p>If not set, it will default to a list of all the (AudioChannelLayoutName)s
