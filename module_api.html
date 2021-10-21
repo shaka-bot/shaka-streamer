@@ -6,9 +6,9 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Module API &#8212; Shaka Streamer 0.5.1 documentation</title>
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
-    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/nature.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
     <script src="_static/doctools.js"></script>
@@ -47,13 +47,13 @@ your own application, this is the top-level API you can use for that.  You may
 also want to look at the source code to the command-line front end script
 <cite>shaka-streamer</cite>.</p>
 <dl class="py class">
-<dt id="streamer.controller_node.ControllerNode">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">streamer.controller_node.</span></code><code class="sig-name descname"><span class="pre">ControllerNode</span></code><a class="reference internal" href="_modules/streamer/controller_node.html#ControllerNode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamer.controller_node.ControllerNode" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="streamer.controller_node.ControllerNode">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">streamer.controller_node.</span></span><span class="sig-name descname"><span class="pre">ControllerNode</span></span><a class="reference internal" href="_modules/streamer/controller_node.html#ControllerNode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamer.controller_node.ControllerNode" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Controls all other nodes and manages shared resources.</p>
 <dl class="py method">
-<dt id="streamer.controller_node.ControllerNode.start">
-<code class="sig-name descname"><span class="pre">start</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output_location</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_config_dict</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pipeline_config_dict</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bitrate_config_dict</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bucket_url</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check_deps</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_hermetic</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#streamer.controller_node.ControllerNode" title="streamer.controller_node.ControllerNode"><span class="pre">streamer.controller_node.ControllerNode</span></a><a class="reference internal" href="_modules/streamer/controller_node.html#ControllerNode.start"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamer.controller_node.ControllerNode.start" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="streamer.controller_node.ControllerNode.start">
+<span class="sig-name descname"><span class="pre">start</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output_location</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_config_dict</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pipeline_config_dict</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bitrate_config_dict</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bucket_url</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check_deps</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_hermetic</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#streamer.controller_node.ControllerNode" title="streamer.controller_node.ControllerNode"><span class="pre">streamer.controller_node.ControllerNode</span></a></span></span><a class="reference internal" href="_modules/streamer/controller_node.html#ControllerNode.start"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamer.controller_node.ControllerNode.start" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create and start all other nodes.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Raises</dt>
@@ -67,8 +67,8 @@ invalid.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="streamer.controller_node.ControllerNode.check_status">
-<code class="sig-name descname"><span class="pre">check_status</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#streamer.node_base.ProcessStatus" title="streamer.node_base.ProcessStatus"><span class="pre">streamer.node_base.ProcessStatus</span></a><a class="reference internal" href="_modules/streamer/controller_node.html#ControllerNode.check_status"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamer.controller_node.ControllerNode.check_status" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="streamer.controller_node.ControllerNode.check_status">
+<span class="sig-name descname"><span class="pre">check_status</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#streamer.node_base.ProcessStatus" title="streamer.node_base.ProcessStatus"><span class="pre">streamer.node_base.ProcessStatus</span></a></span></span><a class="reference internal" href="_modules/streamer/controller_node.html#ControllerNode.check_status"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamer.controller_node.ControllerNode.check_status" title="Permalink to this definition">¶</a></dt>
 <dd><p>Checks the status of all the nodes.</p>
 <p>If one node is errored, this returns Errored; otherwise if one node is running,
 this returns Running; this only returns Finished if all nodes are finished.
@@ -76,14 +76,14 @@ If there are no nodes, this returns Finished.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="streamer.controller_node.ControllerNode.stop">
-<code class="sig-name descname"><span class="pre">stop</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="reference internal" href="_modules/streamer/controller_node.html#ControllerNode.stop"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamer.controller_node.ControllerNode.stop" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="streamer.controller_node.ControllerNode.stop">
+<span class="sig-name descname"><span class="pre">stop</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/streamer/controller_node.html#ControllerNode.stop"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamer.controller_node.ControllerNode.stop" title="Permalink to this definition">¶</a></dt>
 <dd><p>Stop all nodes.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="streamer.controller_node.ControllerNode.is_vod">
-<code class="sig-name descname"><span class="pre">is_vod</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="reference internal" href="_modules/streamer/controller_node.html#ControllerNode.is_vod"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamer.controller_node.ControllerNode.is_vod" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="streamer.controller_node.ControllerNode.is_vod">
+<span class="sig-name descname"><span class="pre">is_vod</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/streamer/controller_node.html#ControllerNode.is_vod"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamer.controller_node.ControllerNode.is_vod" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns True if the pipeline is running in VOD mode.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
@@ -93,8 +93,8 @@ If there are no nodes, this returns Finished.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="streamer.controller_node.ControllerNode.is_low_latency_dash_mode">
-<code class="sig-name descname"><span class="pre">is_low_latency_dash_mode</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="reference internal" href="_modules/streamer/controller_node.html#ControllerNode.is_low_latency_dash_mode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamer.controller_node.ControllerNode.is_low_latency_dash_mode" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="streamer.controller_node.ControllerNode.is_low_latency_dash_mode">
+<span class="sig-name descname"><span class="pre">is_low_latency_dash_mode</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/streamer/controller_node.html#ControllerNode.is_low_latency_dash_mode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamer.controller_node.ControllerNode.is_low_latency_dash_mode" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns True if the pipeline is running in LL-DASH mode.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
@@ -106,20 +106,20 @@ If there are no nodes, this returns Finished.</p>
 </dd></dl>
 
 <dl class="py exception">
-<dt id="streamer.controller_node.VersionError">
-<em class="property"><span class="pre">exception</span> </em><code class="sig-prename descclassname"><span class="pre">streamer.controller_node.</span></code><code class="sig-name descname"><span class="pre">VersionError</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">problem</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">required_version</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exact_match</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">addendum</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/streamer/controller_node.html#VersionError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamer.controller_node.VersionError" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="streamer.controller_node.VersionError">
+<em class="property"><span class="pre">exception</span> </em><span class="sig-prename descclassname"><span class="pre">streamer.controller_node.</span></span><span class="sig-name descname"><span class="pre">VersionError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">problem</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">required_version</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exact_match</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">addendum</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/streamer/controller_node.html#VersionError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamer.controller_node.VersionError" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
 <p>A version error for one of Shaka Streamer’s external dependencies.</p>
 <p>Raised when a dependency (like FFmpeg) is missing or not new enough to work
 with Shaka Streamer.  See also <a class="reference internal" href="prerequisites.html"><span class="doc">Installing Prerequisites</span></a>.</p>
 <dl class="py attribute">
-<dt id="streamer.controller_node.VersionError.args">
-<code class="sig-name descname"><span class="pre">args</span></code><a class="headerlink" href="#streamer.controller_node.VersionError.args" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="streamer.controller_node.VersionError.args">
+<span class="sig-name descname"><span class="pre">args</span></span><a class="headerlink" href="#streamer.controller_node.VersionError.args" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt id="streamer.controller_node.VersionError.with_traceback">
-<code class="sig-name descname"><span class="pre">with_traceback</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#streamer.controller_node.VersionError.with_traceback" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="streamer.controller_node.VersionError.with_traceback">
+<span class="sig-name descname"><span class="pre">with_traceback</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#streamer.controller_node.VersionError.with_traceback" title="Permalink to this definition">¶</a></dt>
 <dd><p>Exception.with_traceback(tb) –
 set self.__traceback__ to tb and return self.</p>
 </dd></dl>
@@ -127,115 +127,115 @@ set self.__traceback__ to tb and return self.</p>
 </dd></dl>
 
 <dl class="py class">
-<dt id="streamer.node_base.ProcessStatus">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">streamer.node_base.</span></code><code class="sig-name descname"><span class="pre">ProcessStatus</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/streamer/node_base.html#ProcessStatus"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamer.node_base.ProcessStatus" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="streamer.node_base.ProcessStatus">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">streamer.node_base.</span></span><span class="sig-name descname"><span class="pre">ProcessStatus</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/streamer/node_base.html#ProcessStatus"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamer.node_base.ProcessStatus" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
 <p>An enumeration.</p>
 <dl class="py attribute">
-<dt id="streamer.node_base.ProcessStatus.Finished">
-<code class="sig-name descname"><span class="pre">Finished</span></code><em class="property"> <span class="pre">=</span> <span class="pre">0</span></em><a class="headerlink" href="#streamer.node_base.ProcessStatus.Finished" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="streamer.node_base.ProcessStatus.Finished">
+<span class="sig-name descname"><span class="pre">Finished</span></span><em class="property"> <span class="pre">=</span> <span class="pre">0</span></em><a class="headerlink" href="#streamer.node_base.ProcessStatus.Finished" title="Permalink to this definition">¶</a></dt>
 <dd><p>The node has completed its task and shut down.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt id="streamer.node_base.ProcessStatus.Running">
-<code class="sig-name descname"><span class="pre">Running</span></code><em class="property"> <span class="pre">=</span> <span class="pre">1</span></em><a class="headerlink" href="#streamer.node_base.ProcessStatus.Running" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="streamer.node_base.ProcessStatus.Running">
+<span class="sig-name descname"><span class="pre">Running</span></span><em class="property"> <span class="pre">=</span> <span class="pre">1</span></em><a class="headerlink" href="#streamer.node_base.ProcessStatus.Running" title="Permalink to this definition">¶</a></dt>
 <dd><p>The node is still running.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt id="streamer.node_base.ProcessStatus.Errored">
-<code class="sig-name descname"><span class="pre">Errored</span></code><em class="property"> <span class="pre">=</span> <span class="pre">2</span></em><a class="headerlink" href="#streamer.node_base.ProcessStatus.Errored" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="streamer.node_base.ProcessStatus.Errored">
+<span class="sig-name descname"><span class="pre">Errored</span></span><em class="property"> <span class="pre">=</span> <span class="pre">2</span></em><a class="headerlink" href="#streamer.node_base.ProcessStatus.Errored" title="Permalink to this definition">¶</a></dt>
 <dd><p>The node has failed.</p>
 </dd></dl>
 
 </dd></dl>
 
 <span class="target" id="module-streamer.configuration"></span><dl class="py exception">
-<dt id="streamer.configuration.ConfigError">
-<em class="property"><span class="pre">exception</span> </em><code class="sig-prename descclassname"><span class="pre">streamer.configuration.</span></code><code class="sig-name descname"><span class="pre">ConfigError</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">class_ref</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/streamer/configuration.html#ConfigError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamer.configuration.ConfigError" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="streamer.configuration.ConfigError">
+<em class="property"><span class="pre">exception</span> </em><span class="sig-prename descclassname"><span class="pre">streamer.configuration.</span></span><span class="sig-name descname"><span class="pre">ConfigError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">class_ref</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/streamer/configuration.html#ConfigError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamer.configuration.ConfigError" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
 <p>A base class for config errors.</p>
 <p>Each subclass provides a meaningful, human-readable string representation in
 English.</p>
 <dl class="py attribute">
-<dt id="streamer.configuration.ConfigError.class_ref">
-<code class="sig-name descname"><span class="pre">class_ref</span></code><a class="headerlink" href="#streamer.configuration.ConfigError.class_ref" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="streamer.configuration.ConfigError.class_ref">
+<span class="sig-name descname"><span class="pre">class_ref</span></span><a class="headerlink" href="#streamer.configuration.ConfigError.class_ref" title="Permalink to this definition">¶</a></dt>
 <dd><p>A reference to the config class that the error refers to.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt id="streamer.configuration.ConfigError.class_name">
-<code class="sig-name descname"><span class="pre">class_name</span></code><a class="headerlink" href="#streamer.configuration.ConfigError.class_name" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="streamer.configuration.ConfigError.class_name">
+<span class="sig-name descname"><span class="pre">class_name</span></span><a class="headerlink" href="#streamer.configuration.ConfigError.class_name" title="Permalink to this definition">¶</a></dt>
 <dd><p>The name of the config class that the error refers to.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt id="streamer.configuration.ConfigError.field_name">
-<code class="sig-name descname"><span class="pre">field_name</span></code><a class="headerlink" href="#streamer.configuration.ConfigError.field_name" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="streamer.configuration.ConfigError.field_name">
+<span class="sig-name descname"><span class="pre">field_name</span></span><a class="headerlink" href="#streamer.configuration.ConfigError.field_name" title="Permalink to this definition">¶</a></dt>
 <dd><p>The name of the field that the error refers to.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt id="streamer.configuration.ConfigError.field">
-<code class="sig-name descname"><span class="pre">field</span></code><a class="headerlink" href="#streamer.configuration.ConfigError.field" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="streamer.configuration.ConfigError.field">
+<span class="sig-name descname"><span class="pre">field</span></span><a class="headerlink" href="#streamer.configuration.ConfigError.field" title="Permalink to this definition">¶</a></dt>
 <dd><p>The Field metadata object that the error refers to.</p>
 </dd></dl>
 
 </dd></dl>
 
 <dl class="py exception">
-<dt id="streamer.configuration.UnrecognizedField">
-<em class="property"><span class="pre">exception</span> </em><code class="sig-prename descclassname"><span class="pre">streamer.configuration.</span></code><code class="sig-name descname"><span class="pre">UnrecognizedField</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">class_ref</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/streamer/configuration.html#UnrecognizedField"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamer.configuration.UnrecognizedField" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="streamer.configuration.UnrecognizedField">
+<em class="property"><span class="pre">exception</span> </em><span class="sig-prename descclassname"><span class="pre">streamer.configuration.</span></span><span class="sig-name descname"><span class="pre">UnrecognizedField</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">class_ref</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/streamer/configuration.html#UnrecognizedField"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamer.configuration.UnrecognizedField" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#streamer.configuration.ConfigError" title="streamer.configuration.ConfigError"><code class="xref py py-class docutils literal notranslate"><span class="pre">streamer.configuration.ConfigError</span></code></a></p>
 <p>An error raised when an unrecognized field is encountered in the input.</p>
 </dd></dl>
 
 <dl class="py exception">
-<dt id="streamer.configuration.WrongType">
-<em class="property"><span class="pre">exception</span> </em><code class="sig-prename descclassname"><span class="pre">streamer.configuration.</span></code><code class="sig-name descname"><span class="pre">WrongType</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">class_ref</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/streamer/configuration.html#WrongType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamer.configuration.WrongType" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="streamer.configuration.WrongType">
+<em class="property"><span class="pre">exception</span> </em><span class="sig-prename descclassname"><span class="pre">streamer.configuration.</span></span><span class="sig-name descname"><span class="pre">WrongType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">class_ref</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/streamer/configuration.html#WrongType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamer.configuration.WrongType" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#streamer.configuration.ConfigError" title="streamer.configuration.ConfigError"><code class="xref py py-class docutils literal notranslate"><span class="pre">streamer.configuration.ConfigError</span></code></a></p>
 <p>An error raised when a field in the input has the wrong type.</p>
 </dd></dl>
 
 <dl class="py exception">
-<dt id="streamer.configuration.MissingRequiredField">
-<em class="property"><span class="pre">exception</span> </em><code class="sig-prename descclassname"><span class="pre">streamer.configuration.</span></code><code class="sig-name descname"><span class="pre">MissingRequiredField</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">class_ref</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/streamer/configuration.html#MissingRequiredField"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamer.configuration.MissingRequiredField" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="streamer.configuration.MissingRequiredField">
+<em class="property"><span class="pre">exception</span> </em><span class="sig-prename descclassname"><span class="pre">streamer.configuration.</span></span><span class="sig-name descname"><span class="pre">MissingRequiredField</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">class_ref</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/streamer/configuration.html#MissingRequiredField"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamer.configuration.MissingRequiredField" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#streamer.configuration.ConfigError" title="streamer.configuration.ConfigError"><code class="xref py py-class docutils literal notranslate"><span class="pre">streamer.configuration.ConfigError</span></code></a></p>
 <p>An error raised when a required field is missing from the input.</p>
 </dd></dl>
 
 <dl class="py exception">
-<dt id="streamer.configuration.MalformedField">
-<em class="property"><span class="pre">exception</span> </em><code class="sig-prename descclassname"><span class="pre">streamer.configuration.</span></code><code class="sig-name descname"><span class="pre">MalformedField</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">class_ref</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reason</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/streamer/configuration.html#MalformedField"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamer.configuration.MalformedField" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="streamer.configuration.MalformedField">
+<em class="property"><span class="pre">exception</span> </em><span class="sig-prename descclassname"><span class="pre">streamer.configuration.</span></span><span class="sig-name descname"><span class="pre">MalformedField</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">class_ref</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reason</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/streamer/configuration.html#MalformedField"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamer.configuration.MalformedField" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#streamer.configuration.ConfigError" title="streamer.configuration.ConfigError"><code class="xref py py-class docutils literal notranslate"><span class="pre">streamer.configuration.ConfigError</span></code></a></p>
 <p>An error raised when a field is malformed.</p>
 </dd></dl>
 
 <dl class="py exception">
-<dt id="streamer.configuration.ConflictingFields">
-<em class="property"><span class="pre">exception</span> </em><code class="sig-prename descclassname"><span class="pre">streamer.configuration.</span></code><code class="sig-name descname"><span class="pre">ConflictingFields</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">class_ref</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field1_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field2_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/streamer/configuration.html#ConflictingFields"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamer.configuration.ConflictingFields" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="streamer.configuration.ConflictingFields">
+<em class="property"><span class="pre">exception</span> </em><span class="sig-prename descclassname"><span class="pre">streamer.configuration.</span></span><span class="sig-name descname"><span class="pre">ConflictingFields</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">class_ref</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field1_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field2_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/streamer/configuration.html#ConflictingFields"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamer.configuration.ConflictingFields" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#streamer.configuration.ConfigError" title="streamer.configuration.ConfigError"><code class="xref py py-class docutils literal notranslate"><span class="pre">streamer.configuration.ConfigError</span></code></a></p>
 <p>An error raised when multiple fields are given and only one of them is allowed at a time.</p>
 </dd></dl>
 
 <dl class="py exception">
-<dt id="streamer.configuration.MissingRequiredExclusiveFields">
-<em class="property"><span class="pre">exception</span> </em><code class="sig-prename descclassname"><span class="pre">streamer.configuration.</span></code><code class="sig-name descname"><span class="pre">MissingRequiredExclusiveFields</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">class_ref</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field1_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field2_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/streamer/configuration.html#MissingRequiredExclusiveFields"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamer.configuration.MissingRequiredExclusiveFields" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="streamer.configuration.MissingRequiredExclusiveFields">
+<em class="property"><span class="pre">exception</span> </em><span class="sig-prename descclassname"><span class="pre">streamer.configuration.</span></span><span class="sig-name descname"><span class="pre">MissingRequiredExclusiveFields</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">class_ref</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field1_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field2_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/streamer/configuration.html#MissingRequiredExclusiveFields"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamer.configuration.MissingRequiredExclusiveFields" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#streamer.configuration.ConfigError" title="streamer.configuration.ConfigError"><code class="xref py py-class docutils literal notranslate"><span class="pre">streamer.configuration.ConfigError</span></code></a></p>
 <p>An error raised when one of an exclusively required fields is missing.</p>
 </dd></dl>
 
 <dl class="py class">
-<dt id="streamer.configuration.HexString">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">streamer.configuration.</span></code><code class="sig-name descname"><span class="pre">HexString</span></code><a class="reference internal" href="_modules/streamer/configuration.html#HexString"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamer.configuration.HexString" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="streamer.configuration.HexString">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">streamer.configuration.</span></span><span class="sig-name descname"><span class="pre">HexString</span></span><a class="reference internal" href="_modules/streamer/configuration.html#HexString"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamer.configuration.HexString" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">streamer.configuration.ValidatingType</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></p>
 <p>A wrapper that can be used in Field() to require a hex string.</p>
 </dd></dl>
 
 <dl class="py class">
-<dt id="streamer.configuration.RuntimeMap">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">streamer.configuration.</span></code><code class="sig-name descname"><span class="pre">RuntimeMap</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dictionary</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/streamer/configuration.html#RuntimeMap"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamer.configuration.RuntimeMap" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="streamer.configuration.RuntimeMap">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">streamer.configuration.</span></span><span class="sig-name descname"><span class="pre">RuntimeMap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dictionary</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/streamer/configuration.html#RuntimeMap"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamer.configuration.RuntimeMap" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Generic</span></code>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">streamer.configuration.RuntimeMapSubclass</span></code>], <code class="xref py py-class docutils literal notranslate"><span class="pre">streamer.configuration.Base</span></code></p>
 <p>Maintains a map of keys to specific instances from the config file.</p>
 <p>This means a Field can have its type defined before the valid keys/values of
@@ -246,33 +246,33 @@ look up a value from its key.  For example, after setting the map to
 {‘foo’: ‘bar’}, ‘foo’ becomes the only valid key.  Passing the key ‘foo’ to
 the get_value then results in the value ‘bar’ being returned.</p>
 <dl class="py method">
-<dt id="streamer.configuration.RuntimeMap.set_map">
-<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">set_map</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">map</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">RuntimeMapSubclass</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="reference internal" href="_modules/streamer/configuration.html#RuntimeMap.set_map"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamer.configuration.RuntimeMap.set_map" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="streamer.configuration.RuntimeMap.set_map">
+<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">set_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">map</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">streamer.configuration.RuntimeMapSubclass</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/streamer/configuration.html#RuntimeMap.set_map"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamer.configuration.RuntimeMap.set_map" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set the map of valid values for this class.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="streamer.configuration.RuntimeMap.get_value">
-<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">get_value</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">RuntimeMapSubclass</span><a class="reference internal" href="_modules/streamer/configuration.html#RuntimeMap.get_value"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamer.configuration.RuntimeMap.get_value" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="streamer.configuration.RuntimeMap.get_value">
+<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">get_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">streamer.configuration.RuntimeMapSubclass</span></span></span><a class="reference internal" href="_modules/streamer/configuration.html#RuntimeMap.get_value"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamer.configuration.RuntimeMap.get_value" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get a valid value by its key.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="streamer.configuration.RuntimeMap.keys">
-<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">keys</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/streamer/configuration.html#RuntimeMap.keys"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamer.configuration.RuntimeMap.keys" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="streamer.configuration.RuntimeMap.keys">
+<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">keys</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/streamer/configuration.html#RuntimeMap.keys"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamer.configuration.RuntimeMap.keys" title="Permalink to this definition">¶</a></dt>
 <dd><p>This allows the config system to print the list of allowed strings.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="streamer.configuration.RuntimeMap.sorted_values">
-<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">sorted_values</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">RuntimeMapSubclass</span><span class="p"><span class="pre">]</span></span><a class="reference internal" href="_modules/streamer/configuration.html#RuntimeMap.sorted_values"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamer.configuration.RuntimeMap.sorted_values" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="streamer.configuration.RuntimeMap.sorted_values">
+<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">sorted_values</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">streamer.configuration.RuntimeMapSubclass</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/streamer/configuration.html#RuntimeMap.sorted_values"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamer.configuration.RuntimeMap.sorted_values" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
-<dt id="streamer.configuration.RuntimeMapKeyValidator">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">streamer.configuration.</span></code><code class="sig-name descname"><span class="pre">RuntimeMapKeyValidator</span></code><a class="reference internal" href="_modules/streamer/configuration.html#RuntimeMapKeyValidator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamer.configuration.RuntimeMapKeyValidator" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="streamer.configuration.RuntimeMapKeyValidator">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">streamer.configuration.</span></span><span class="sig-name descname"><span class="pre">RuntimeMapKeyValidator</span></span><a class="reference internal" href="_modules/streamer/configuration.html#RuntimeMapKeyValidator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamer.configuration.RuntimeMapKeyValidator" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">streamer.configuration.ValidatingType</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></p>
 <p>A validator that only allows the valid keys for a certain RuntimeMap
 subclass.</p>
@@ -280,18 +280,18 @@ subclass.</p>
 The RuntimeMapKeyValidator subclass should have a “map_class” variable which
 points to the RuntimeMap subclass.</p>
 <dl class="py attribute">
-<dt id="streamer.configuration.RuntimeMapKeyValidator.map_class">
-<code class="sig-name descname"><span class="pre">map_class</span></code><em class="property"><span class="pre">:</span> <span class="pre">Type</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#streamer.configuration.RuntimeMap" title="streamer.configuration.RuntimeMap"><span class="pre">streamer.configuration.RuntimeMap</span></a><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">=</span> <span class="pre">None</span></em><a class="headerlink" href="#streamer.configuration.RuntimeMapKeyValidator.map_class" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="streamer.configuration.RuntimeMapKeyValidator.map_class">
+<span class="sig-name descname"><span class="pre">map_class</span></span><em class="property"><span class="pre">:</span> <span class="pre">Type</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#streamer.configuration.RuntimeMap" title="streamer.configuration.RuntimeMap"><span class="pre">streamer.configuration.RuntimeMap</span></a><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">=</span> <span class="pre">None</span></em><a class="headerlink" href="#streamer.configuration.RuntimeMapKeyValidator.map_class" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt id="streamer.configuration.RuntimeMapKeyValidator.name">
-<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">name</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">str</span><a class="reference internal" href="_modules/streamer/configuration.html#RuntimeMapKeyValidator.name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamer.configuration.RuntimeMapKeyValidator.name" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="streamer.configuration.RuntimeMapKeyValidator.name">
+<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/streamer/configuration.html#RuntimeMapKeyValidator.name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamer.configuration.RuntimeMapKeyValidator.name" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt id="streamer.configuration.RuntimeMapKeyValidator.validate">
-<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">validate</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/streamer/configuration.html#RuntimeMapKeyValidator.validate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamer.configuration.RuntimeMapKeyValidator.validate" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="streamer.configuration.RuntimeMapKeyValidator.validate">
+<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">validate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/streamer/configuration.html#RuntimeMapKeyValidator.validate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamer.configuration.RuntimeMapKeyValidator.validate" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -306,7 +306,7 @@ points to the RuntimeMap subclass.</p>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
 <h3><a href="index.html">Table of Contents</a></h3>
-<p class="caption"><span class="caption-text">Contents:</span></p>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="overview.html#why-shaka-streamer">Why Shaka Streamer?</a></li>
@@ -345,7 +345,7 @@ points to the RuntimeMap subclass.</p>
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
     </form>
     </div>
@@ -373,7 +373,7 @@ points to the RuntimeMap subclass.</p>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2019, Google.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.4.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.2.0.
     </div>
   </body>
 </html>
