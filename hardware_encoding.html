@@ -4,7 +4,8 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
     <title>Hardware Encoding &#8212; Shaka Streamer 0.5.1 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/nature.css" />
@@ -43,9 +44,9 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="hardware-encoding">
+  <section id="hardware-encoding">
 <h1>Hardware Encoding<a class="headerlink" href="#hardware-encoding" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="setup-on-linux-intel">
+<section id="setup-on-linux-intel">
 <h2>Setup on Linux (Intel)<a class="headerlink" href="#setup-on-linux-intel" title="Permalink to this headline">¶</a></h2>
 <p>By default, hardware encoding on Linux uses FFmpeg’s VAAPI support, which
 supports Intel devices.</p>
@@ -56,8 +57,8 @@ with:</p>
 </pre></div>
 </div>
 <p>VAAPI support is enabled by default in Debian &amp; Ubuntu packages for FFmpeg.</p>
-</div>
-<div class="section" id="setup-on-linux-nvidia">
+</section>
+<section id="setup-on-linux-nvidia">
 <h2>Setup on Linux (Nvidia)<a class="headerlink" href="#setup-on-linux-nvidia" title="Permalink to this headline">¶</a></h2>
 <p>You may also use FFmpeg’s NVENC support on Linux, which supports Nvidia devices.</p>
 <p>For this, set <code class="docutils literal notranslate"><span class="pre">hwaccel_api</span></code> in the pipeline config to <code class="docutils literal notranslate"><span class="pre">'nvenc'</span></code>.</p>
@@ -71,19 +72,19 @@ git clone https://git.videolan.org/git/ffmpeg/nv-codec-headers.git
 FFmpeg.  To use it, you may need to build FFmpeg from source and pass
 <code class="docutils literal notranslate"><span class="pre">--enable-nvenc</span></code> to configure.  See instructions in <a class="reference internal" href="prerequisites.html"><span class="doc">Installing Prerequisites</span></a> for
 details on building FFmpeg from source.</p>
-</div>
-<div class="section" id="setup-on-macos">
+</section>
+<section id="setup-on-macos">
 <h2>Setup on macOS<a class="headerlink" href="#setup-on-macos" title="Permalink to this headline">¶</a></h2>
 <p>Hardware encoding on macOS uses Apple’s VideoToolbox API.  No setup is required.</p>
-</div>
-<div class="section" id="setup-on-windows">
+</section>
+<section id="setup-on-windows">
 <h2>Setup on Windows<a class="headerlink" href="#setup-on-windows" title="Permalink to this headline">¶</a></h2>
 <p>Hardware encoding for Windows is not yet supported, but we are accepting PRs if
 you’d like to contribute additional platform support.  This doc may be a useful
 reference for hardware-related options in FFmpeg:
 <a class="reference external" href="https://trac.ffmpeg.org/wiki/HWAccelIntro">https://trac.ffmpeg.org/wiki/HWAccelIntro</a></p>
-</div>
-<div class="section" id="configuration">
+</section>
+<section id="configuration">
 <h2>Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h2>
 <p>To activate hardware encoding for any video codec, simply prefix the codec name
 with <code class="docutils literal notranslate"><span class="pre">hw:</span></code> in the pipeline config file.</p>
@@ -99,8 +100,8 @@ with <code class="docutils literal notranslate"><span class="pre">hw:</span></co
 </div>
 <p>Note that not all codecs are supported by all devices or APIs.  For a list of
 supported hardware codecs, see: <a class="reference external" href="https://trac.ffmpeg.org/wiki/HWAccelIntro">https://trac.ffmpeg.org/wiki/HWAccelIntro</a></p>
-</div>
-</div>
+</section>
+</section>
 
 
             <div class="clearer"></div>
@@ -180,7 +181,7 @@ supported hardware codecs, see: <a class="reference external" href="https://trac
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2019, Google.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.2.0.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.3.1.
     </div>
   </body>
 </html>

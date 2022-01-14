@@ -4,7 +4,8 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
     <title>Installing Prerequisites &#8212; Shaka Streamer 0.5.1 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/nature.css" />
@@ -43,9 +44,9 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="installing-prerequisites">
+  <section id="installing-prerequisites">
 <h1>Installing Prerequisites<a class="headerlink" href="#installing-prerequisites" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="yaml-module-required-for-development-only">
+<section id="yaml-module-required-for-development-only">
 <h2>Yaml Module (required for development only)<a class="headerlink" href="#yaml-module-required-for-development-only" title="Permalink to this headline">¶</a></h2>
 <p>We use the <a class="reference external" href="https://pyyaml.org/">Python “yaml” module</a> to parse config files.  If you install Shaka
 Streamer via <code class="docutils literal notranslate"><span class="pre">pip3</span></code>, then this dependency will be installed for you
@@ -63,8 +64,8 @@ sudo pip3 install --upgrade pyyaml
 pip3 install --user --upgrade pyyaml
 </pre></div>
 </div>
-</div>
-<div class="section" id="shaka-streamer-binaries-package-recommended">
+</section>
+<section id="shaka-streamer-binaries-package-recommended">
 <h2>Shaka Streamer Binaries package (recommended)<a class="headerlink" href="#shaka-streamer-binaries-package-recommended" title="Permalink to this headline">¶</a></h2>
 <p>Shaka Streamer requires <a class="reference external" href="https://github.com/google/shaka-packager">Shaka Packager</a> and <a class="reference external" href="https://ffmpeg.org/">FFmpeg</a> as it uses them
 internally.</p>
@@ -77,8 +78,8 @@ internally.</p>
 <a class="reference external" href="https://github.com/joeyparrish/static-ffmpeg-binaries">https://github.com/joeyparrish/static-ffmpeg-binaries</a></p>
 <p>The static Shaka Packager builds are pulled from here:
 <a class="reference external" href="https://github.com/google/shaka-packager">https://github.com/google/shaka-packager</a></p>
-</div>
-<div class="section" id="shaka-packager-manual-installation-not-recommended">
+</section>
+<section id="shaka-packager-manual-installation-not-recommended">
 <h2>Shaka Packager (manual installation, not recommended)<a class="headerlink" href="#shaka-packager-manual-installation-not-recommended" title="Permalink to this headline">¶</a></h2>
 <p>Pre-built Shaka Packager binaries can be downloaded from github here:
 <a class="reference external" href="https://github.com/google/shaka-packager/releases">https://github.com/google/shaka-packager/releases</a></p>
@@ -89,8 +90,8 @@ internally.</p>
 </div>
 <p>To build Shaka Packager from source, follow instructions here:
 <a class="reference external" href="https://google.github.io/shaka-packager/html/build_instructions.html">https://google.github.io/shaka-packager/html/build_instructions.html</a></p>
-</div>
-<div class="section" id="ffmpeg-manual-installation-not-recommended">
+</section>
+<section id="ffmpeg-manual-installation-not-recommended">
 <h2>FFmpeg (manual installation, not recommended)<a class="headerlink" href="#ffmpeg-manual-installation-not-recommended" title="Permalink to this headline">¶</a></h2>
 <p>If your Linux distribution has FFmpeg v4.1+, you can just install the package.
 For example, this will work in Ubuntu 19.04+:</p>
@@ -119,14 +120,14 @@ to install it:</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>brew install ffmpeg
 </pre></div>
 </div>
-</div>
-<div class="section" id="cloud-storage-optional">
+</section>
+<section id="cloud-storage-optional">
 <h2>Cloud Storage (optional)<a class="headerlink" href="#cloud-storage-optional" title="Permalink to this headline">¶</a></h2>
 <p>Shaka Streamer can push content directly to a Google Cloud Storage or Amazon S3
 bucket. To use this feature, the Google Cloud SDK is required.</p>
 <p>See <a class="reference external" href="https://cloud.google.com/sdk/install">https://cloud.google.com/sdk/install</a> for details on installing the Google
 Cloud SDK on your platform.</p>
-<div class="section" id="google-cloud-storage">
+<section id="google-cloud-storage">
 <h3>Google Cloud Storage<a class="headerlink" href="#google-cloud-storage" title="Permalink to this headline">¶</a></h3>
 <p>If you haven’t already, you will need to initialize your gcloud environment and
 log in through your browser.</p>
@@ -135,14 +136,14 @@ log in through your browser.</p>
 </div>
 <p>Follow the instructions given to you by gcloud to initialize the environment
 and login.</p>
-</div>
-<div class="section" id="amazon-s3">
+</section>
+<section id="amazon-s3">
 <h3>Amazon S3<a class="headerlink" href="#amazon-s3" title="Permalink to this headline">¶</a></h3>
 <p>To authenticate to Amazon S3, you can either add credentials to your <a class="reference external" href="http://boto.cloudhackers.com/en/latest/boto_config_tut.html">boto
 config file</a> or login interactively using the <a class="reference external" href="https://boto3.amazonaws.com/v1/documentation/api/latest/guide/configuration.html">AWS CLI</a>.</p>
-</div>
-</div>
-<div class="section" id="test-dependencies-optional">
+</section>
+</section>
+<section id="test-dependencies-optional">
 <h2>Test Dependencies (optional)<a class="headerlink" href="#test-dependencies-optional" title="Permalink to this headline">¶</a></h2>
 <p>To run the end-to-end tests, you must install Flask and NPM. In Ubuntu 19.04+:</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>sudo apt -y install python3-flask nodejs npm
@@ -163,8 +164,8 @@ pip3 install --user --upgrade flask
 <li><p><a class="reference external" href="https://github.com/nodesource/distributions">https://github.com/nodesource/distributions</a></p></li>
 <li><p><a class="reference external" href="https://nodejs.org/en/download/">https://nodejs.org/en/download/</a></p></li>
 </ul>
-</div>
-</div>
+</section>
+</section>
 
 
             <div class="clearer"></div>
@@ -244,7 +245,7 @@ pip3 install --user --upgrade flask
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2019, Google.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.2.0.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.3.1.
     </div>
   </body>
 </html>
